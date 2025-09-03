@@ -3,15 +3,60 @@ import Button from '../../components/button';
 import TextInput from '../../components/form/textInput';
 import useAuth from '../../hooks/useAuth';
 import CredentialsCard from '../../components/credentials';
-import './register.css';
+import Validator from './validator';
 
 const Register = () => {
   const { onRegister } = useAuth();
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: [], password: [] });
 
   const onChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    setErrors((prev) => ({ ...prev, [name]: [] }));
+  };
+
+  const handleRegister = (e) => {
+
+    e.preventDefault();
+
+    const { email, password } = formData;
+    const {
+      EmailFormat,
+      PasswordLength,
+      PasswordUppercase,
+      PasswordHasNumber,
+      PasswordSpecialCharacter
+    } = Validator();
+    let valid = true;
+    const newErrors = { email: [], password: [] };
+
+    if (!EmailFormat(email)) {
+      newErrors.email.push('Unvalid email format');
+      valid = false;
+    }
+    if (!PasswordLength(password)) {
+      newErrors.password.push('Password must be at least 8 characters');
+      valid = false;
+    }
+    if (!PasswordUppercase(password)) {
+      newErrors.password.push('Password must contain at least one uppercase letter');
+      valid = false;
+    }
+    if (!PasswordHasNumber(password)) {
+      newErrors.password.push('Password must contain at least one number');
+      valid = false;
+    }
+    if (!PasswordSpecialCharacter(password)) {
+      newErrors.password.push('Password must contain at least one special character');
+      valid = false;
+    }
+    setErrors(newErrors);
+
+    if (valid) {
+      onRegister(email, password);
+    }
   };
 
   return (
@@ -24,27 +69,25 @@ const Register = () => {
         altButtonText="Log in"
       >
         <div className="register-form">
-          <form>
+          <form onSubmit={handleRegister}>
             <TextInput
               value={formData.email}
               onChange={onChange}
-              type="email"
+              type="text"
               name="email"
-              label={'Email *'}
+              label="Email *"
+              errors={errors.email}
             />
             <TextInput
               value={formData.password}
               onChange={onChange}
               name="password"
-              label={'Password *'}
-              type={'password'}
+              label="Password *"
+              type="password"
+              errors={errors.password}
             />
+            <Button text="Sign up" type="submit" classes="green width-full" />
           </form>
-          <Button
-            text="Sign up"
-            onClick={() => onRegister(formData.email, formData.password)}
-            classes="green width-full"
-          />
         </div>
       </CredentialsCard>
     </div>

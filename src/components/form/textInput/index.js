@@ -1,11 +1,17 @@
 import { useState } from 'react';
+import './textInput.css'
 
-const TextInput = ({ value, onChange, name, label, icon, type = 'text' }) => {
+const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors = [] }) => {
   const [input, setInput] = useState('');
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
     return (
       <div className="inputwrapper">
+        <ul className="error_list">
+          {errors.map((error, i) => (
+            <li key={i}>{error}</li>
+          ))}
+        </ul>
         <label htmlFor={name}>{label}</label>
         <input
           type={type}
@@ -31,6 +37,11 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text' }) => {
   } else {
     return (
       <div className="inputwrapper">
+        <ul className="error_list">
+          {errors.map((error, i) => (
+            <li key={i}>{error}</li>
+          ))}
+        </ul>
         {label && <label htmlFor={name}>{label}</label>}
         <input
           type={type}
