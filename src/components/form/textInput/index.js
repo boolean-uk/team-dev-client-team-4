@@ -7,11 +7,7 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
   if (type === 'password') {
     return (
       <div className="inputwrapper">
-        <ul className="error_list">
-          {errors.map((error, i) => (
-            <li key={i}>{error}</li>
-          ))}
-        </ul>
+        
         <label htmlFor={name}>{label}</label>
         <input
           type={type}
@@ -32,16 +28,16 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
         >
           <EyeLogo />
         </button>
-      </div>
-    );
-  } else {
-    return (
-      <div className="inputwrapper">
         <ul className="error_list">
           {errors.map((error, i) => (
             <li key={i}>{error}</li>
           ))}
         </ul>
+      </div>
+    );
+  } else {
+    return (
+      <div className="inputwrapper">        
         {label && <label htmlFor={name}>{label}</label>}
         <input
           type={type}
@@ -51,6 +47,11 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
           className={icon && 'input-has-icon'}
         />
         {icon && <span className="input-icon">{icon}</span>}
+        <ul className="error_list">
+          {errors.map((error, i) => (
+            <li key={i}>{error}</li>
+          ))}
+        </ul>
       </div>
     );
   }
