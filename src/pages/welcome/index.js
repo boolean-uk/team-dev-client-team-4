@@ -1,12 +1,16 @@
-import { useState } from 'react';
 import Stepper from '../../components/stepper';
 import useAuth from '../../hooks/useAuth';
 import StepOne from './stepOne';
 import StepTwo from './stepTwo';
 import './style.css';
+import Validator from './validator';
+import { useState } from 'react';
 
 const Welcome = () => {
   const { onCreateProfile } = useAuth();
+  const [errors, setErrors] = useState({ firstName: [], lastName: [] });
+  const { Required } = Validator();
+  const [currentStep, setCurrentStep] = useState(0);
 
   const [profile, setProfile] = useState({
     firstName: '',
@@ -17,7 +21,7 @@ const Welcome = () => {
 
   const onChange = (event) => {
     const { name, value } = event.target;
-
+    setErrors({ firstName: [], lastName: [] });
     setProfile({
       ...profile,
       [name]: value
@@ -25,7 +29,22 @@ const Welcome = () => {
   };
 
   const onComplete = () => {
-    onCreateProfile(profile.firstName, profile.lastName, profile.githubUsername, profile.bio);
+    let valid = true;
+    const newErrors = { firstName: [], lastName: [] };
+    if (!Required(profile.firstName)) {
+      newErrors.firstName.push('First name is required');
+      valid = false;
+    }
+    if (!Required(profile.lastName)) {
+      newErrors.lastName.push('Last name is required');
+      valid = false;
+    }
+    if (valid) {
+      onCreateProfile(profile.firstName, profile.lastName, profile.githubUsername, profile.bio);
+    } else {
+      setErrors(newErrors);
+      setCurrentStep(0);
+    }
   };
 
   return (
@@ -34,9 +53,13 @@ const Welcome = () => {
         <h1 className="h2">Welcome to Cohort Manager</h1>
         <p className="text-blue1">Create your profile to get started</p>
       </div>
-
-      <Stepper header={<WelcomeHeader />} onComplete={onComplete}>
-        <StepOne data={profile} setData={onChange} />
+      <Stepper
+        header={<WelcomeHeader />}
+        onComplete={onComplete}
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+      >
+        <StepOne data={profile} setData={onChange} errors={errors} />
         <StepTwo data={profile} setData={onChange} />
       </Stepper>
     </main>

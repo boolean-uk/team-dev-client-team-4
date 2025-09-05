@@ -4,8 +4,17 @@ import Button from '../button';
 import './style.css';
 import { useState } from 'react';
 
-const Stepper = ({ header, children, onComplete }) => {
-  const [currentStep, setCurrentStep] = useState(0);
+const Stepper = ({
+  header,
+  children,
+  onComplete,
+  currentStep: externalStep,
+  setCurrentStep: externalSetStep
+}) => {
+  const [internalSteps, internalSetSteps] = useState(0);
+
+  const currentStep = externalStep ?? internalSteps;
+  const setCurrentStep = externalSetStep ?? internalSetSteps;
 
   const onBackClick = () => {
     if (currentStep > 0) {
