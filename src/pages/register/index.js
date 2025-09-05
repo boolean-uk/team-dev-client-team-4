@@ -18,7 +18,8 @@ const Register = () => {
   };
 
   const handleRegister = (e) => {
-
+    console.log('handle register');
+    
     e.preventDefault();
 
     const { email, password } = formData;
@@ -33,7 +34,7 @@ const Register = () => {
     const newErrors = { email: [], password: [] };
 
     if (!EmailFormat(email)) {
-      newErrors.email.push('Unvalid email format');
+      newErrors.email.push('Invalid email format');
       valid = false;
     }
     if (!PasswordLength(password)) {
