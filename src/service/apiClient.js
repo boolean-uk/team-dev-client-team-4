@@ -5,7 +5,7 @@ async function login(email, password) {
 }
 
 async function register(email, password) {
-  await post('users', { email, password }, false);
+  await post('users', { email, password, username: "username_placeholder" }, false);
   return await login(email, password);
 }
 

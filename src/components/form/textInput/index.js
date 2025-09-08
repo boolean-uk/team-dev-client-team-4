@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './textInput.css'
 
 const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors = [] }) => {
-  const [input, setInput] = useState('');
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
     return (
@@ -10,16 +9,14 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
         
         <label htmlFor={name}>{label}</label>
         <input
-          type={type}
+          type={showpassword ? 'text' : 'password'}
           name={name}
           value={value}
           onChange={(e) => {
             onChange(e);
-            setInput(e.target.value);
           }}
         />
-        {showpassword && <input type="text" name={name} value={input} className="passwordreveal" />}
-        <button
+        <button type='button'
           className={`showpasswordbutton formbutton ${showpassword === true && '__faded'}`}
           onClick={(e) => {
             e.preventDefault();
