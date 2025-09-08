@@ -35,6 +35,12 @@ const StepOne = ({ data, setData, errors }) => {
           />
           <TextInput
             onChange={setData}
+            value={data.username}
+            name="username"
+            label={'Username'}
+          />
+          <TextInput
+            onChange={setData}
             value={data.githubUsername}
             name="githubUsername"
             label={'Github Username'}
