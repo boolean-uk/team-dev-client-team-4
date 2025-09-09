@@ -46,16 +46,17 @@ const AuthProvider = ({ children }) => {
   const handleRegister = async (email, password) => {
     const res = await register(email, password);
     setToken(res.data.token);
-
+    
     navigate('/verification');
   };
 
-  const handleCreateProfile = async (firstName, lastName, githubUrl, bio) => {
-    const { userId } = jwt_decode(token);
-
-    await createProfile(userId, firstName, lastName, githubUrl, bio);
+  const handleCreateProfile = async (firstName, lastName, username, githubUsername, mobile, bio) => {
+    const decoded = jwt_decode(token);
+    //extracting id from userid
+    const userId = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"];
 
     localStorage.setItem('token', token);
+    await createProfile(userId, firstName, lastName, username, githubUsername, mobile, bio);
     navigate('/');
   };
 
