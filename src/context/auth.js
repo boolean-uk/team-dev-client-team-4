@@ -21,7 +21,10 @@ const AuthProvider = ({ children }) => {
 
     if (storedToken) {
       setToken(storedToken);
-      navigate(location.state?.from?.pathname || '/');
+      if (location.state?.from?.pathname) {
+        navigate(location.state.from.pathname);
+      }
+      //navigate(location.state?.from?.pathname || '/');
     }
   }, [location.state?.from?.pathname, navigate]);
 
