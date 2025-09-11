@@ -27,7 +27,7 @@ const Welcome = () => {
     mobile: '',
     password: '',
     role: '',
-    cohort: '',
+    cohortid: '',
     bio: ''
   });
 
@@ -52,7 +52,7 @@ const Welcome = () => {
       valid = false;
     }
     if (valid) {
-      onCreateProfile(profile.firstName, profile.lastName, profile.username, profile.githubUsername, profile.mobile, profile.bio);
+      onCreateProfile(profile.firstName, profile.lastName, profile.username, profile.githubUsername, profile.mobile, profile.cohortid, profile.bio);
     } else {
       setErrors(newErrors);
       setCurrentStep(0);
