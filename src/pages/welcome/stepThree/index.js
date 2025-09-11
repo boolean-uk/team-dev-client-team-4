@@ -16,18 +16,18 @@ const StepThree = ({ data, setData }) => {
       <Form className="welcome-form">
         <div className="welcome-form-inputs">
         
-        <select 
+        {/* <select 
           id="dropdown_role" 
           value={data.role} 
           onChange={setData}>
             <option value="">-- Select a role --</option>
             <option value={0}>Student</option>
             <option value={1}>Teacher</option>
-        </select>
+        </select> */}
 
         <select 
           id="dropdown_cohort" 
-          value={data.cohort} 
+          value={data.cohortid} 
           onChange={setData}>
             <option value="">-- Select a Cohort --</option>
             <option value={1}>Cohort 1</option>
