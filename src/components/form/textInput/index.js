@@ -1,12 +1,20 @@
 import { useState } from 'react';
-import './textInput.css'
+import './textInput.css';
 
-const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors = [] }) => {
+const TextInput = ({
+  value,
+  onChange,
+  name,
+  label,
+  icon,
+  type = 'text',
+  errors = [],
+  placeholder
+}) => {
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
     return (
       <div className="inputwrapper">
-        
         <label htmlFor={name}>{label}</label>
         <input
           type={showpassword ? 'text' : 'password'}
@@ -16,7 +24,8 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
             onChange(e);
           }}
         />
-        <button type='button'
+        <button
+          type="button"
           className={`showpasswordbutton formbutton ${showpassword === true && '__faded'}`}
           onClick={(e) => {
             e.preventDefault();
@@ -34,7 +43,7 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
     );
   } else {
     return (
-      <div className="inputwrapper">        
+      <div className="inputwrapper">
         {label && <label htmlFor={name}>{label}</label>}
         <input
           type={type}
@@ -42,6 +51,7 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
           value={value}
           onChange={onChange}
           className={icon && 'input-has-icon'}
+          placeholder={placeholder}
         />
         {icon && <span className="input-icon">{icon}</span>}
         <ul className="error_list">
