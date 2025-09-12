@@ -53,10 +53,10 @@ const SearchResults = () => {
               {searchResults.map((user) => (
                 <li key={user.id} className="cohort-list-item">
                   <ProfileCircle
-                    initials={`${user.profile?.firstName?.[0] ?? ''}${user.profile?.lastName?.[0] ?? ''}`.toUpperCase()}
+                    initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                   />
                   <strong style={{ marginLeft: '8px' }}>
-                    {user.profile?.firstName} {user.profile?.lastName}
+                    {user?.firstName} {user?.lastName}
                   </strong>
                 </li>
               ))}
