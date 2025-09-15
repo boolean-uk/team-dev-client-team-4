@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
+import { PiDotsThree } from 'react-icons/pi';
 import './style.css';
 import { cohort } from '../../service/mockData';
 
@@ -49,12 +50,17 @@ const CohortList = ({ cohortId, userId }) => {
             .filter((user) => user.id !== Number(userId))
             .map((user) => (
               <li key={user.id} className="cohort-list-item">
-                <ProfileCircle
-                  initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                />
-                <strong style={{ marginLeft: '8px' }}>
-                  {user?.firstName} {user?.lastName}
-                </strong>
+                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                  <ProfileCircle
+                    initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                  />
+                  <strong style={{ marginLeft: '8px' }}>
+                    {user?.firstName} {user?.lastName}
+                  </strong>
+                  <div className="dots-icon">
+                    <PiDotsThree />
+                  </div>
+                </div>
               </li>
             ))}
       </ul>
