@@ -8,12 +8,14 @@ import useModal from '../../hooks/useModal';
 import './style.css';
 import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
+import TeacherUserlist from '../../components/TeacherUserlist';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
   const storedToken = localStorage.getItem('token');
   const decodedToken = jwtDecode(storedToken);
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const userURL = `https://localhost:7233/users/`;
 
   useEffect(() => {
@@ -58,8 +60,8 @@ const Dashboard = () => {
         </Card>
 
         <Card>
-          <h4>My Cohort</h4>
-          <CohortList cohortId={cohortId} userId={userId} />
+          {userRole !== 'Teacher' && <CohortList cohortId={cohortId} userId={userId} />}
+          {userRole === 'Teacher' && <TeacherUserlist userId={userId} role={userRole} />}
         </Card>
       </aside>
     </>

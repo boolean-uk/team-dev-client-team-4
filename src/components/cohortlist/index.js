@@ -39,6 +39,7 @@ const CohortList = ({ cohortId, userId }) => {
 
   return (
     <>
+      <h4>My Cohort</h4>
       <p className="cohort-list-description">{description}</p>
       <hr />
       <ul className="cohort-list">
