@@ -18,3 +18,18 @@
   cursor: pointer;
   margin-right: 8px;
 }
+
+.dots-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  font-size: 2.7rem;
+  font-weight: bold;
+  margin-left: auto;
+  color: #64648c;
+  background: #f0f5fa;
+  border-radius: 50%;
+  padding: 2px;
+}
