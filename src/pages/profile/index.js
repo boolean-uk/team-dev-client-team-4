@@ -1,10 +1,10 @@
-import Card from '../../components/card';
-import './profile.css';
-import jwt_decode from 'jwt-decode';
-import { get, patch } from '../../service/apiClient';
-import { useEffect, useState } from 'react';
-import Form from '../../components/form';
-import TextInput from '../../components/form/textInput';
+import Card from '../../components/card'
+import './profile.css'
+import jwt_decode from 'jwt-decode'
+import { get, patch } from '../../service/apiClient'
+import { useEffect, useState } from 'react'
+import Form from '../../components/form'
+import TextInput from '../../components/form/textInput'
 
 const Profile = () => {
   const [user, setUser] = useState()
@@ -22,25 +22,24 @@ const Profile = () => {
     startDate: '',
     endDate: '',
     specialism: ''
-  });
-  
+  })
+
   const [errors, setErrors] = useState({ firstName: [], lastName: [] })
   const [isEditing, setIsEditing] = useState(false);
-  const [originalProfile, setOriginalProfile] = useState(null);
+  const [originalProfile, setOriginalProfile] = useState(null)
   const onChange = (event) => {
     const { name, value } = event.target;
-    setErrors({ firstName: [], lastName: [] });
+    setErrors({ firstName: [], lastName: [] })
     setProfile({
       ...profile,
       [name]: value
-    });
-  };
-
+    })
+  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const decoded = jwt_decode(storedToken);
-    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid']
     const fetchUser = async () => {
       const tempUser = await get(`users/${thisId}`).then(result => result.data)
       setProfile(tempUser)
@@ -51,9 +50,9 @@ const Profile = () => {
 
   // Save handler
   const handleSave = async () => {
-    const storedToken = localStorage.getItem('token');
-    const decoded = jwt_decode(storedToken);
-    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+    const storedToken = localStorage.getItem('token')
+    const decoded = jwt_decode(storedToken)
+    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid']
     // Only send allowed fields
     const body = {
       email: profile.email,
@@ -66,13 +65,11 @@ const Profile = () => {
     }
     try {
       const result = await patch(`users/${thisId}`, body)
-      if(result.status === 'fail'){
-        alert('Failed to update profile.')
-      }
-      else{
+      if (result.status === 'fail') { alert('Failed to update profile.') }
+      else {
         alert('Profile updated successfully!')
-        setIsEditing(false);
-        setOriginalProfile(profile);
+        setIsEditing(false)
+        setOriginalProfile(profile)
       }
     } catch (err) {
       alert('Failed to update profile.')
@@ -83,12 +80,12 @@ const Profile = () => {
   const handleEditToggle = () => {
     if (isEditing) {
       // Cancel: revert to original profile
-      setProfile(originalProfile);
-      setIsEditing(false);
+      setProfile(originalProfile)
+      setIsEditing(false)
     } else {
-      setIsEditing(true);
+      setIsEditing(true)
     }
-  };
+  }
 
   return (
     <>
@@ -206,7 +203,7 @@ const Profile = () => {
                     onClick={handleEditToggle}
                   >
                     {isEditing ? 'Cancel' : 'Edit'}
-                  </button>                
+                  </button>
                   <button
                     type="submit"
                     className={isEditing ? 'save-btn save-btn--active' : 'save-btn'}
