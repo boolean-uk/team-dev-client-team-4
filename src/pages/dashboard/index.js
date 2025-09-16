@@ -1,19 +1,31 @@
-import { useState } from 'react';
-import SearchIcon from '../../assets/icons/searchIcon';
+import { useState, useEffect } from 'react';
 import Button from '../../components/button';
 import Card from '../../components/card';
 import CreatePostModal from '../../components/createPostModal';
-import TextInput from '../../components/form/textInput';
 import Posts from '../../components/posts';
+import CohortList from '../../components/cohortlist';
 import useModal from '../../hooks/useModal';
 import './style.css';
+import jwtDecode from 'jwt-decode';
+import SearchResults from '../../components/searchResults';
+import TeacherUserlist from '../../components/TeacherUserlist';
 
 const Dashboard = () => {
-  const [searchVal, setSearchVal] = useState('');
+  const [cohortId, setCohortId] = useState(null);
+  const storedToken = localStorage.getItem('token');
+  const decodedToken = jwtDecode(storedToken);
+  const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  const userURL = `https://localhost:7233/users/`;
 
-  const onChange = (e) => {
-    setSearchVal(e.target.value);
-  };
+  useEffect(() => {
+    fetch(`${userURL}${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCohortId(data.data.cohortId);
+      })
+      .catch(() => setCohortId(null));
+  }, [userId]);
 
   // Use the useModal hook to get the openModal and setModal functions
   const { openModal, setModal } = useModal();
@@ -44,13 +56,12 @@ const Dashboard = () => {
 
       <aside>
         <Card>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <TextInput icon={<SearchIcon />} value={searchVal} name="Search" onChange={onChange} />
-          </form>
+          <SearchResults />
         </Card>
 
         <Card>
-          <h4>My Cohort</h4>
+          {userRole !== 'Teacher' && <CohortList cohortId={cohortId} userId={userId} />}
+          {userRole === 'Teacher' && <TeacherUserlist userId={userId} role={userRole} />}
         </Card>
       </aside>
     </>

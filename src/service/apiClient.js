@@ -5,12 +5,33 @@ async function login(email, password) {
 }
 
 async function register(email, password) {
-  await post('users', { email, password, username: "username_placeholder" }, false);
+  await post('users', { email, password }, false);
   return await login(email, password);
 }
 
-async function createProfile(userId, firstName, lastName, githubUrl, bio) {
-  return await patch(`users/${userId}`, { firstName, lastName, githubUrl, bio });
+async function createProfile(
+  userId,
+  firstName,
+  lastName,
+  username,
+  github,
+  phone,
+  cohortid,
+  bio,
+  auth
+) {
+  return await patch(
+    `users/${userId}`,
+    {
+      firstName,
+      lastName,
+      username,
+      github,
+      phone,
+      bio
+    },
+    auth
+  );
 }
 
 async function getPosts() {

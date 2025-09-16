@@ -12,6 +12,31 @@ const user = {
   }
 };
 
+const cohort = {
+  id: 1,
+  name: 'Software Development, Cohort 1',
+  users: [
+    {
+      id: 1,
+      firstName: 'Joe',
+      lastName: 'Bloggs',
+      cohortId: 1
+    },
+    {
+      id: 2,
+      firstName: 'Anna',
+      lastName: 'Andersen',
+      cohortId: 1
+    },
+    {
+      id: 3,
+      firstName: 'Jonas',
+      lastName: 'Johansen',
+      cohortId: 1
+    }
+  ]
+};
+
 const posts = [
   {
     id: 1,
@@ -61,4 +86,4 @@ const posts = [
   }
 ];
 
-export { user, posts };
+export { user, cohort, posts };
