@@ -1,0 +1,10 @@
+.comment-container{
+    padding: 1rem;
+    border-radius: 1rem;
+    color: var(--color-blue1);
+    font-size: 1rem !important;
+    padding-left: 15px !important;
+    text-align: left !important;
+    max-width: 100% !important;
+    background-color: var(--color-blue5);
+}
