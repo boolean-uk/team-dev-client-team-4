@@ -9,8 +9,29 @@ async function register(email, password) {
   return await login(email, password);
 }
 
-async function createProfile(userId, firstName, lastName, username, github, phone, cohortid, bio, auth) {
-  return await patch(`users/${userId}`, { firstName: firstName, lastName: lastName, username: username, github: github, phone: phone, bio: bio }, auth);
+async function createProfile(
+  userId,
+  firstName,
+  lastName,
+  username,
+  github,
+  phone,
+  cohortid,
+  bio,
+  auth
+) {
+  return await patch(
+    `users/${userId}`,
+    {
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      github: github,
+      phone: phone,
+      bio: bio
+    },
+    auth
+  );
 }
 
 async function getPosts() {
@@ -23,12 +44,13 @@ async function post(endpoint, data, auth = true) {
 }
 
 async function patch(endpoint, data, auth = true) {
-
   return await request('PATCH', endpoint, data, auth);
 }
 
 async function get(endpoint, auth = true) {
-  return await request('GET', endpoint, null, auth);
+  const res = await request('GET', endpoint, null, auth);
+  console.log(res);
+  return res;
 }
 
 async function request(method, endpoint, data, auth = true) {
@@ -46,14 +68,10 @@ async function request(method, endpoint, data, auth = true) {
   if (auth) {
     // eslint-disable-next-line dot-notation
     opts.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
   }
 
   const response = await fetch(`${API_URL}/${endpoint}`, opts);
-
-  
-
   return response.json();
 }
 
-export { login, getPosts, register, createProfile };
+export { login, getPosts, register, createProfile, get };
