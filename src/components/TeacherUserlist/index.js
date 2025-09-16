@@ -13,7 +13,8 @@ const TeacherUserlist = ({ role, userId }) => {
       fetch(`${API_URL}/users`)
         .then((res) => res.json())
         .then((data) => {
-          setStudents(data.data.users);
+          const studentsOnly = data.data.users.filter((user) => user.role === 'Student');
+          setStudents(studentsOnly);
           setLoading(false);
         })
         .catch(() => {
