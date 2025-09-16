@@ -9,6 +9,7 @@ import './style.css';
 import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
+import { API_URL } from '../../service/constants';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -16,7 +17,7 @@ const Dashboard = () => {
   const decodedToken = jwtDecode(storedToken);
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-  const userURL = `https://localhost:7233/users/`;
+  const userURL = `${API_URL}/users/`;
 
   useEffect(() => {
     fetch(`${userURL}${userId}`)

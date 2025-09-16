@@ -17,7 +17,6 @@ const CohortList = ({ cohortId, userId }) => {
         .then((data) => {
           setUsers(data.data.users);
           console.log(data);
-          
           setLoading(false);
         })
         .catch(() => {
