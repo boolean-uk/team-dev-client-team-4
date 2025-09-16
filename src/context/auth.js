@@ -5,14 +5,14 @@ import Modal from '../components/modal';
 import Navigation from '../components/navigation';
 import useAuth from '../hooks/useAuth';
 import { createProfile, login, register } from '../service/apiClient';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 const AuthContext = createContext();
 
 const isIncompleteProfile = (rawToken) => {
   console.log('isIncompleteProfile called');
   try {
-    const decoded = jwt_decode(rawToken);
+    const decoded = jwtDecode(rawToken);
     const email = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
     const username = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
     if (!email || !username) return false;
@@ -86,11 +86,17 @@ const AuthProvider = ({ children }) => {
     navigate('/welcome');
   };
 
-  const handleCreateProfile = async (firstName, lastName, username, githubUsername, mobile, bio) => {
+  const handleCreateProfile = async (
+    firstName,
+    lastName,
+    username,
+    githubUsername,
+    mobile,
+    bio
+  ) => {
     console.log('handleCreateProfile called');
-    const decoded = jwt_decode(token);
-    const userId =
-      decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+    const decoded = jwtDecode(token);
+    const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
 
     // Assume createProfile returns { data: { token: '...' } }
     await createProfile(userId, firstName, lastName, username, githubUsername, mobile, bio);
