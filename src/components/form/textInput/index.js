@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './textInput.css'
 
-const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors = [] }) => {
+const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors = [], disabled = false }) => {
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
     return (
@@ -15,6 +15,7 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
           onChange={(e) => {
             onChange(e);
           }}
+          disabled={disabled}
         />
         <button type='button'
           className={`showpasswordbutton formbutton ${showpassword === true && '__faded'}`}
@@ -42,6 +43,7 @@ const TextInput = ({ value, onChange, name, label, icon, type = 'text', errors =
           value={value}
           onChange={onChange}
           className={icon && 'input-has-icon'}
+          disabled={disabled}
         />
         {icon && <span className="input-icon">{icon}</span>}
         <ul className="error_list">
