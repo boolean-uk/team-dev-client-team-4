@@ -4,6 +4,7 @@ import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Register from './pages/register';
 import Loading from './pages/loading';
+import Profile from './pages/profile';
 import Verification from './pages/verification';
 import { AuthProvider, ProtectedRoute } from './context/auth';
 import { ModalProvider } from './context/modal';
@@ -34,6 +35,13 @@ const App = () => {
                 <ProtectedRoute disabledNav={true}>
                   <Welcome />
                 </ProtectedRoute>
+              }
+            />
+            <Route path="profile" 
+              element={
+                  <ProtectedRoute disabledNav={true}>
+                    <Profile />
+                  </ProtectedRoute>
               }
             />
           </Routes>

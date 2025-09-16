@@ -1,0 +1,55 @@
+/* Flexbox for button row */
+.buttonRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem; /* or whatever spacing you want */
+}
+.form-left-part {
+  grid-column: 1;
+}
+.form-right-part {
+  grid-column: 2;
+}
+
+.disabled {
+    filter: grayscale(100%);
+}
+
+/* Save button default: white, border, dark text */
+.save-btn {
+  background: #fff;
+  color: #1a237e;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: not-allowed;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Save button active: dark blue, white text */
+.save-btn.save-btn--active {
+  background: #1a237e;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Edit/Cancel button styling */
+.edit-btn {
+  background: #fff;
+  color: #1a237e;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.edit-btn:hover {
+  background: #1a237e;
+  color: #fff;
+}
