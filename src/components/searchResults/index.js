@@ -3,7 +3,6 @@ import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
-import { API_URL } from '../../service/constants';
 
 const SearchResults = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -14,7 +13,7 @@ const SearchResults = () => {
     if (searchVal.trim().length >= 3) {
       setLoading(true);
       const timer = setTimeout(() => {
-        fetch(`${API_URL}/users?searchTerm=${encodeURIComponent(searchVal)}`)
+        fetch(`https://localhost:7233/users?searchTerm=${encodeURIComponent(searchVal)}`)
           .then((res) => res.json())
           .then((data) => setSearchResults(data.data.users))
           .catch(() => setSearchResults([]))

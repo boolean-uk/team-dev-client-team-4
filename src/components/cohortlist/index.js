@@ -3,7 +3,6 @@ import ProfileCircle from '../profileCircle';
 import { PiDotsThree } from 'react-icons/pi';
 import './style.css';
 import { cohort } from '../../service/mockData';
-import { API_URL } from '../../service/constants';
 
 const CohortList = ({ cohortId, userId }) => {
   const [users, setUsers] = useState([]);
@@ -12,11 +11,12 @@ const CohortList = ({ cohortId, userId }) => {
   useEffect(() => {
     setLoading(true);
     if (cohortId) {
-      fetch(`${API_URL}/users/by_cohort/${cohortId}`)
+      fetch(`https://localhost:7233/users/by_cohort/${cohortId}`)
         .then((res) => res.json())
         .then((data) => {
           setUsers(data.data.users);
           console.log(data);
+
           setLoading(false);
         })
         .catch(() => {

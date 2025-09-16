@@ -2,12 +2,11 @@ import Stepper from '../../components/stepper';
 import useAuth from '../../hooks/useAuth';
 import StepOne from './stepOne';
 import StepTwo from './stepTwo';
-import StepThree from './stepThree';
 import StepFour from './stepFour';
 import './style.css';
 import Validator from './validator';
 import { useState } from 'react';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 
 const Welcome = () => {
   const { onCreateProfile, token } = useAuth();
@@ -15,7 +14,7 @@ const Welcome = () => {
   const { Required } = Validator();
   const [currentStep, setCurrentStep] = useState(0);
 
-  const decoded = jwt_decode(token);
+  const decoded = jwtDecode(token);
   const decodedEmail =
     decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
 
@@ -82,7 +81,7 @@ const Welcome = () => {
       >
         <StepOne data={profile} setData={onChange} errors={errors} />
         <StepTwo data={profile} setData={onChange} />
-        {/* <StepThree data={profile} setData={onChange} /> */}
+         {/* <StepThree data={profile} setData={onChange} /> */}
         <StepFour data={profile} setData={onChange} />
       </Stepper>
     </main>

@@ -1,10 +1,6 @@
 import Form from '../../../components/form';
-import { useState } from 'react';
 
 const StepThree = ({ data, setData }) => {
-  const [selectedOption_role, setSelectedOption_role] = useState();
-  const [selectedOption_cohort, setSelectedOption_cohort] = useState();
-
   return (
     <>
       <div className="welcome-formheader">
@@ -28,7 +24,7 @@ const StepThree = ({ data, setData }) => {
             <option value={3}>Cohort 3</option>
             <option value={4}>Cohort 4</option>
             <option value={5}>Cohort 5</option>
-          </select>
+        </select>
 
           <p className="text-blue1">*Required</p>
         </div>
