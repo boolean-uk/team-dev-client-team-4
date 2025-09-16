@@ -3,7 +3,6 @@ import Form from '../../../components/form';
 import TextInput from '../../../components/form/textInput';
 
 const StepOne = ({ data, setData, errors }) => {
-
   return (
     <>
       <div className="welcome-formheader">
@@ -33,12 +32,7 @@ const StepOne = ({ data, setData, errors }) => {
             label={'Last name*'}
             errors={errors.lastName}
           />
-          <TextInput
-            onChange={setData}
-            value={data.username}
-            name="username"
-            label={'Username'}
-          />
+          <TextInput onChange={setData} value={data.username} name="username" label={'Username'} />
           <TextInput
             onChange={setData}
             value={data.githubUsername}
