@@ -11,7 +11,6 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-
     if (searchVal.trim().length >= 3) {
       setLoading(true);
       const timer = setTimeout(() => {
@@ -20,7 +19,7 @@ const SearchResults = () => {
           .then((data) => setSearchResults(data.data.users))
           .catch(() => setSearchResults([]))
           .finally(() => setLoading(false));
-      }, 400); 
+      }, 400);
 
       return () => clearTimeout(timer);
     } else {

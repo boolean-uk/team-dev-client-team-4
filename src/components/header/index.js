@@ -16,7 +16,7 @@ const Header = () => {
 
   const decoded = jwt_decode(token);
 
-  const decoded_id = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"];
+  const decoded_id = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
   console.log('Decoded ID:', decoded_id);
 
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -35,7 +35,6 @@ const Header = () => {
     fetchLoggedInUser();
   }, [decoded_id]);
 
-
   const onClickProfileIcon = () => {
     setIsMenuVisible(!isMenuVisible);
   };
@@ -45,14 +44,16 @@ const Header = () => {
   }
 
   console.log('Logged in user data:', loggedInUser);
-  
 
   return (
     <header>
       <FullLogo textColour="white" />
 
       <div className="profile-icon" onClick={onClickProfileIcon}>
-        <p>{loggedInUser?.firstName[0]}{loggedInUser?.lastName[0]}</p>
+        <p>
+          {loggedInUser?.firstName[0]}
+          {loggedInUser?.lastName[0]}
+        </p>
       </div>
 
       {isMenuVisible && (
@@ -60,11 +61,16 @@ const Header = () => {
           <Card>
             <section className="post-details">
               <div className="profile-icon">
-                <p>{loggedInUser?.firstName[0]}{loggedInUser?.lastName[0]}</p>
+                <p>
+                  {loggedInUser?.firstName[0]}
+                  {loggedInUser?.lastName[0]}
+                </p>
               </div>
 
               <div className="post-user-name">
-                <p>{loggedInUser?.firstName} {loggedInUser?.lastName}</p>
+                <p>
+                  {loggedInUser?.firstName} {loggedInUser?.lastName}
+                </p>
                 <small>Software Developer, Cohort {loggedInUser?.cohortId}</small>
               </div>
             </section>

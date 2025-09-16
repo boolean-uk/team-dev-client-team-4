@@ -19,7 +19,7 @@ const Register = () => {
 
   const handleRegister = (e) => {
     console.log('handle register');
-    
+
     e.preventDefault();
 
     const { email, password } = formData;

@@ -16,7 +16,8 @@ const Welcome = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const decoded = jwt_decode(token);
-  const decodedEmail = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
+  const decodedEmail =
+    decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
 
   const [profile, setProfile] = useState({
     firstName: '',
@@ -52,7 +53,15 @@ const Welcome = () => {
       valid = false;
     }
     if (valid) {
-      onCreateProfile(profile.firstName, profile.lastName, profile.username, profile.githubUsername, profile.mobile, profile.cohortid, profile.bio);
+      onCreateProfile(
+        profile.firstName,
+        profile.lastName,
+        profile.username,
+        profile.githubUsername,
+        profile.mobile,
+        profile.cohortid,
+        profile.bio
+      );
     } else {
       setErrors(newErrors);
       setCurrentStep(0);

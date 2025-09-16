@@ -86,11 +86,17 @@ const AuthProvider = ({ children }) => {
     navigate('/welcome');
   };
 
-  const handleCreateProfile = async (firstName, lastName, username, githubUsername, mobile, bio) => {
+  const handleCreateProfile = async (
+    firstName,
+    lastName,
+    username,
+    githubUsername,
+    mobile,
+    bio
+  ) => {
     console.log('handleCreateProfile called');
     const decoded = jwt_decode(token);
-    const userId =
-      decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+    const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
 
     // Assume createProfile returns { data: { token: '...' } }
     await createProfile(userId, firstName, lastName, username, githubUsername, mobile, bio);
