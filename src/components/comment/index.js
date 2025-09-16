@@ -1,9 +1,11 @@
+import './style.css';
+
 const Comment = ({ name, content }) => {
   return (
-    <>
-      <h6>{name}</h6>
+    <div>
+      <h5>{name}</h5>
       <p>{content}</p>
-    </>
+    </div>
   );
 };
 
