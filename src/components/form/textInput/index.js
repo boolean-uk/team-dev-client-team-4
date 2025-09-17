@@ -9,7 +9,8 @@ const TextInput = ({
   icon,
   type = 'text',
   errors = [],
-  placeholder
+  placeholder,
+  disabled = false 
 }) => {
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
@@ -23,6 +24,7 @@ const TextInput = ({
           onChange={(e) => {
             onChange(e);
           }}
+          disabled={disabled}
         />
         <button
           type="button"
@@ -51,6 +53,7 @@ const TextInput = ({
           value={value}
           onChange={onChange}
           className={icon && 'input-has-icon'}
+          disabled={disabled}
           placeholder={placeholder}
         />
         {icon && <span className="input-icon">{icon}</span>}

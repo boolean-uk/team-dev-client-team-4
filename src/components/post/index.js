@@ -1,58 +1,90 @@
+import { useEffect, useState } from 'react';
 import useModal from '../../hooks/useModal';
+import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
 import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
+import { get } from '../../service/apiClient';
 
-const Post = ({ name, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
-  const userInitials = name.match(/\b(\w)/g);
+  const [user, setUser] = useState([]);
+  const [userInitials, setUserInitials] = useState([]);
 
   const showModal = () => {
     setModal('Edit post', <EditPostModal />);
     openModal();
   };
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await get(`users/${id}`).then((result) => result.data);
+      setUser(fetchedUser);
+    };
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const name = `${user.firstName} ${user.lastName}`;
+    setUserInitials(name.match(/\b(\w)/g));
+  }, [user]);
+
+  if (!user) return 'loading';
   return (
-    <Card>
-      <article className="post">
-        <section className="post-details">
-          <ProfileCircle initials={userInitials} />
+    user && (
+      <Card>
+        <article className="post">
+          <section className="post-details">
+            <ProfileCircle initials={userInitials} />
 
-          <div className="post-user-name">
-            <p>{name}</p>
-            <small>{date}</small>
-          </div>
+            <div className="post-user-name">
+              <p>{`${user.firstName} ${user.lastName}`}</p>
+              <small>{date}</small>
+            </div>
 
-          <div className="edit-icon">
-            <p onClick={showModal}>...</p>
-          </div>
-        </section>
+            <div className="edit-icon">
+              <p onClick={showModal}>...</p>
+            </div>
+          </section>
 
-        <section className="post-content">
-          <p>{content}</p>
-        </section>
+          <section className="post-content">
+            <p>{content} </p>
+          </section>
 
-        <section
-          className={`post-interactions-container border-top ${comments.length ? 'border-bottom' : null}`}
-        >
-          <div className="post-interactions">
-            <div>Like</div>
-            <div>Comment</div>
-          </div>
+          <section
+            className={`post-interactions-container border-top ${comments.length ? 'border-bottom' : null}`}
+          >
+            <div className="post-interactions">
+              <div>Like</div>
+              <div>Comment</div>
+            </div>
 
-          <p>{!likes && 'Be the first to like this'}</p>
-        </section>
+            <p>{!likes && 'Be the first to like this'}</p>
+          </section>
 
-        <section>
-          {comments.map((comment) => (
-            <Comment key={comment.id} name={comment.name} content={comment.content} />
-          ))}
-        </section>
-      </article>
-    </Card>
+          <section>
+            {comments.map((comment) => (
+              <>
+                <div className="comment-detail" key={comment.id}>
+                  <ProfileCircle initials={comment.user} />
+                  <div className="comment-container">
+                    <Comment key={comment.id} name={comment.userId} content={comment.body} />
+                  </div>
+                </div>
+              </>
+            ))}
+          </section>
+          <section className="create-a-comment">
+            <ProfileCircle initials="AJ" />
+            <Button text="Add a comment..." />
+          </section>
+        </article>
+      </Card>
+    )
   );
 };
 

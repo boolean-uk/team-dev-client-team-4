@@ -48,7 +48,9 @@ async function patch(endpoint, data, auth = true) {
 }
 
 async function get(endpoint, auth = true) {
-  return await request('GET', endpoint, null, auth);
+  const res = await request('GET', endpoint, null, auth);
+  console.log(res);
+  return res;
 }
 
 async function request(method, endpoint, data, auth = true) {
@@ -73,4 +75,6 @@ async function request(method, endpoint, data, auth = true) {
   return response.json();
 }
 
-export { login, getPosts, register, createProfile };
+
+export { login, getPosts, register, createProfile, get, patch };
+

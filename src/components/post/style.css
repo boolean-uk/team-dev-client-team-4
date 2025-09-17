@@ -48,3 +48,25 @@
 .post-interactions-container p {
   text-align: right;
 }
+
+.comment-detail {
+  display: grid;
+  grid-template-columns: 50px auto;
+  column-gap: 20px;
+  margin-top: 0.5rem;
+}
+
+.create-a-comment {
+  display: grid;
+  grid-template-columns: 70px auto;
+  padding: 30px;
+}
+
+.create-a-comment button {
+  color: var(--color-blue1);
+  font-size: 1rem !important;
+  padding-left: 15px !important;
+  text-align: left !important;
+  max-width: 100% !important;
+  background-color: var(--color-blue5);
+}

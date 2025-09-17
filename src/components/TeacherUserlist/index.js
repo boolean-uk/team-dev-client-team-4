@@ -3,37 +3,33 @@ import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
 
-const TeacherUserlist = ({ role, userId }) => {
-  const [students, setStudents] = useState([]);
+const TeacherUserlist = ({ title, role, userId }) => {
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
-    if (role === 'Teacher') {
-      fetch(`${API_URL}/users`)
-        .then((res) => res.json())
-        .then((data) => {
-          setStudents(data.data.users);
-          setLoading(false);
-        })
-        .catch(() => {
-          setStudents([]);
-          setLoading(false);
-        });
-    } else {
-      setStudents([]);
-      setLoading(false);
-    }
-  }, []);
+    fetch(`${API_URL}/users`)
+      .then((res) => res.json())
+      .then((data) => {
+        const filteredUsers = data.data.users.filter((user) => user.role === role);
+        setUsers(filteredUsers);
+        setLoading(false);
+      })
+      .catch(() => {
+        setUsers([]);
+        setLoading(false);
+      });
+  }, [role]);
 
   return (
     <>
-      <h4>Students</h4>
+      <h4>{title}</h4>
       <hr />
       <ul className="student-list">
         {loading && <li>Loading...</li>}
         {!loading &&
-          students
+          users
             .filter((user) => user.id !== Number(userId))
             .map((user) => (
               <li key={user.id} className="user-list-item">
