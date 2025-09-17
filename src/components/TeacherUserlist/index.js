@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
+import Button from '../../components/button';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
@@ -22,6 +23,10 @@ const TeacherUserlist = ({ title, role, userId }) => {
       });
   }, [role]);
 
+  const handleClick = () => {
+    alert('Knappen ble trykket på!');
+  }
+
   return (
     <>
       <h4>{title}</h4>
@@ -31,6 +36,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
+            .slice(0, 10)
             .map((user) => (
               <li key={user.id} className="user-list-item">
                 <ProfileCircle
@@ -47,6 +53,12 @@ const TeacherUserlist = ({ title, role, userId }) => {
               </li>
             ))}
       </ul>
+      {users.length > 10 && (
+        <>
+          <hr />
+          <Button text={`All ${title.toLowerCase()}`} onClick={handleClick} classes="button offwhite" />
+        </>
+      )}
     </>
   );
 };
