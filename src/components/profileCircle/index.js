@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import AddIcon from '../../assets/icons/addIcon';
 import CohortIcon from '../../assets/icons/cohortIcon';
 import CohortIconFill from '../../assets/icons/cohortIcon-fill';
@@ -9,13 +8,31 @@ import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
+import React, { useContext, useEffect, useRef } from 'react';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
-const ProfileCircle = ({ initials }) => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+const ProfileCircle = ({ initials, id }) => {
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+  const ref = useRef(null);
+
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setCascadingMenuVisibleId((prev) => (prev === id ? null : id));
+  };
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setCascadingMenuVisibleId(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [setCascadingMenuVisibleId]);
 
   return (
-    <div className="profile-circle" onClick={() => setIsMenuVisible(!isMenuVisible)}>
-      {isMenuVisible && <CascadingMenu />}
+    <div className="profile-circle" onClick={toggleMenu}>
+      {id === cascadingMenuVisibleId && <CascadingMenu />}
 
       <div className="profile-icon">
         <p>{initials}</p>

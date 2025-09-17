@@ -39,7 +39,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
       <Card>
         <article className="post">
           <section className="post-details">
-            <ProfileCircle initials={userInitials} />
+            <ProfileCircle initials={userInitials} id={'post' + id} />
 
             <div className="post-user-name">
               <p>{`${user.firstName} ${user.lastName}`}</p>
@@ -67,10 +67,10 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
           </section>
 
           <section>
-            {comments.map((comment) => (
+            {comments.map((comment, index) => (
               <>
                 <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={comment.user} />
+                  <ProfileCircle initials={comment.user} id={'comment' + comment.id + index} />
                   <div className="comment-container">
                     <Comment key={comment.id} name={comment.userId} content={comment.body} />
                   </div>
@@ -79,7 +79,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             ))}
           </section>
           <section className="create-a-comment">
-            <ProfileCircle initials="AJ" />
+            <ProfileCircle initials="AJ" id={'comment' + id + 'owninput'} />
             <Button text="Add a comment..." />
           </section>
         </article>
