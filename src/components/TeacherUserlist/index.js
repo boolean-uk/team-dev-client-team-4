@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
@@ -7,6 +8,7 @@ import Button from '../../components/button';
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -24,8 +26,8 @@ const TeacherUserlist = ({ title, role, userId }) => {
   }, [role]);
 
   const handleClick = () => {
-    alert('Knappen ble trykket på!');
-  }
+    navigate('/search');
+  };
 
   return (
     <>

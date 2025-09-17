@@ -43,8 +43,10 @@ const AuthProvider = ({ children }) => {
         console.log('Navigating to /welcome from useEffect');
         navigate('/welcome', { replace: true });
       } else {
-        console.log('Navigating to home from useEffect');
-        navigate(location.state?.from?.pathname || '/', { replace: true });
+        if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/register') {
+          console.log('Navigating to home from useEffect');
+          navigate(location.state?.from?.pathname || '/', { replace: true });
+        }
       }
     }
   }, [token, location.state?.from?.pathname, navigate]);
