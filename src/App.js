@@ -10,6 +10,7 @@ import { AuthProvider, ProtectedRoute } from './context/auth';
 import { ModalProvider } from './context/modal';
 import { CascadingMenuProvider } from './context/cascadingMenuContext';
 import Welcome from './pages/welcome';
+import Searching from './pages/searching';
 
 const App = () => {
   return (
@@ -28,6 +29,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="search"
+              element={
+                <ProtectedRoute>
+                  <Searching />
                 </ProtectedRoute>
               }
             />
