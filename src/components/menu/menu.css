@@ -15,7 +15,7 @@
   padding: 8px 0;
 }
 .menu ul ul {
-  position: absolute;
+  position: static;
   top: -8px;
 }
 .menu li {
@@ -42,9 +42,7 @@
 }
 .menu li a svg:nth-of-type(2) {
   position: absolute;
-  top: 50%;
   right: 26px;
-  transform: translateY(-50%);
   fill: var(--color-blue);
 }
 .menu li > ul {
