@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import AddIcon from '../../assets/icons/addIcon';
 import CohortIcon from '../../assets/icons/cohortIcon';
 import CohortIconFill from '../../assets/icons/cohortIcon-fill';
@@ -10,12 +9,17 @@ import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
 
-const ProfileCircle = ({ initials }) => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+const ProfileCircle = ({ initials, id }) => {
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+
+  const toggleMenu = (e) => {
+    e.stopPropagation(); 
+    setCascadingMenuVisibleId(cascadingMenuVisibleId === id ? null : id);
+  };
 
   return (
-    <div className="profile-circle" onClick={() => setIsMenuVisible(!isMenuVisible)}>
-      {isMenuVisible && <CascadingMenu />}
+    <div className="profile-circle" onClick={toggleMenu}>
+      {id === cascadingMenuVisibleId && <CascadingMenu />}
 
       <div className="profile-icon">
         <p>{initials}</p>

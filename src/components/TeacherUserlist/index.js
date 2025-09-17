@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const TeacherUserlist = ({ role, userId }) => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
 
   useEffect(() => {
     setLoading(true);
@@ -39,6 +41,9 @@ const TeacherUserlist = ({ role, userId }) => {
             .map((user) => (
               <li key={user.id} className="user-list-item">
                 <ProfileCircle
+                  cascadingMenuVisibleId={cascadingMenuVisibleId}
+                  setCascadingMenuVisibleId={setCascadingMenuVisibleId}
+                  id={user.id}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                 />
                 <div className="user-info">

@@ -8,6 +8,7 @@ import Profile from './pages/profile';
 import Verification from './pages/verification';
 import { AuthProvider, ProtectedRoute } from './context/auth';
 import { ModalProvider } from './context/modal';
+import { CascadingMenuProvider } from './context/cascadingMenuContext';
 import Welcome from './pages/welcome';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
     <>
       <AuthProvider>
         <ModalProvider>
+          <CascadingMenuProvider>
           <Routes>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
@@ -37,7 +39,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="profile" 
+            <Route path="profile"
               element={
                   <ProtectedRoute disabledNav={true}>
                     <Profile />
@@ -45,6 +47,7 @@ const App = () => {
               }
             />
           </Routes>
+          </CascadingMenuProvider>
         </ModalProvider>
       </AuthProvider>
     </>
