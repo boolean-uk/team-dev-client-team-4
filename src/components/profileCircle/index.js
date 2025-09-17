@@ -17,7 +17,7 @@ const ProfileCircle = ({ initials, id }) => {
 
   const toggleMenu = (e) => {
     e.stopPropagation();
-    setCascadingMenuVisibleId(cascadingMenuVisibleId === id ? null : id);
+    setCascadingMenuVisibleId((prev) => (prev === id ? null : id));
   };
 
   useEffect(() => {
