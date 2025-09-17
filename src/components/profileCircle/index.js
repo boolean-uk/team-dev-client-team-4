@@ -8,14 +8,27 @@ import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
+import React, { useContext, useEffect, useRef } from 'react';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const ProfileCircle = ({ initials, id }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+  const ref = useRef(null);
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     setCascadingMenuVisibleId(cascadingMenuVisibleId === id ? null : id);
   };
+
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setCascadingMenuVisibleId(null);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [setCascadingMenuVisibleId]);
 
   return (
     <div className="profile-circle" onClick={toggleMenu}>
