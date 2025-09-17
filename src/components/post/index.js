@@ -7,12 +7,14 @@ import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
+import useAuth from '../../hooks/useAuth';
 
 const Post = ({ id, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState([]);
   const [userInitials, setUserInitials] = useState([]);
+  const { loggedInUser } = useAuth();
 
   const showModal = () => {
     setModal('Edit post', <EditPostModal />);
@@ -32,6 +34,10 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
     const name = `${user.firstName} ${user.lastName}`;
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
+
+  const loggedInUserInitials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
 
   if (!user) return 'loading';
   return (
@@ -79,7 +85,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             ))}
           </section>
           <section className="create-a-comment">
-            <ProfileCircle initials="AJ" id={'comment' + id + 'owninput'} />
+            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} />
             <Button text="Add a comment..." />
           </section>
         </article>

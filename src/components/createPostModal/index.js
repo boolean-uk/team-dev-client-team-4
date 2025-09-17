@@ -2,11 +2,13 @@ import { useState } from 'react';
 import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
+import useAuth from '../../hooks/useAuth';
 
 const CreatePostModal = () => {
   // Use the useModal hook to get the closeModal function so we can close the modal on user interaction
   const { closeModal } = useModal();
 
+  const { loggedInUser } = useAuth();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState('');
 
@@ -23,14 +25,18 @@ const CreatePostModal = () => {
     }, 2000);
   };
 
+  const loggedInUserInitials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
+
   return (
     <>
       <section className="create-post-user-details">
         <div className="profile-icon">
-          <p>AJ</p>
+          <p>{loggedInUserInitials}</p>
         </div>
         <div className="post-user-name">
-          <p>Alex J</p>
+          <p>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</p>
         </div>
       </section>
 
