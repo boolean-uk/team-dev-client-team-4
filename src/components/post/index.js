@@ -8,7 +8,7 @@ import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
 
-const Post = ({ id, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState([]);
@@ -33,6 +33,21 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
 
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+
+    const day = date.getDate();
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const month = monthNames[date.getMonth()];
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day} ${month} at ${hours}:${minutes}`;
+  };
+
   if (!user) return 'loading';
   return (
     user && (
@@ -42,8 +57,8 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             <ProfileCircle initials={userInitials} id={'post' + id} />
 
             <div className="post-user-name">
-              <p>{`${user.firstName} ${user.lastName}`}</p>
-              <small>{date}</small>
+              <p>{name}</p>
+              <small>{formatDateTime(date)}</small>
             </div>
 
             <div className="edit-icon">
@@ -70,9 +85,9 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             {comments.map((comment, index) => (
               <>
                 <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={comment.user} id={'comment' + comment.id + index} />
+                  <ProfileCircle initials={`${comment.firstName?.[0] ?? ''}${comment.lastName?.[0] ?? ''}`.toUpperCase()} id={'comment' + comment.id + index} />
                   <div className="comment-container">
-                    <Comment key={comment.id} name={comment.userId} content={comment.body} />
+                    <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
                   </div>
                 </div>
               </>
