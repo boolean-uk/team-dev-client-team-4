@@ -47,6 +47,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   cascadingMenuVisibleId={cascadingMenuVisibleId}
                   setCascadingMenuVisibleId={setCascadingMenuVisibleId}
                   id={'student' + user.id}
+                  role={user.role.toLowerCase()}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                 />
                 <div className="user-info">

@@ -11,7 +11,7 @@ import './style.css';
 import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
-const ProfileCircle = ({ initials, id }) => {
+const ProfileCircle = ({ initials, id, role }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
 
@@ -32,7 +32,7 @@ const ProfileCircle = ({ initials, id }) => {
 
   return (
     <div className="profile-circle" onClick={toggleMenu}>
-      {id === cascadingMenuVisibleId && <CascadingMenu />}
+      {id === cascadingMenuVisibleId && <CascadingMenu role={role} />}
 
       <div className="profile-icon">
         <p>{initials}</p>
@@ -41,7 +41,15 @@ const ProfileCircle = ({ initials, id }) => {
   );
 };
 
-const CascadingMenu = () => {
+const CascadingMenu = ({ role }) => {
+  if (role === 'teacher') {
+    return (
+      <Menu className="profile-circle-menu">
+        <MenuItem icon={<ProfileIcon />} text="Profile" />
+      </Menu>
+    );
+  }
+
   return (
     <Menu className="profile-circle-menu">
       <MenuItem icon={<ProfileIcon />} text="Profile" />

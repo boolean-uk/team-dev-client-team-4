@@ -12,7 +12,7 @@ import useAuth from '../../hooks/useAuth';
 const Post = ({ id, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const { loggedInUser } = useAuth();
 
@@ -45,7 +45,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
       <Card>
         <article className="post">
           <section className="post-details">
-            <ProfileCircle initials={userInitials} id={'post' + id} />
+            <ProfileCircle initials={userInitials} id={'post' + id} role={user.role.toLowerCase()} />
 
             <div className="post-user-name">
               <p>{`${user.firstName} ${user.lastName}`}</p>
@@ -76,7 +76,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             {comments.map((comment, index) => (
               <>
                 <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={comment.user} id={'comment' + comment.id + index} />
+                  <ProfileCircle initials={comment.user} id={'comment' + comment.id + index} role={comment.role} />
                   <div className="comment-container">
                     <Comment key={comment.id} name={comment.userId} content={comment.body} />
                   </div>
@@ -85,7 +85,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             ))}
           </section>
           <section className="create-a-comment">
-            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} />
+            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} role={loggedInUser.role} />
             <Button text="Add a comment..." />
           </section>
         </article>
