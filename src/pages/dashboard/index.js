@@ -9,6 +9,7 @@ import './style.css';
 import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
+import useAuth from '../../hooks/useAuth';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -17,6 +18,7 @@ const Dashboard = () => {
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const userURL = `https://localhost:7233/users/`;
+  const { loggedInUser } = useAuth();
 
   useEffect(() => {
     fetch(`${userURL}${userId}`)
@@ -39,13 +41,17 @@ const Dashboard = () => {
     openModal();
   };
 
+  const initials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
+
   return (
     <>
       <main>
         <Card>
           <div className="create-post-input">
             <div className="profile-icon">
-              <p>AJ</p>
+              <p>{initials}</p>
             </div>
             <Button text="What's on your mind?" onClick={showModal} />
           </div>

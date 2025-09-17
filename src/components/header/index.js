@@ -1,4 +1,3 @@
-import { API_URL } from '../../service/constants';
 import FullLogo from '../../assets/fullLogo';
 import useAuth from '../../hooks/useAuth';
 import './style.css';
@@ -7,36 +6,14 @@ import ProfileIcon from '../../assets/icons/profileIcon';
 import CogIcon from '../../assets/icons/cogIcon';
 import LogoutIcon from '../../assets/icons/logoutIcon';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect, useContext, useRef } from 'react';
-import jwtDecode from 'jwt-decode';
+import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const Header = () => {
-  const { token, onLogout } = useAuth();
+  const { token, onLogout, loggedInUser } = useAuth();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const menuId = 'header-profile-menu';
   const menuRef = useRef(null);
-
-  const decoded = jwtDecode(token);
-
-  const decodedId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
-  console.log('Decoded ID:', decodedId);
-
-  const [loggedInUser, setLoggedInUser] = useState(null);
-
-  useEffect(() => {
-    const fetchLoggedInUser = async () => {
-      try {
-        const response = await fetch(`${API_URL}/users/${decodedId}`);
-        const data = await response.json();
-        setLoggedInUser(data.data);
-      } catch (error) {
-        console.error('Error fetching logged in user:', error);
-      }
-    };
-
-    fetchLoggedInUser();
-  }, [decodedId]);
 
   const onClickProfileIcon = (e) => {
     e.stopPropagation();
@@ -47,6 +24,10 @@ const Header = () => {
     return null;
   }
 
+  const loggedInUserInitials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
+
   console.log('Logged in user data:', loggedInUser);
 
   return (
@@ -55,8 +36,7 @@ const Header = () => {
 
       <div className="profile-icon" onClick={onClickProfileIcon}>
         <p>
-          {loggedInUser?.firstName[0]}
-          {loggedInUser?.lastName[0]}
+          {loggedInUserInitials}
         </p>
       </div>
 
@@ -66,8 +46,7 @@ const Header = () => {
             <section className="post-details">
               <div className="profile-icon">
                 <p>
-                  {loggedInUser?.firstName[0]}
-                  {loggedInUser?.lastName[0]}
+                  {loggedInUserInitials}
                 </p>
               </div>
 
