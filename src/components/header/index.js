@@ -7,12 +7,15 @@ import ProfileIcon from '../../assets/icons/profileIcon';
 import CogIcon from '../../assets/icons/cogIcon';
 import LogoutIcon from '../../assets/icons/logoutIcon';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import jwtDecode from 'jwt-decode';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const Header = () => {
   const { token, onLogout } = useAuth();
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+  const menuId = 'header-profile-menu';
+  const menuRef = useRef(null);
 
   const decoded = jwtDecode(token);
 
@@ -35,8 +38,9 @@ const Header = () => {
     fetchLoggedInUser();
   }, [decodedId]);
 
-  const onClickProfileIcon = () => {
-    setIsMenuVisible(!isMenuVisible);
+  const onClickProfileIcon = (e) => {
+    e.stopPropagation();
+    setCascadingMenuVisibleId(cascadingMenuVisibleId === menuId ? null : menuId);
   };
 
   if (!token) {
@@ -56,8 +60,8 @@ const Header = () => {
         </p>
       </div>
 
-      {isMenuVisible && (
-        <div className="user-panel">
+      {cascadingMenuVisibleId === menuId && (
+        <div className="user-panel" ref={menuRef}>
           <Card>
             <section className="post-details">
               <div className="profile-icon">
