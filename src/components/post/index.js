@@ -8,6 +8,8 @@ import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
+import { FiHeart } from 'react-icons/fi';
+import { MdOutlineInsertComment } from 'react-icons/md';
 
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
@@ -80,11 +82,17 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             className={`post-interactions-container border-top ${comments.length ? 'border-bottom' : null}`}
           >
             <div className="post-interactions">
-              <div>Like</div>
-              <div>Comment</div>
+              <div className='interaction'>
+                <FiHeart className='heart-icon'/>
+                <div className='interaction-text'>Like </div>
+              </div>
+              <div className='interaction'>
+                <MdOutlineInsertComment className='comment-icon'/>
+                <div className='interaction-text'>Comment</div>
+              </div>
             </div>
 
-            <p>{!likes && 'Be the first to like this'}</p>
+            <p className='interaction-text'>{!likes && 'Be the first to like this'}</p>
           </section>
 
           <section>

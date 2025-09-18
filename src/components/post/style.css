@@ -36,14 +36,20 @@
 }
 
 .post-interactions-container {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
+  display: flex;
+  justify-content: space-between;
   padding: 20px 10px;
 }
 
 .post-interactions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  gap: 40px; /* Juster for ønsket avstand mellom Like og Comment */
+}
+
+.interaction {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .post-interactions-container p {
@@ -71,3 +77,23 @@
   max-width: 100% !important;
   background-color: var(--color-blue5);
 }
+
+.interaction-text {
+  color: var(--color-blue1);
+}
+
+.heart-icon {
+  font-size: 32px;
+  stroke: var(--color-blue1);
+  stroke-width: 1.75;
+  display: block;
+}
+
+
+.comment-icon {
+  font-size: 32px;
+  fill: var(--color-blue1);
+  transform: scale(0.95); /* Juster verdien for ønsket tykkelse */
+  display: block;
+}
+
