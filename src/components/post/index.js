@@ -9,6 +9,7 @@ import './style.css';
 import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import { FiHeart } from 'react-icons/fi';
+import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment } from 'react-icons/md';
 
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
@@ -16,6 +17,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
   const [user, setUser] = useState([]);
   const [userInitials, setUserInitials] = useState([]);
+  const [liked, setLiked] = useState(false);
   const { loggedInUser } = useAuth();
 
   const showModal = () => {
@@ -52,6 +54,11 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     return `${day} ${month} at ${hours}:${minutes}`;
   };
 
+  const handleClick = () => {
+    setLiked(!liked);
+    console.log(`Liked: ${liked}`);
+  };
+
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
     : '';
@@ -83,8 +90,16 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
           >
             <div className="post-interactions">
               <div className='interaction'>
-                <FiHeart className='heart-icon'/>
-                <div className='interaction-text'>Like </div>
+              <Button onClick={handleClick} classes='iconbutton'>
+                {liked
+                  ? (
+                  <FaHeart className='heart-icon liked' />
+                    )
+                  : (
+                  <FiHeart className='heart-icon not-liked' />
+                    )}
+              </Button>
+                <div className='interaction-text'>Like</div>
               </div>
               <div className='interaction'>
                 <MdOutlineInsertComment className='comment-icon'/>
