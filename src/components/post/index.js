@@ -1,25 +1,18 @@
 import { useEffect, useState } from 'react';
-import useModal from '../../hooks/useModal';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
-import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
+import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
 
 const Post = ({ id, date, content, comments = [], likes = 0 }) => {
-  const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState([]);
   const [userInitials, setUserInitials] = useState([]);
   const { loggedInUser } = useAuth();
-
-  const showModal = () => {
-    setModal('Edit post', <EditPostModal />);
-    openModal();
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -53,7 +46,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             </div>
 
             <div className="edit-icon">
-              <p onClick={showModal}>...</p>
+              <PostOptionsMenu uniqueKey={'postOptionsMenu' + id} postId={id} content={content} />
             </div>
           </section>
 
