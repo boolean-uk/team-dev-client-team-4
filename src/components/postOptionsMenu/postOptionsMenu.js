@@ -22,7 +22,11 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
   };
 
   const showDeleteDialog = () => {
-    setDialog('TODO remove header', <DeletePostConfirm postId={postId} />);
+    setDialog(
+      'Delete Post?', 
+      <DeletePostConfirm postId={postId} />,
+      'Are you sure you want to delete this post?'
+    );
     openDialog();
   };
 

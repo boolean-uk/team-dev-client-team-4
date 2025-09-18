@@ -6,6 +6,7 @@ const DialogProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dialogComponent, setDialogComponent] = useState(null);
   const [dialogHeader, setDialogHeader] = useState(null);
+  const [dialogMessage, setDialogMessage] = useState(null);
 
   const openDialog = () => {
     setIsOpen(true);
@@ -15,9 +16,10 @@ const DialogProvider = ({ children }) => {
     setIsOpen(false);
   };
 
-  const setDialog = (header, component) => {
+  const setDialog = (header, component, message) => {
     setDialogHeader(header);
     setDialogComponent(component);
+    setDialogMessage(message);
   };
 
   const value = {
@@ -25,8 +27,10 @@ const DialogProvider = ({ children }) => {
     openDialog,
     closeDialog,
     setDialog,
+    setDialogMessage,
     dialogComponent,
-    dialogHeader
+    dialogHeader,
+    dialogMessage
   };
 
   return <DialogContext.Provider value={value}>{children}</DialogContext.Provider>;
