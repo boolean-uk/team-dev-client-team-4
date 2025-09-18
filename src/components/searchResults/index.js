@@ -44,11 +44,13 @@ const SearchResults = () => {
       </form>
       {searchVal.trim().length >= 3 && (
         <div className="search-modal">
-          <p style={{ margin: '16px 0 4px 0', fontWeight: 'bold' }}>People</p>
+          <p className="change-text">People</p>
           <hr />
           {loading ? (
-            <p style={{ color: '#888', marginTop: '8px' }}>Loading...</p>
-          ) : searchResults.length > 0 ? (
+            <p className="change-text">Loading...</p>
+          )
+            : searchResults.length > 0
+              ? (
             <ul className="cohort-list">
               {searchResults.map((user) => (
                 <li key={user.id} className="cohort-list-item">
@@ -68,12 +70,13 @@ const SearchResults = () => {
                 </li>
               ))}
             </ul>
-          ) : (
+                )
+              : (
             <span>
-              <p style={{ color: '#888', marginTop: '8px' }}>Sorry, no results found</p>
-              <p style={{ color: '#888', marginTop: '8px' }}>Try changing your search term.</p>
+              <p className="change-text">Sorry, no results found</p>
+              <p className="change-text">Try changing your search term.</p>
             </span>
-          )}
+                )}
         </div>
       )}
     </div>
