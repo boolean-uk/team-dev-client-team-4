@@ -45,7 +45,7 @@ const CascadingMenu = ({ role, id }) => {
   if (role === 'teacher') {
     return (
       <Menu className="profile-circle-menu">
-        <MenuItem icon={<ProfileIcon />} text="Profile" />
+        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
       </Menu>
     );
   }
