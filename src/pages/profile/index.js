@@ -1,6 +1,6 @@
 import Card from '../../components/card';
 import './profile.css';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { get, patch } from '../../service/apiClient';
 import { useEffect, useState } from 'react';
 import Form from '../../components/form';
@@ -38,7 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const decoded = jwt_decode(storedToken);
+    const decoded = jwtDecode(storedToken);
     const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
     const fetchUser = async () => {
       const tempUser = await get(`users/${thisId}`).then((result) => result.data);
@@ -51,7 +51,7 @@ const Profile = () => {
   // Save handler
   const handleSave = async () => {
     const storedToken = localStorage.getItem('token');
-    const decoded = jwt_decode(storedToken);
+    const decoded = jwtDecode(storedToken);
     const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
     // Only send allowed fields
     const body = {
