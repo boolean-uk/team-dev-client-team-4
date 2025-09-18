@@ -75,7 +75,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             </div>
 
             <div className="edit-icon">
-              <PostOptionsMenu uniqueKey={'postOptionsMenu' + id} postId={id} content={content} />
+              <PostOptionsMenu
+                uniqueKey={'postOptionsMenu' + id}
+                postId={id}
+                content={content}
+                author={user}
+              />
             </div>
           </section>
 
