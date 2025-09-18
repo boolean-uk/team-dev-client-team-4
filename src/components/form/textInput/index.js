@@ -10,7 +10,7 @@ const TextInput = ({
   type = 'text',
   errors = [],
   placeholder,
-  disabled = false 
+  disabled = false
 }) => {
   const [showpassword, setShowpassword] = useState(false);
   if (type === 'password') {
