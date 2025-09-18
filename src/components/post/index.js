@@ -10,7 +10,7 @@ import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
-import { MdOutlineInsertComment } from 'react-icons/md';
+import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
@@ -18,6 +18,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const [user, setUser] = useState([]);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const { loggedInUser } = useAuth();
 
   const showModal = () => {
@@ -56,7 +57,11 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
   const handleClick = () => {
     setLiked(!liked);
-    console.log(`Liked: ${liked}`);
+  };
+
+  const viewComments = () => {
+    setShowComments(!showComments);
+    console.log(`Comments: ${showComments}`);
   };
 
   const loggedInUserInitials = loggedInUser
@@ -93,20 +98,27 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
               <Button onClick={handleClick} classes='iconbutton'>
                 {liked
                   ? (
-                  <FaHeart className='heart-icon liked' />
+                  <FaHeart className='icon liked' />
                     )
                   : (
-                  <FiHeart className='heart-icon not-liked' />
+                  <FiHeart className='icon not-liked' />
                     )}
               </Button>
                 <div className='interaction-text'>Like</div>
               </div>
               <div className='interaction'>
-                <MdOutlineInsertComment className='comment-icon'/>
-                <div className='interaction-text'>Comment</div>
+                <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
+                  {showComments
+                    ? (
+                  <MdInsertComment className='icon show-comments'/>
+                      )
+                    : (
+                  <MdOutlineInsertComment className='icon not-show-comments'/>
+                      )}
+                  <div className='interaction-text'>Comment</div>
+                </Button>
               </div>
             </div>
-
             <p className='interaction-text'>{!likes && 'Be the first to like this'}</p>
           </section>
 
