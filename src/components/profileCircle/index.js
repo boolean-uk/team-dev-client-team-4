@@ -11,13 +11,13 @@ import './style.css';
 import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
-const ProfileCircle = ({ initials, id, role }) => {
+const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
 
   const toggleMenu = (e) => {
     e.stopPropagation();
-    setCascadingMenuVisibleId((prev) => (prev === id ? null : id));
+    setCascadingMenuVisibleId((prev) => (prev === uniqueKey ? null : uniqueKey));
   };
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const ProfileCircle = ({ initials, id, role }) => {
 
   return (
     <div className="profile-circle" onClick={toggleMenu}>
-      {id === cascadingMenuVisibleId && <CascadingMenu role={role} />}
+      {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} />}
 
       <div className="profile-icon">
         <p>{initials}</p>
@@ -41,7 +41,7 @@ const ProfileCircle = ({ initials, id, role }) => {
   );
 };
 
-const CascadingMenu = ({ role }) => {
+const CascadingMenu = ({ role, id }) => {
   if (role === 'teacher') {
     return (
       <Menu className="profile-circle-menu">
@@ -52,7 +52,7 @@ const CascadingMenu = ({ role }) => {
 
   return (
     <Menu className="profile-circle-menu">
-      <MenuItem icon={<ProfileIcon />} text="Profile" />
+      <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
       <MenuItem icon={<AddIcon />} text="Add note" />
 
       <MenuItem icon={<CohortIcon />} text="Move to cohort">

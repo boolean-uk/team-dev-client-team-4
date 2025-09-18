@@ -53,6 +53,8 @@ const SearchResults = () => {
                 <li key={user.id} className="cohort-list-item">
                   <ProfileCircle
                     initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                    userId={user.id}
+                    role={user.role.toLowerCase()}
                   />
                   <strong style={{ marginLeft: '8px' }}>
                     {user?.firstName} {user?.lastName}

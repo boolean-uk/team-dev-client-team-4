@@ -46,9 +46,10 @@ const TeacherUserlist = ({ title, role, userId }) => {
                 <ProfileCircle
                   cascadingMenuVisibleId={cascadingMenuVisibleId}
                   setCascadingMenuVisibleId={setCascadingMenuVisibleId}
-                  id={'student' + user.id}
+                  uniqueKey={'student' + user.id}
                   role={user.role.toLowerCase()}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                  userId={user.id}
                 />
                 <div className="user-info">
                   <strong>
@@ -64,7 +65,11 @@ const TeacherUserlist = ({ title, role, userId }) => {
       {users.length > 10 && (
         <>
           <hr />
-          <Button text={`All ${title.toLowerCase()}`} onClick={handleClick} classes="button offwhite" />
+          <Button
+            text={`All ${title.toLowerCase()}`}
+            onClick={handleClick}
+            classes="button offwhite"
+          />
         </>
       )}
     </>

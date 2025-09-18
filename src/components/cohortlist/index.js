@@ -54,6 +54,7 @@ const CohortList = ({ cohortId, userId }) => {
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                   <ProfileCircle
                     initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                    userId={userId}
                   />
                   <strong style={{ marginLeft: '8px' }}>
                     {user?.firstName} {user?.lastName}

@@ -1,13 +1,14 @@
-import Card from '../../components/card'
-import './profile.css'
-import jwt_decode from 'jwt-decode'
-import { get, patch } from '../../service/apiClient'
-import { useEffect, useState } from 'react'
-import Form from '../../components/form'
-import TextInput from '../../components/form/textInput'
+import Card from '../../components/card';
+import './profile.css';
+import jwt_decode from 'jwt-decode';
+import { get, patch } from '../../service/apiClient';
+import { useEffect, useState } from 'react';
+import Form from '../../components/form';
+import TextInput from '../../components/form/textInput';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState();
   const [profile, setProfile] = useState({
     firstName: '',
     lastName: '',
@@ -22,37 +23,44 @@ const Profile = () => {
     startDate: '',
     endDate: '',
     specialism: ''
-  })
+  });
 
-  const [errors, setErrors] = useState({ firstName: [], lastName: [] })
+  const [errors, setErrors] = useState({ firstName: [], lastName: [] });
   const [isEditing, setIsEditing] = useState(false);
-  const [originalProfile, setOriginalProfile] = useState(null)
+  const [originalProfile, setOriginalProfile] = useState(null);
   const onChange = (event) => {
     const { name, value } = event.target;
-    setErrors({ firstName: [], lastName: [] })
+    setErrors({ firstName: [], lastName: [] });
     setProfile({
       ...profile,
       [name]: value
-    })
-  }
+    });
+  };
+
+  const { id } = useParams();
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
     const decoded = jwt_decode(storedToken);
-    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid']
-    const fetchUser = async () => {
-      const tempUser = await get(`users/${thisId}`).then(result => result.data)
-      setProfile(tempUser)
-      setOriginalProfile(tempUser)
+    let thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+
+    if (id != null) {
+      thisId = id;
     }
-    fetchUser()
-  }, [])
+
+    const fetchUser = async () => {
+      const tempUser = await get(`users/${thisId}`).then((result) => result.data);
+      setProfile(tempUser);
+      setOriginalProfile(tempUser);
+    };
+    fetchUser();
+  }, []);
 
   // Save handler
   const handleSave = async () => {
-    const storedToken = localStorage.getItem('token')
-    const decoded = jwt_decode(storedToken)
-    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid']
+    const storedToken = localStorage.getItem('token');
+    const decoded = jwt_decode(storedToken);
+    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
     // Only send allowed fields
     const body = {
       email: profile.email,
@@ -62,30 +70,31 @@ const Profile = () => {
       github: profile.githubUsername,
       username: profile.username,
       phone: profile.phone
-    }
+    };
     try {
-      const result = await patch(`users/${thisId}`, body)
-      if (result.status === 'fail') { alert('Failed to update profile.') }
-      else {
-        alert('Profile updated successfully!')
-        setIsEditing(false)
-        setOriginalProfile(profile)
+      const result = await patch(`users/${thisId}`, body);
+      if (result.status === 'fail') {
+        alert('Failed to update profile.');
+      } else {
+        alert('Profile updated successfully!');
+        setIsEditing(false);
+        setOriginalProfile(profile);
       }
     } catch (err) {
-      alert('Failed to update profile.')
+      alert('Failed to update profile.');
     }
-  }
+  };
 
   // Toggle edit/cancel
   const handleEditToggle = () => {
     if (isEditing) {
       // Cancel: revert to original profile
-      setProfile(originalProfile)
-      setIsEditing(false)
+      setProfile(originalProfile);
+      setIsEditing(false);
     } else {
-      setIsEditing(true)
+      setIsEditing(true);
     }
-  }
+  };
 
   return (
     <>
@@ -93,8 +102,11 @@ const Profile = () => {
         <Card>
           <h1>Profile Placeholder</h1>
           <Form className="profile-form" onSubmit={handleSave}>
-            <div className='form-left-part'>
-              <div className="form-basic-info" style={{ filter: isEditing ? 'none' : 'grayscale(100%)'}}>
+            <div className="form-left-part">
+              <div
+                className="form-basic-info"
+                style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
+              >
                 <h3>Basic info</h3>
                 <TextInput
                   onChange={onChange}
@@ -125,7 +137,10 @@ const Profile = () => {
                   disabled={!isEditing}
                 />
               </div>
-              <div className="form-contact-info" style={{ filter: isEditing ? 'none' : 'grayscale(100%)'}}>
+              <div
+                className="form-contact-info"
+                style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
+              >
                 <h3>Contact info</h3>
                 <TextInput
                   onChange={onChange}
@@ -142,7 +157,7 @@ const Profile = () => {
                   disabled={!isEditing}
                 />
                 <TextInput
-                  className = "disabled"
+                  className="disabled"
                   onChange={onChange}
                   value={profile.password}
                   name="password"
@@ -153,16 +168,13 @@ const Profile = () => {
               </div>
             </div>
             <div className="form-right-part">
-              <div className="form-training-info" style={{ filter: isEditing ? 'none' : 'grayscale(100%)'}}>
+              <div
+                className="form-training-info"
+                style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
+              >
                 <h3>Training info</h3>
-                <div className = "disabled">
-                  <TextInput
-                    onChange={''}
-                    value={''}
-                    name="Role"
-                    label={'Role*'}
-                    disabled={true}
-                  />
+                <div className="disabled">
+                  <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
                   <TextInput
                     onChange={onChange}
                     value={profile.specialism}
@@ -193,15 +205,17 @@ const Profile = () => {
                   />
                 </div>
               </div>
-              <div className='form-bio' style={{ filter: isEditing ? 'none' : 'grayscale(100%)'}}>
+              <div className="form-bio" style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}>
                 <h3>Bio</h3>
-                <textarea name="bio" value={profile.bio} onChange={onChange} label="Bio" disabled={!isEditing}></textarea>
+                <textarea
+                  name="bio"
+                  value={profile.bio}
+                  onChange={onChange}
+                  label="Bio"
+                  disabled={!isEditing}
+                ></textarea>
                 <div className="buttonRow">
-                  <button
-                    type="button"
-                    className="edit-btn"
-                    onClick={handleEditToggle}
-                  >
+                  <button type="button" className="edit-btn" onClick={handleEditToggle}>
                     {isEditing ? 'Cancel' : 'Edit'}
                   </button>
                   <button
@@ -218,7 +232,7 @@ const Profile = () => {
         </Card>
       </main>
     </>
-  )
-}
+  );
+};
 
 export default Profile;
