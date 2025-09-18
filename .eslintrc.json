@@ -23,6 +23,10 @@
     "no-multiple-empty-lines": "warn",
     "no-trailing-spaces": "warn",
     "multiline-ternary": "warn",
+    "indent": "warn",
+    "eol-last": "warn",
+    "brace-style": "warn",
+    "object-curly-spacing": "warn",
     "space-before-function-paren": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0

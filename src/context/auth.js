@@ -87,6 +87,7 @@ const AuthProvider = ({ children }) => {
     const res = await login(email, password);
     if (!res?.data?.token) {
       console.log('Login failed, navigating to /login');
+      AuthContext.loginFailed = true;
       return navigate('/login');
     }
     const t = res.data.token;
@@ -99,7 +100,8 @@ const AuthProvider = ({ children }) => {
       navigate('/welcome');
     } else {
       console.log('Login: profile complete, navigating to home');
-      navigate(location.state?.from?.pathname || '/');
+      AuthContext
+        .navigate(location.state?.from?.pathname || '/');
     }
   };
 
