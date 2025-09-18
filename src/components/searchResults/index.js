@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
 import mapSpecialism from '../../userUtils/mapSpecialism';
+import Button from '../button';
 
 const SearchResults = () => {
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if (searchVal.trim().length >= 3) {
@@ -31,6 +33,10 @@ const SearchResults = () => {
     setSearchVal(e.target.value);
   };
 
+  const editSearch = () => {
+    inputRef.current?.focus();
+  };
+
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
@@ -40,15 +46,17 @@ const SearchResults = () => {
           name="Search"
           onChange={onChange}
           placeholder="Search for people"
+          ref={inputRef}
         />
       </form>
       {searchVal.trim().length >= 3 && (
         <div className="search-modal">
           <p className="change-text">People</p>
           <hr />
-          {loading ? (
+          {loading
+            ? (
             <p className="change-text">Loading...</p>
-          )
+              )
             : searchResults.length > 0
               ? (
             <ul className="cohort-list">
@@ -75,6 +83,12 @@ const SearchResults = () => {
             <span>
               <p className="change-text">Sorry, no results found</p>
               <p className="change-text">Try changing your search term.</p>
+              <br />
+              <Button
+                text={'Edit search'}
+                onClick={editSearch}
+                classes="button offwhite"
+              />
             </span>
                 )}
         </div>

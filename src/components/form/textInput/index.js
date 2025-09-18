@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, forwardRef } from 'react';
 import './textInput.css';
 
-const TextInput = ({
+const TextInput = forwardRef(({
   value,
   onChange,
   name,
@@ -11,13 +11,15 @@ const TextInput = ({
   errors = [],
   placeholder,
   disabled = false
-}) => {
+}, ref) => {
   const [showpassword, setShowpassword] = useState(false);
+
   if (type === 'password') {
     return (
       <div className="inputwrapper">
         <label htmlFor={name}>{label}</label>
         <input
+          ref={ref}
           type={showpassword ? 'text' : 'password'}
           name={name}
           value={value}
@@ -48,6 +50,7 @@ const TextInput = ({
       <div className="inputwrapper">
         {label && <label htmlFor={name}>{label}</label>}
         <input
+          ref={ref}
           type={type}
           name={name}
           value={value}
@@ -65,7 +68,9 @@ const TextInput = ({
       </div>
     );
   }
-};
+});
+
+TextInput.displayName = 'TextInput';
 
 const EyeLogo = () => {
   return (
