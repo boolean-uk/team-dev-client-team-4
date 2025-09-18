@@ -3,7 +3,7 @@ import useModal from '../../hooks/useModal';
 import Button from '../button';
 import './style.css';
 
-const EditPostModal = ({ author, postContent }) => {
+const EditPostModal = ({ author, postContent, postId }) => {
   const { closeModal } = useModal();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState(postContent || '');
@@ -38,7 +38,11 @@ const EditPostModal = ({ author, postContent }) => {
       </section>
 
       <section>
-        <textarea onChange={onChange} value={text} placeholder={postContent || "What's on your mind?"}></textarea>
+        <textarea
+          onChange={onChange}
+          value={text}
+          placeholder={postContent || "What's on your mind?"}
+        ></textarea>
       </section>
 
       <section className="edit-post-actions">

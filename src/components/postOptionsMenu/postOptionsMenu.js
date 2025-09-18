@@ -4,17 +4,26 @@ import { EditIcon } from '../../assets/icons/editIcon';
 import './postOptionsMenu.css';
 import EditPostModal from '../editPostModal';
 import useModal from '../../hooks/useModal';
+import useDialog from '../../hooks/useDialog';
 import { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
+import { DeleteIcon2 } from '../../assets/icons/deleteIcon2';
+import DeletePostConfirm from '../deletePostConfirm';
 
-const PostOptionsMenu = ({ uniqueKey, content, author }) => {
+const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
   const { openModal, setModal } = useModal();
+  const { openDialog, setDialog } = useDialog();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
 
   const showEditModal = () => {
-    setModal('Edit Modal', <EditPostModal postContent={content} author={author} />);
+    setModal('Edit Post', <EditPostModal postContent={content} author={author} postId={postId} />);
     openModal();
+  };
+
+  const showDeleteDialog = () => {
+    setDialog('TODO remove header', <DeletePostConfirm postId={postId} />);
+    openDialog();
   };
 
   const toggleMenu = (e) => {
@@ -36,16 +45,17 @@ const PostOptionsMenu = ({ uniqueKey, content, author }) => {
     <div className="post-options-wrapper" onClick={toggleMenu}>
       <p>...</p>
       {uniqueKey === cascadingMenuVisibleId && (
-        <PostOptionsCascadingMenu showEditModal={showEditModal} />
+        <PostOptionsCascadingMenu showEditModal={showEditModal} deletePost={showDeleteDialog} />
       )}
     </div>
   );
 };
 
-const PostOptionsCascadingMenu = ({ showEditModal }) => {
+const PostOptionsCascadingMenu = ({ showEditModal, deletePost }) => {
   return (
     <Menu className="post-options-dropdown">
       <MenuItem icon={<EditIcon />} text="Edit post" onClick={showEditModal} />
+      <MenuItem icon={<DeleteIcon2 />} text="Delete post" onClick={deletePost} />
     </Menu>
   );
 };
