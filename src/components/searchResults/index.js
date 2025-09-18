@@ -20,7 +20,19 @@ const SearchResults = () => {
       const timer = setTimeout(() => {
         fetch(`https://localhost:7233/users?searchTerm=${encodeURIComponent(searchVal)}`)
           .then((res) => res.json())
-          .then((data) => setSearchResults(data.data.users))
+          .then((data) => {
+            const sortedUsers = data.data.users.sort((a, b) => {
+              const firstA = a.firstName ?? '';
+              const firstB = b.firstName ?? '';
+              const lastA = a.lastName ?? '';
+              const lastB = b.lastName ?? '';
+
+              const firstNameCompare = firstA.localeCompare(firstB, 'en', { sensitivity: 'base' });
+              if (firstNameCompare !== 0) return firstNameCompare;
+              return lastA.localeCompare(lastB, 'en', { sensitivity: 'base' });
+            });
+            setSearchResults(sortedUsers);
+          })
           .catch(() => setSearchResults([]))
           .finally(() => setLoading(false));
       }, 400);
