@@ -7,13 +7,13 @@ import useModal from '../../hooks/useModal';
 import { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
-const PostOptionsMenu = ({ uniqueKey, postId, content, author }) => {
+const PostOptionsMenu = ({ uniqueKey, content, author }) => {
   const { openModal, setModal } = useModal();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
 
   const showEditModal = () => {
-    setModal(<EditPostModal postId={postId} content={content} author={author} />);
+    setModal('Edit Modal', <EditPostModal postContent={content} author={author} />);
     openModal();
   };
 
@@ -33,7 +33,7 @@ const PostOptionsMenu = ({ uniqueKey, postId, content, author }) => {
   }, [setCascadingMenuVisibleId]);
 
   return (
-    <div className="edit-icon" onClick={toggleMenu}>
+    <div className="post-options-wrapper" onClick={toggleMenu}>
       <p>...</p>
       {uniqueKey === cascadingMenuVisibleId && (
         <PostOptionsCascadingMenu showEditModal={showEditModal} />
@@ -44,7 +44,7 @@ const PostOptionsMenu = ({ uniqueKey, postId, content, author }) => {
 
 const PostOptionsCascadingMenu = ({ showEditModal }) => {
   return (
-    <Menu className="edit-icon-menu">
+    <Menu className="post-options-dropdown">
       <MenuItem icon={<EditIcon />} text="Edit post" onClick={showEditModal} />
     </Menu>
   );

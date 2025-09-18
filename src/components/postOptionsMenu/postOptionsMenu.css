@@ -1,8 +1,24 @@
-.edit-icon {
+.post-options-wrapper {
   position: relative;
   cursor: pointer;
 }
 
-.edit-icon-menu {
-  margin-left: 65px;
+.post-options-dropdown {
+  margin-left: 50px;
+  min-width: 200px;   
+  max-width: 300px;   
 }
+
+.post-options-dropdown ul {
+  width: 100%;       
+}
+
+.post-options-dropdown li button {
+  display: flex;          
+  align-items: center;     
+  gap: 8px;                
+  padding: 8px 12px;       
+  cursor: pointer;
+  width: 100%;
+}
+

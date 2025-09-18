@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useModal from '../../hooks/useModal';
-import './style.css';
 import Button from '../button';
+import './style.css';
 
 const EditPostModal = ({ author, postContent }) => {
   const { closeModal } = useModal();
@@ -28,7 +28,7 @@ const EditPostModal = ({ author, postContent }) => {
 
   return (
     <>
-      <section className="create-post-user-details">
+      <section className="edit-post-user-details">
         <div className="profile-icon">
           <p>{postAuthorInitials}</p>
         </div>
@@ -38,10 +38,10 @@ const EditPostModal = ({ author, postContent }) => {
       </section>
 
       <section>
-        <textarea onChange={onChange} value={text} placeholder={postContent}></textarea>
+        <textarea onChange={onChange} value={text} placeholder={postContent || "What's on your mind?"}></textarea>
       </section>
 
-      <section className="create-post-actions">
+      <section className="edit-post-actions">
         <Button
           onClick={onSubmit}
           text="Update Post"
