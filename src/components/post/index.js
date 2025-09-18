@@ -119,7 +119,11 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                 </Button>
               </div>
             </div>
-            <p className='interaction-text'>{!likes && 'Be the first to like this'}</p>
+            <div className="interaction">
+              <p className="interaction-text">
+                {!likes && 'Be the first to like this'}
+              </p>
+            </div>
           </section>
 
           <section>
