@@ -1,19 +1,33 @@
-import { useState } from 'react';
-import Button from '../../components/button';
+import { useEffect, useState } from 'react';
 import TextInput from '../../components/form/textInput';
 import useAuth from '../../hooks/useAuth';
 import CredentialsCard from '../../components/credentials';
 import './login.css';
+import { AuthContext } from '../../context/auth';
 /// test
 
 const Login = () => {
-  const { onLogin } = useAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { onLogin, loginFailed } = useAuth();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [showError, setShowError] = useState(false);
 
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
   };
+
+  useEffect(() =>
+    setShowError(AuthContext.loginFailed)
+  , []);
 
   return (
     <div className="bg-blue login credentialpage">
@@ -26,7 +40,7 @@ const Login = () => {
       >
         <div className="login-form">
           <form>
-            <TextInput value={formData.email} onChange={onChange} name="email" label={'Email *'} />
+            <TextInput value={formData.email} onChange={onChange} name="email" label={'Email *'}/>
             <TextInput
               value={formData.password}
               onChange={onChange}
@@ -35,11 +49,17 @@ const Login = () => {
               type={'password'}
             />
           </form>
-          <Button
-            text="Log in"
-            onClick={() => onLogin(formData.email, formData.password)}
-            classes="green width-full"
-          />
+
+          {AuthContext.loginFailed
+            ? (
+            <text className="login-error">Failed to login! Please make sure your email and password are correct!</text>
+              )
+            : null}
+
+          <button className="login-button width-full green" type="submit"
+                  onClick={() => onLogin(formData.email, formData.password)}>
+            Log in
+          </button>
         </div>
       </CredentialsCard>
     </div>
