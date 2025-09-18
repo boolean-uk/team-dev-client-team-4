@@ -23,7 +23,6 @@ const App = () => {
               <Route path="register" element={<Register />} />
               <Route path="loading" element={<Loading />} />
               <Route path="verification" element={<Verification />} />
-
               <Route
                 index
                 element={
@@ -50,6 +49,14 @@ const App = () => {
               />
               <Route
                 path="profile"
+                element={
+                  <ProtectedRoute disabledNav={true}>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="profile/:id"
                 element={
                   <ProtectedRoute disabledNav={true}>
                     <Profile />

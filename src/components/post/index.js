@@ -12,12 +12,15 @@ import useAuth from '../../hooks/useAuth';
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const { loggedInUser } = useAuth();
 
   const showModal = () => {
-    setModal('Edit post', <EditPostModal />);
+    setModal(
+      'Edit post',
+      <EditPostModal author={user} postAuthorInitials={userInitials} postContent={content} />
+    );
     openModal();
   };
 
@@ -60,7 +63,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
       <Card>
         <article className="post">
           <section className="post-details">
-            <ProfileCircle initials={userInitials} id={'post' + id} />
+            <ProfileCircle
+              initials={userInitials}
+              uniqueKey={'post' + id}
+              role={user.role.toLowerCase()}
+              userId={user.id}
+            />
 
             <div className="post-user-name">
               <p>{name}</p>
@@ -91,7 +99,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             {comments.map((comment, index) => (
               <>
                 <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={`${comment.firstName?.[0] ?? ''}${comment.lastName?.[0] ?? ''}`.toUpperCase()} id={'comment' + comment.id + index} />
+                  <ProfileCircle
+                    initials={comment.user}
+                    uniqueKey={'comment' + comment.id + index}
+                    role={comment.role}
+                    userId={comment.userId}
+                  />
                   <div className="comment-container">
                     <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
                   </div>
@@ -100,7 +113,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             ))}
           </section>
           <section className="create-a-comment">
-            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} />
+            <ProfileCircle
+              initials={loggedInUserInitials}
+              uniqueKey={'comment' + id + 'owninput'}
+              role={loggedInUser.role.toLowerCase()}
+              userId={loggedInUser.id}
+            />
             <Button text="Add a comment..." />
           </section>
         </article>

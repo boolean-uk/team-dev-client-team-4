@@ -5,6 +5,7 @@ import { get, patch } from '../../service/apiClient';
 import { useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -36,10 +37,17 @@ const Profile = () => {
     });
   };
 
+  const { id } = useParams();
+
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const decoded = jwtDecode(storedToken);
-    const thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+    const decoded = jwt_decode(storedToken);
+    let thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+
+    if (id != null) {
+      thisId = id;
+    }
+
     const fetchUser = async () => {
       const tempUser = await get(`users/${thisId}`).then((result) => result.data);
       setProfile(tempUser);
