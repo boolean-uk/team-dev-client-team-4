@@ -18,44 +18,52 @@ const App = () => {
       <AuthProvider>
         <ModalProvider>
           <CascadingMenuProvider>
-          <Routes>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="loading" element={<Loading />} />
-            <Route path="verification" element={<Verification />} />
-
-            <Route
-              index
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="search"
-              element={
-                <ProtectedRoute>
-                  <Searching />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="welcome"
-              element={
-                <ProtectedRoute disabledNav={true}>
-                  <Welcome />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="profile"
-              element={
+            <Routes>
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="loading" element={<Loading />} />
+              <Route path="verification" element={<Verification />} />
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="search"
+                element={
+                  <ProtectedRoute>
+                    <Searching />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="welcome"
+                element={
+                  <ProtectedRoute disabledNav={true}>
+                    <Welcome />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="profile"
+                element={
                   <ProtectedRoute disabledNav={true}>
                     <Profile />
                   </ProtectedRoute>
-              }
-            />
-          </Routes>
+                }
+              />
+              <Route
+                path="profile/:id"
+                element={
+                  <ProtectedRoute disabledNav={true}>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+            </Routes>
           </CascadingMenuProvider>
         </ModalProvider>
       </AuthProvider>

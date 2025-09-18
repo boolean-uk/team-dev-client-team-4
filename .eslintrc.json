@@ -18,6 +18,12 @@
     "no-unused-expressions": "warn",
     "no-unused-vars": "warn",
     "no-unused-labels": "warn",
+    "quotes": "warn",
+    "space-in-parens" : "warn",
+    "no-multiple-empty-lines": "warn",
+    "no-trailing-spaces": "warn",
+    "multiline-ternary": "warn",
+    "space-before-function-paren": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0
   },

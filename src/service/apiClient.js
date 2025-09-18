@@ -23,19 +23,19 @@ async function createProfile(
   return await patch(
     `users/${userId}`,
     {
-      firstName,
-      lastName,
-      username,
-      github,
-      phone,
-      bio
+      firstName: firstName,
+      lastName: lastName,
+      username: username,
+      github: github,
+      phone: phone,
+      bio: bio
     },
     auth
   );
 }
 
 async function getPosts() {
-  const res = await get('posts');
+  const res = await get('posts/v2');
   return res.data.posts;
 }
 

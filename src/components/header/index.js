@@ -35,9 +35,7 @@ const Header = () => {
       <FullLogo textColour="white" />
 
       <div className="profile-icon" onClick={onClickProfileIcon}>
-        <p>
-          {loggedInUserInitials}
-        </p>
+        <p>{loggedInUserInitials}</p>
       </div>
 
       {cascadingMenuVisibleId === menuId && (
@@ -45,9 +43,7 @@ const Header = () => {
           <Card>
             <section className="post-details">
               <div className="profile-icon">
-                <p>
-                  {loggedInUserInitials}
-                </p>
+                <p>{loggedInUserInitials}</p>
               </div>
 
               <div className="post-user-name">
@@ -61,7 +57,7 @@ const Header = () => {
             <section className="user-panel-options border-top">
               <ul>
                 <li>
-                  <NavLink to="/">
+                  <NavLink to="/profile">
                     <ProfileIcon /> <p>Profile</p>
                   </NavLink>
                 </li>

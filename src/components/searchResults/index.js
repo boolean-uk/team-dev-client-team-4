@@ -3,6 +3,7 @@ import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
+import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const SearchResults = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -53,10 +54,17 @@ const SearchResults = () => {
                 <li key={user.id} className="cohort-list-item">
                   <ProfileCircle
                     initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                    userId={user.id}
+                    role={user.role.toLowerCase()}
                   />
-                  <strong style={{ marginLeft: '8px' }}>
+                  <div className="user-info">
+                  <strong>
                     {user?.firstName} {user?.lastName}
                   </strong>
+                  <div className="user-specialism">
+                    {mapSpecialism(user?.specialism) || 'No specialism'}
+                  </div>
+                </div>
                 </li>
               ))}
             </ul>
