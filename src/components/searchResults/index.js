@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
@@ -11,6 +12,7 @@ const SearchResults = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchVal.trim().length >= 3) {
@@ -37,6 +39,10 @@ const SearchResults = () => {
     inputRef.current?.focus();
   };
 
+  const allResults = () => {
+    navigate('/search');
+  };
+
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
@@ -59,25 +65,38 @@ const SearchResults = () => {
               )
             : searchResults.length > 0
               ? (
-            <ul className="cohort-list">
-              {searchResults.map((user) => (
-                <li key={user.id} className="cohort-list-item">
-                  <ProfileCircle
-                    initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                    userId={user.id}
-                    role={user.role.toLowerCase()}
-                  />
-                  <div className="user-info">
-                  <strong>
-                    {user?.firstName} {user?.lastName}
-                  </strong>
-                  <div className="user-specialism">
-                    {mapSpecialism(user?.specialism) || 'No specialism'}
-                  </div>
-                </div>
-                </li>
-              ))}
-            </ul>
+              <>
+                <ul className="cohort-list">
+                  {searchResults.slice(0, 10).map((user) => (
+                    <li key={user.id} className="cohort-list-item">
+                      <ProfileCircle
+                        initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
+                        userId={user.id}
+                        role={user.role.toLowerCase()}
+                      />
+                      <div className="user-info">
+                      <strong>
+                        {user?.firstName} {user?.lastName}
+                      </strong>
+                      <div className="user-specialism">
+                        {mapSpecialism(user?.specialism) || 'No specialism'}
+                      </div>
+                    </div>
+                    </li>
+                  ))}
+                </ul>
+
+                {searchResults.length >= 10 && (
+                  <>
+                    <br />
+                    <Button
+                      text="All results"
+                      onClick={allResults}
+                      classes="button offwhite"
+                    />
+                  </>
+                )}
+              </>
                 )
               : (
             <span>
