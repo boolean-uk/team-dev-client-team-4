@@ -91,7 +91,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
           </section>
 
           <section
-            className={`post-interactions-container border-top ${comments.length ? 'border-bottom' : null}`}
+            className={`post-interactions-container border-top ${comments.length && showComments ? 'border-bottom' : null}`}
           >
             <div className="post-interactions">
               <div className='interaction'>
@@ -126,18 +126,21 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             </div>
           </section>
 
-          <section>
-            {comments.map((comment, index) => (
-              <>
-                <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={`${comment.firstName?.[0] ?? ''}${comment.lastName?.[0] ?? ''}`.toUpperCase()} id={'comment' + comment.id + index} />
-                  <div className="comment-container">
-                    <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+          {showComments && (
+            <section>
+              {comments.map((comment, index) => (
+                <>
+                  <div className="comment-detail" key={comment.id}>
+                    <ProfileCircle initials={`${comment.firstName?.[0] ?? ''}${comment.lastName?.[0] ?? ''}`.toUpperCase()} id={'comment' + comment.id + index} />
+                    <div className="comment-container">
+                      <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                    </div>
                   </div>
-                </div>
-              </>
-            ))}
-          </section>
+                </>
+              ))}
+            </section>
+          )}
+
           <section className="create-a-comment">
             <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} />
             <Button text="Add a comment..." />

@@ -38,12 +38,12 @@
 .post-interactions-container {
   display: flex;
   justify-content: space-between;
-  padding: 20px 10px;
+  padding: 10px 5px;
 }
 
 .post-interactions {
   display: flex;
-  gap: 40px; /* Juster for ønsket avstand mellom Like og Comment */
+  gap: 40px;
 }
 
 .interaction {
@@ -66,7 +66,7 @@
 .create-a-comment {
   display: grid;
   grid-template-columns: 70px auto;
-  padding: 30px;
+  padding: 0px;
 }
 
 .create-a-comment button {
