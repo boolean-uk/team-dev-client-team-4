@@ -5,6 +5,7 @@ import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
+import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
@@ -75,18 +76,5 @@ const TeacherUserlist = ({ title, role, userId }) => {
     </>
   );
 };
-
-function mapSpecialism(specialism) {
-  if (specialism === 0) {
-    return 'Frontend';
-  }
-  if (specialism === 1) {
-    return 'Backend';
-  }
-  if (specialism === 2) {
-    return 'Fullstack';
-  }
-  return undefined;
-}
 
 export default TeacherUserlist;
