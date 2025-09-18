@@ -23,12 +23,12 @@ async function createProfile(
   return await patch(
     `users/${userId}`,
     {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      github: github,
-      phone: phone,
-      bio: bio
+      firstName,
+      lastName,
+      username,
+      github,
+      phone,
+      bio
     },
     auth
   );
@@ -75,6 +75,4 @@ async function request(method, endpoint, data, auth = true) {
   return response.json();
 }
 
-
-export { login, getPosts, register, createProfile, get, patch };
-
+export { login, getPosts, register, createProfile, get, patch, post };

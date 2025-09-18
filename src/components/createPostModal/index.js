@@ -3,26 +3,37 @@ import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
 import useAuth from '../../hooks/useAuth';
+import { post } from '../../service/apiClient';
 
 const CreatePostModal = () => {
   // Use the useModal hook to get the closeModal function so we can close the modal on user interaction
   const { closeModal } = useModal();
 
   const { loggedInUser } = useAuth();
-  const [message, setMessage] = useState(null);
-  const [text, setText] = useState('');
+  const [message, setMessage] = useState('');
 
   const onChange = (e) => {
-    setText(e.target.value);
+    setMessage(e.target.value);
   };
 
-  const onSubmit = () => {
-    setMessage('Submit button was clicked! Closing modal in 2 seconds...');
+  const onSubmit = async () => {
+    console.log(message);
+    const postRequest = {
+      author_id: loggedInUser.id,
+      body: message,
+      created_at: '2025-09-18T13:36:06.242Z'
+    };
 
-    setTimeout(() => {
-      setMessage(null);
-      closeModal();
-    }, 2000);
+    const createdPost = await post('posts/', postRequest, true);
+    const data = createdPost.data;
+    // const data = createdPost.json();
+    console.log(data);
+
+    closeModal();
+    // setTimeout(() => {
+    //   setMessage(null);
+    //   closeModal();
+    // }, 2000);
   };
 
   const loggedInUserInitials = loggedInUser
@@ -41,19 +52,17 @@ const CreatePostModal = () => {
       </section>
 
       <section>
-        <textarea onChange={onChange} value={text} placeholder="What's on your mind?"></textarea>
+        <textarea onChange={onChange} value={message} placeholder="What's on your mind?"></textarea>
       </section>
 
       <section className="create-post-actions">
         <Button
           onClick={onSubmit}
           text="Post"
-          classes={`${text.length ? 'blue' : 'offwhite'} width-full`}
-          disabled={!text.length}
+          classes={`${message.length ? 'blue' : 'offwhite'} width-full`}
+          disabled={!message.length}
         />
       </section>
-
-      {message && <p>{message}</p>}
     </>
   );
 };
