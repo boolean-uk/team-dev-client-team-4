@@ -17,7 +17,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
   const { loggedInUser } = useAuth();
 
   const showModal = () => {
-    setModal('Edit post', <EditPostModal user={user} postAuthorInitials={userInitials} postContent={content} />);
+    setModal('Edit post', <EditPostModal author={user} postAuthorInitials={userInitials} postContent={content} />);
     openModal();
   };
 

@@ -3,12 +3,12 @@ import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
 
-const EditPostModal = ({ user, postAuthorInitials, postContent }) => {
+const EditPostModal = ({ author, postAuthorInitials, postContent }) => {
   const { closeModal } = useModal();
   const [message, setMessage] = useState(null);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(postContent || '');
 
-  const postAuthor = user ? `${user.firstName} ${user.lastName}` : '';
+  const postAuthor = author ? `${author.firstName} ${author.lastName}` : '';
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -35,7 +35,7 @@ const EditPostModal = ({ user, postAuthorInitials, postContent }) => {
       </section>
 
       <section>
-        <textarea onChange={onChange} value={postContent} placeholder="Edit your post"></textarea>
+        <textarea onChange={onChange} value={text} placeholder="Edit your post"></textarea>
       </section>
 
       <section className="create-post-actions">
