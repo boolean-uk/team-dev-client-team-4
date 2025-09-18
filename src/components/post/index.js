@@ -88,7 +88,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
                     initials={comment.user}
                     uniqueKey={'comment' + comment.id + index}
                     role={comment.role}
-                    userId={comment.user_id}
+                    userId={comment.userId}
                   />
                   <div className="comment-container">
                     <Comment key={comment.id} name={comment.userId} content={comment.body} />
