@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/button';
+import { useEffect, useState, useContext } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
 
   useEffect(() => {
     setLoading(true);
@@ -22,6 +27,10 @@ const TeacherUserlist = ({ title, role, userId }) => {
       });
   }, [role]);
 
+  const handleClick = () => {
+    navigate('/search');
+  };
+
   return (
     <>
       <h4>{title}</h4>
@@ -31,9 +40,13 @@ const TeacherUserlist = ({ title, role, userId }) => {
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
+            .slice(0, 10)
             .map((user) => (
               <li key={user.id} className="user-list-item">
                 <ProfileCircle
+                  cascadingMenuVisibleId={cascadingMenuVisibleId}
+                  setCascadingMenuVisibleId={setCascadingMenuVisibleId}
+                  id={'student' + user.id}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                 />
                 <div className="user-info">
@@ -47,6 +60,16 @@ const TeacherUserlist = ({ title, role, userId }) => {
               </li>
             ))}
       </ul>
+      {users.length > 10 && (
+        <>
+          <hr />
+          <Button
+            text={`All ${title.toLowerCase()}`}
+            onClick={handleClick}
+            classes="button offwhite"
+          />
+        </>
+      )}
     </>
   );
 };

@@ -1,4 +1,3 @@
-import { API_URL } from '../../service/constants';
 import FullLogo from '../../assets/fullLogo';
 import useAuth from '../../hooks/useAuth';
 import './style.css';
@@ -7,41 +6,27 @@ import ProfileIcon from '../../assets/icons/profileIcon';
 import CogIcon from '../../assets/icons/cogIcon';
 import LogoutIcon from '../../assets/icons/logoutIcon';
 import { NavLink } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import jwtDecode from 'jwt-decode';
+import { useContext, useRef } from 'react';
+import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 
 const Header = () => {
-  const { token, onLogout } = useAuth();
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const { token, onLogout, loggedInUser } = useAuth();
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+  const menuId = 'header-profile-menu';
+  const menuRef = useRef(null);
 
-  const decoded = jwtDecode(token);
-
-  const decodedId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
-  console.log('Decoded ID:', decodedId);
-
-  const [loggedInUser, setLoggedInUser] = useState(null);
-
-  useEffect(() => {
-    const fetchLoggedInUser = async () => {
-      try {
-        const response = await fetch(`${API_URL}/users/${decodedId}`);
-        const data = await response.json();
-        setLoggedInUser(data.data);
-      } catch (error) {
-        console.error('Error fetching logged in user:', error);
-      }
-    };
-
-    fetchLoggedInUser();
-  }, [decodedId]);
-
-  const onClickProfileIcon = () => {
-    setIsMenuVisible(!isMenuVisible);
+  const onClickProfileIcon = (e) => {
+    e.stopPropagation();
+    setCascadingMenuVisibleId(cascadingMenuVisibleId === menuId ? null : menuId);
   };
 
   if (!token) {
     return null;
   }
+
+  const loggedInUserInitials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
 
   console.log('Logged in user data:', loggedInUser);
 
@@ -50,21 +35,15 @@ const Header = () => {
       <FullLogo textColour="white" />
 
       <div className="profile-icon" onClick={onClickProfileIcon}>
-        <p>
-          {loggedInUser?.firstName[0]}
-          {loggedInUser?.lastName[0]}
-        </p>
+        <p>{loggedInUserInitials}</p>
       </div>
 
-      {isMenuVisible && (
-        <div className="user-panel">
+      {cascadingMenuVisibleId === menuId && (
+        <div className="user-panel" ref={menuRef}>
           <Card>
             <section className="post-details">
               <div className="profile-icon">
-                <p>
-                  {loggedInUser?.firstName[0]}
-                  {loggedInUser?.lastName[0]}
-                </p>
+                <p>{loggedInUserInitials}</p>
               </div>
 
               <div className="post-user-name">

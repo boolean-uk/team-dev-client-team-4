@@ -6,6 +6,7 @@ import Navigation from '../components/navigation';
 import useAuth from '../hooks/useAuth';
 import { createProfile, login, register } from '../service/apiClient';
 import jwtDecode from 'jwt-decode';
+import { API_URL } from '../service/constants';
 
 const AuthContext = createContext();
 
@@ -29,22 +30,54 @@ const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [token, setToken] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [userCredentials, setUserCredentials] = useState({ email: '', password: '' });
 
   useEffect(() => {
     console.log('useEffect called');
     const storedToken = localStorage.getItem('token');
+    let activeToken;
+    if (!activeToken) {
+      if (storedToken) {
+        activeToken = storedToken;
+      }
+    }
     // Use the latest token from state if available
-    const activeToken = token || storedToken;
     console.log('Active token in useEffect:', activeToken);
     if (activeToken) {
       setToken(activeToken);
+
+      try {
+        const decoded = jwtDecode(activeToken);
+        const userId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
+
+        const fetchUser = async () => {
+          try {
+            const response = await fetch(`${API_URL}/users/${userId}`);
+            const data = await response.json();
+            setLoggedInUser(data.data);
+          } catch (error) {
+            console.error('Error fetching logged in user:', error);
+            setLoggedInUser(null);
+          }
+        };
+        fetchUser();
+      } catch (err) {
+        console.error('Error decoding token:', err);
+      }
+
       if (isIncompleteProfile(activeToken)) {
         console.log('Navigating to /welcome from useEffect');
         navigate('/welcome', { replace: true });
       } else {
-        console.log('Navigating to home from useEffect');
-        navigate(location.state?.from?.pathname || '/', { replace: true });
+        if (
+          location.pathname === '/' ||
+          location.pathname === '/login' ||
+          location.pathname === '/register'
+        ) {
+          console.log('Navigating to home from useEffect');
+          navigate(location.state?.from?.pathname || '/', { replace: true });
+        }
       }
     }
   }, [token, location.state?.from?.pathname, navigate]);
@@ -74,6 +107,7 @@ const AuthProvider = ({ children }) => {
     console.log('handleLogout called');
     localStorage.removeItem('token');
     setToken(null);
+    setLoggedInUser(null);
   };
 
   const handleRegister = async (email, password) => {
@@ -121,6 +155,7 @@ const AuthProvider = ({ children }) => {
 
   const value = {
     token,
+    loggedInUser,
     onLogin: handleLogin,
     onLogout: handleLogout,
     onRegister: handleRegister,
