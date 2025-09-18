@@ -36,8 +36,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('useEffect called');
     const storedToken = localStorage.getItem('token');
+    let activeToken;
+    if (!activeToken) {
+      if (storedToken) {
+        activeToken = storedToken;
+      }
+    }
     // Use the latest token from state if available
-    const activeToken = token || storedToken;
     console.log('Active token in useEffect:', activeToken);
     if (activeToken) {
       setToken(activeToken);

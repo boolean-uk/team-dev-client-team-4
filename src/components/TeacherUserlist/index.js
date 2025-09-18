@@ -63,7 +63,11 @@ const TeacherUserlist = ({ title, role, userId }) => {
       {users.length > 10 && (
         <>
           <hr />
-          <Button text={`All ${title.toLowerCase()}`} onClick={handleClick} classes="button offwhite" />
+          <Button
+            text={`All ${title.toLowerCase()}`}
+            onClick={handleClick}
+            classes="button offwhite"
+          />
         </>
       )}
     </>

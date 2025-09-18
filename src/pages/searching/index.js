@@ -3,7 +3,7 @@ const Searching = () => {
   return (
     <>
       <main>
-          <p>Not implemented...</p>
+        <p>Not implemented...</p>
       </main>
     </>
   );
