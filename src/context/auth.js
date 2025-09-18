@@ -161,8 +161,7 @@ const AuthProvider = ({ children }) => {
     onLogin: handleLogin,
     onLogout: handleLogout,
     onRegister: handleRegister,
-    onCreateProfile: handleCreateProfile,
-    loginFailed: false
+    onCreateProfile: handleCreateProfile
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

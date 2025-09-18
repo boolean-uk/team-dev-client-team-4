@@ -1,19 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import TextInput from '../../components/form/textInput';
 import useAuth from '../../hooks/useAuth';
 import CredentialsCard from '../../components/credentials';
 import './login.css';
 import { AuthContext } from '../../context/auth';
-/// test
 
 const Login = () => {
-  const { onLogin, loginFailed } = useAuth();
+  const { onLogin } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
-  const [showError, setShowError] = useState(false);
-
   const onChange = (e) => {
     const {
       name,
@@ -24,10 +21,6 @@ const Login = () => {
       [name]: value
     });
   };
-
-  useEffect(() =>
-    setShowError(AuthContext.loginFailed)
-  , []);
 
   return (
     <div className="bg-blue login credentialpage">
