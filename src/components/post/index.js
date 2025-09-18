@@ -85,7 +85,7 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
             ))}
           </section>
           <section className="create-a-comment">
-            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} role={loggedInUser.role} />
+            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} role={loggedInUser.role.toLowerCase()} />
             <Button text="Add a comment..." />
           </section>
         </article>
