@@ -159,9 +159,11 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
           {showComments && (
             <section>
-              <div className="interaction">
-                <button className="see-previous-comments" onClick={seeAllComments}>See previous comments</button>
-              </div>
+              { comments.length > 3 &&
+                <div className="interaction">
+                  <button className="see-previous-comments" onClick={seeAllComments}>See previous comments</button>
+                </div>
+              }
               {(allComments ? comments : comments.slice(0, 3)).map((comment, index) => (
                 <>
                   <div className="comment-detail" key={comment.id}>
