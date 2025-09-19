@@ -1,8 +1,9 @@
 .deletePostConfirmButtons {
   display: flex;
-  justify-content: flex-end; /* or space-between */
-  gap: 12px; /* space between buttons */
-  flex-wrap: nowrap; /* prevent wrapping */
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: nowrap;
+  padding: 0;
 }
 
 .dialogButton {

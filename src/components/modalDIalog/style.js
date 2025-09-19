@@ -3,7 +3,7 @@ const style = {
     margin: '0 auto',
     position: 'relative',
     top: '14%',
-    minWidth: '35%',
+    minWidth: '25%',
     overflow: 'auto',
     width: 'fit-content',
     maxWidth: '90vw'
