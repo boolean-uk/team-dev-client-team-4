@@ -3,11 +3,15 @@ const style = {
     margin: '0 auto',
     position: 'relative',
     top: '14%',
+    minWidth: '35%',
+    overflow: 'auto',
     width: 'fit-content',
-    minWidth: '25%'
-  },
+    maxWidth: '90vw'
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+    backgroundColor: 'rgba(0, 0, 0, 0.75)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 };
 

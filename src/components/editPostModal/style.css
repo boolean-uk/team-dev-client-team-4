@@ -12,3 +12,15 @@ textarea {
   border-radius: 8px;
   padding: 16px;
 }
+
+.deletePostConfirmButtons {
+  display: flex;
+  justify-content: flex-end; /* or space-between */
+  gap: 12px; /* space between buttons */
+  flex-wrap: nowrap; /* prevent wrapping */
+}
+
+.dialogButton {
+  white-space: nowrap;
+  padding: 0px;
+}
