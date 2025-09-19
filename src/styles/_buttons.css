@@ -51,6 +51,7 @@ button.offwhite,
 .button.offwhite {
   background-color: var(--color-offwhite);
   color: var(--color-blue1);
+  white-space: nowrap;
 }
 button.offwhite:hover,
 .button.offwhite:hover,

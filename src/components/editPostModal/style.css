@@ -1,4 +1,4 @@
-.create-post-user-details {
+.edit-post-user-details {
   display: grid;
   grid-template-columns: 56px auto;
   column-gap: 20px;
@@ -11,4 +11,16 @@ textarea {
   background-color: var(--color-blue5);
   border-radius: 8px;
   padding: 16px;
+}
+
+.deletePostConfirmButtons {
+  display: flex;
+  justify-content: flex-end; /* or space-between */
+  gap: 12px; /* space between buttons */
+  flex-wrap: nowrap; /* prevent wrapping */
+}
+
+.dialogButton {
+  white-space: nowrap;
+  padding: 0px;
 }

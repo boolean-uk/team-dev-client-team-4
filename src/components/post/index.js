@@ -1,33 +1,22 @@
 import { useEffect, useState } from 'react';
-import useModal from '../../hooks/useModal';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
-import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
+import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
-  const { openModal, setModal } = useModal();
-
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const { loggedInUser } = useAuth();
-
-  const showModal = () => {
-    setModal(
-      'Edit post',
-      <EditPostModal author={user} postAuthorInitials={userInitials} postContent={content} />
-    );
-    openModal();
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,8 +37,18 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
     const day = date.getDate();
     const monthNames = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     const month = monthNames[date.getMonth()];
     const hours = date.getHours().toString().padStart(2, '0');
@@ -90,7 +89,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             </div>
 
             <div className="edit-icon">
-              <p onClick={showModal}>...</p>
+              <PostOptionsMenu
+                uniqueKey={'postOptionsMenu' + id}
+                postId={id}
+                content={content}
+                author={user}
+              />
             </div>
           </section>
 
@@ -133,6 +137,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
               </p>
             </div>
           </section>
+
 
           {showComments && (
             <section>
