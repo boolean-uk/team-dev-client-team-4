@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCommentAdded}) => {
+const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
   const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState(null);
