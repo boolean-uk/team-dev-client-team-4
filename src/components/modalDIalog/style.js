@@ -2,7 +2,7 @@ const style = {
   content: {
     margin: '0 auto',
     position: 'relative',
-    top: '14%',
+    top: '-10%',
     minWidth: '25%',
     overflow: 'auto',
     width: 'fit-content',
