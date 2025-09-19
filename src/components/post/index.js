@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, postId, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState(null);
@@ -83,7 +83,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     if (!commentContent.trim()) return;
 
     try {
-      const response = await post(`posts/${id}/comments`, {
+      const response = await post(`posts/${postId}/comments`, {
         body: commentContent
       });
 
