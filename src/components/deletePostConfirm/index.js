@@ -26,7 +26,7 @@ function DeletePostConfirm({ postId }) {
 
     setTimeout(() => {
       closeDialog();
-    }, 2000);
+    }, 300);
   };
 
   return (

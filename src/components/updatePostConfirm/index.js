@@ -32,7 +32,7 @@ function UpdatePostConfirm({ postId }) {
     setTimeout(() => {
       closeDialog();
       closeModal();
-    }, 1000);
+    }, 300);
   };
 
   return (
