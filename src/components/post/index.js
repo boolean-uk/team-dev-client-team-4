@@ -20,6 +20,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [allComments, setAllComments] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
@@ -84,6 +85,10 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
       console.error('Error while sending comment:', error);
     }
   };
+
+  const seeAllComments = () => {
+    setAllComments(!allComments);
+  }
 
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
@@ -154,7 +159,10 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
           {showComments && (
             <section>
-              {comments.map((comment, index) => (
+              <div className="interaction">
+                <button className="see-previous-comments" onClick={seeAllComments}>See previous comments</button>
+              </div>
+              {(allComments ? comments : comments.slice(0, 3)).map((comment, index) => (
                 <>
                   <div className="comment-detail" key={comment.id}>
                     <ProfileCircle

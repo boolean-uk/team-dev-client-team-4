@@ -127,3 +127,14 @@
   fill: var(--color-blue);
   transform: scale(0.95);
 }
+
+.see-previous-comments {
+  color: var(--color-blue1);
+  font-size: 16px !important;
+  margin-bottom: 8px;
+  padding: 0 !important;
+}
+
+.see-previous-comments:hover {
+  text-decoration: underline;
+}
