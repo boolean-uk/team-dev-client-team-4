@@ -1,6 +1,13 @@
 .post {
   display: grid;
   row-gap: 20px;
+  max-width: 100%;
+}
+
+.post-comments {
+  max-height: 300px;
+  overflow-y: auto;
+  width: 100%;
 }
 
 .post-details {
@@ -133,6 +140,7 @@
   font-size: 16px !important;
   margin-bottom: 8px;
   padding: 0 !important;
+  text-align: left !important;
 }
 
 .see-previous-comments:hover {

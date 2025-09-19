@@ -161,24 +161,26 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             <section>
               { comments.length > 3 &&
                 <div className="interaction">
-                  <button className="see-previous-comments" onClick={seeAllComments}>See previous comments</button>
+                  <button className="see-previous-comments" onClick={seeAllComments}>{!allComments ? 'See previous comments' : 'See less comments'}</button>
                 </div>
               }
-              {(allComments ? comments : comments.slice(0, 3)).map((comment, index) => (
-                <>
-                  <div className="comment-detail" key={comment.id}>
-                    <ProfileCircle
-                      initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
-                      uniqueKey={'comment' + comment.id + index}
-                      role={comment.role}
-                      userId={comment.userId}
-                    />
-                    <div className="comment-container">
-                      <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+              <div className="post-comments">
+                {(allComments ? comments : comments.slice(0, 3)).map((comment, index) => (
+                  <>
+                    <div className="comment-detail post-comments" key={comment.id}>
+                      <ProfileCircle
+                        initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
+                        uniqueKey={'comment' + comment.id + index}
+                        role={comment.role}
+                        userId={comment.userId}
+                      />
+                      <div className="comment-container">
+                        <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              ))}
+                  </>
+                ))}
+              </div>
             </section>
           )}
 
