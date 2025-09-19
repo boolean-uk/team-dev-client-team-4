@@ -140,7 +140,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                 <>
                   <div className="comment-detail" key={comment.id}>
                     <ProfileCircle
-                      initials={comment.user}
+                      initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
                       uniqueKey={'comment' + comment.id + index}
                       role={comment.role}
                       userId={comment.userId}
