@@ -79,4 +79,4 @@ async function request(method, endpoint, data, auth = true) {
   return response.json();
 }
 
-export { login, getPosts, register, createProfile, get, patch, deleteRequest };
+export { login, getPosts, register, createProfile, get, patch, post, deleteRequest };
