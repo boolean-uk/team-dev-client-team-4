@@ -5,11 +5,15 @@ import { getPosts } from '../../service/apiClient';
 const Posts = () => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
+  const refreshPosts = () => {
     getPosts().then((data) => {
       const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       setPosts(sortedPosts);
     });
+  };
+
+  useEffect(() => {
+    refreshPosts();
   }, []);
 
   return (
@@ -29,6 +33,7 @@ const Posts = () => {
             content={post.body}
             comments={sortedComments}
             likes={post.likes}
+            onCommentAdded={refreshPosts}
           />
         );
       })}

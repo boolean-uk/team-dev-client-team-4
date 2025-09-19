@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, postId, name, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCommentAdded}) => {
   const { openModal, setModal } = useModal();
 
   const [user, setUser] = useState(null);
@@ -54,7 +54,6 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0 }) => 
     }
   }, [showComments, allComments, comments]);
 
-
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
 
@@ -89,6 +88,8 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0 }) => 
 
       console.log('Comment sent:', response);
       setCommentContent('');
+
+      onCommentAdded();
     } catch (error) {
       console.error('Error while sending comment:', error);
     }

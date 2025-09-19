@@ -63,7 +63,6 @@ form label {
   transform: translateY(-50%);
   cursor: pointer;
   padding: 0px !important;
-  z-index: 2;
   align-items: center;
   justify-content: center;
   width: 40px !important;
