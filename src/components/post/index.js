@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react';
-import useModal from '../../hooks/useModal';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
-import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
+import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
+import { FiHeart } from 'react-icons/fi';
+import { FaHeart } from 'react-icons/fa';
+import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 
-const Post = ({ id, date, content, comments = [], likes = 0 }) => {
-  const { openModal, setModal } = useModal();
-
-  const [user, setUser] = useState([]);
+const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
+  const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
+  const [liked, setLiked] = useState(false);
+  const [showComments, setShowComments] = useState(false);
   const { loggedInUser } = useAuth();
-
-  const showModal = () => {
-    setModal('Edit post', <EditPostModal />);
-    openModal();
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,6 +32,40 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
 
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+
+    const day = date.getDate();
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    const month = monthNames[date.getMonth()];
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day} ${month} at ${hours}:${minutes}`;
+  };
+
+  const handleClick = () => {
+    setLiked(!liked);
+  };
+
+  const viewComments = () => {
+    setShowComments(!showComments);
+    console.log(`Comments: ${showComments}`);
+  };
+
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
     : '';
@@ -45,15 +76,25 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
       <Card>
         <article className="post">
           <section className="post-details">
-            <ProfileCircle initials={userInitials} id={'post' + id} />
+            <ProfileCircle
+              initials={userInitials}
+              uniqueKey={'post' + id}
+              role={user.role.toLowerCase()}
+              userId={user.id}
+            />
 
             <div className="post-user-name">
-              <p>{`${user.firstName} ${user.lastName}`}</p>
-              <small>{date}</small>
+              <p>{name}</p>
+              <small>{formatDateTime(date)}</small>
             </div>
 
             <div className="edit-icon">
-              <p onClick={showModal}>...</p>
+              <PostOptionsMenu
+                uniqueKey={'postOptionsMenu' + id}
+                postId={id}
+                content={content}
+                author={user}
+              />
             </div>
           </section>
 
@@ -62,30 +103,69 @@ const Post = ({ id, date, content, comments = [], likes = 0 }) => {
           </section>
 
           <section
-            className={`post-interactions-container border-top ${comments.length ? 'border-bottom' : null}`}
+            className={`post-interactions-container border-top ${comments.length && showComments ? 'border-bottom' : null}`}
           >
             <div className="post-interactions">
-              <div>Like</div>
-              <div>Comment</div>
+              <div className='interaction'>
+              <Button onClick={handleClick} classes='iconbutton'>
+                {liked
+                  ? (
+                  <FaHeart className='icon liked' />
+                    )
+                  : (
+                  <FiHeart className='icon not-liked' />
+                    )}
+              </Button>
+                <div className='interaction-text'>Like</div>
+              </div>
+              <div className='interaction'>
+                <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
+                  {showComments
+                    ? (
+                  <MdInsertComment className='icon show-comments'/>
+                      )
+                    : (
+                  <MdOutlineInsertComment className='icon not-show-comments'/>
+                      )}
+                  <div className='interaction-text'>Comment</div>
+                </Button>
+              </div>
             </div>
-
-            <p>{!likes && 'Be the first to like this'}</p>
+            <div className="interaction">
+              <p className="interaction-text">
+                {!likes && 'Be the first to like this'}
+              </p>
+            </div>
           </section>
 
-          <section>
-            {comments.map((comment, index) => (
-              <>
-                <div className="comment-detail" key={comment.id}>
-                  <ProfileCircle initials={comment.user} id={'comment' + comment.id + index} />
-                  <div className="comment-container">
-                    <Comment key={comment.id} name={comment.userId} content={comment.body} />
+
+          {showComments && (
+            <section>
+              {comments.map((comment, index) => (
+                <>
+                  <div className="comment-detail" key={comment.id}>
+                    <ProfileCircle
+                      initials={comment.user}
+                      uniqueKey={'comment' + comment.id + index}
+                      role={comment.role}
+                      userId={comment.userId}
+                    />
+                    <div className="comment-container">
+                      <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                    </div>
                   </div>
-                </div>
-              </>
-            ))}
-          </section>
+                </>
+              ))}
+            </section>
+          )}
+
           <section className="create-a-comment">
-            <ProfileCircle initials={loggedInUserInitials} id={'comment' + id + 'owninput'} />
+            <ProfileCircle
+              initials={loggedInUserInitials}
+              uniqueKey={'comment' + id + 'owninput'}
+              role={loggedInUser.role.toLowerCase()}
+              userId={loggedInUser.id}
+            />
             <Button text="Add a comment..." />
           </section>
         </article>

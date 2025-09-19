@@ -68,7 +68,9 @@ const Dashboard = () => {
 
         <Card>
           {userRole !== 'Teacher' && <CohortList cohortId={cohortId} userId={userId} />}
-          {userRole === 'Teacher' && <TeacherUserlist title={'Students'} userId={userId} role={'Student'} />}
+          {userRole === 'Teacher' && (
+            <TeacherUserlist title={'Students'} userId={userId} role={'Student'} />
+          )}
         </Card>
 
         {userRole === 'Teacher' && (
@@ -76,7 +78,6 @@ const Dashboard = () => {
             <TeacherUserlist title="Teachers" userId={userId} role="Teacher" />
           </Card>
         )}
-
       </aside>
     </>
   );

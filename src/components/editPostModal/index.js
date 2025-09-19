@@ -1,45 +1,55 @@
 import { useState } from 'react';
-import useModal from '../../hooks/useModal';
-import './style.css';
+import useDialog from '../../hooks/useDialog';
 import Button from '../button';
+import UpdatePostConfirm from '../updatePostConfirm';
+import './style.css';
 
-const EditPostModal = () => {
-  const { closeModal } = useModal();
+const EditPostModal = ({ author, postContent, postId }) => {
+  const { setDialog, openDialog } = useDialog();
   const [message, setMessage] = useState(null);
-  const [text, setText] = useState('');
+  const [text, setText] = useState(postContent || '');
+
+  const postAuthor = author ? `${author.firstName} ${author.lastName}` : '';
+  const postAuthorInitials = author
+    ? `${author.firstName.charAt(0)}${author.lastName.charAt(0)}`
+    : '';
 
   const onChange = (e) => {
     setText(e.target.value);
   };
 
-  const onSubmit = () => {
-    setMessage('Submit button was clicked! Closing modal in 2 seconds...');
-
-    setTimeout(() => {
-      setMessage(null);
-      closeModal();
-    }, 2000);
+  const showUpdateDialog = () => {
+    setDialog(
+      'Save and update your post?',
+      <UpdatePostConfirm postId={postId} />,
+      'Do you want to save the updates to your post?'
+    );
+    openDialog();
   };
 
   return (
     <>
-      <section className="create-post-user-details">
+      <section className="edit-post-user-details">
         <div className="profile-icon">
-          <p>AJ</p>
+          <p>{postAuthorInitials}</p>
         </div>
         <div className="post-user-name">
-          <p>Alex J</p>
+          <p>{postAuthor}</p>
         </div>
       </section>
 
       <section>
-        <textarea onChange={onChange} value={text} placeholder="Edit your post"></textarea>
+        <textarea
+          onChange={onChange}
+          value={text}
+          placeholder={postContent || "What's on your mind?"}
+        ></textarea>
       </section>
 
-      <section className="create-post-actions">
+      <section className="edit-post-actions">
         <Button
-          onClick={onSubmit}
-          text="Post"
+          onClick={showUpdateDialog}
+          text="Update Post"
           classes={`${text.length ? 'blue' : 'offwhite'} width-full`}
           disabled={!text.length}
         />

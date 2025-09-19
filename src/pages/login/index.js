@@ -1,18 +1,25 @@
 import { useState } from 'react';
-import Button from '../../components/button';
 import TextInput from '../../components/form/textInput';
 import useAuth from '../../hooks/useAuth';
 import CredentialsCard from '../../components/credentials';
 import './login.css';
-/// test
+import { AuthContext } from '../../context/auth';
 
 const Login = () => {
   const { onLogin } = useAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
-
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
   const onChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const {
+      name,
+      value
+    } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
   };
 
   return (
@@ -26,7 +33,7 @@ const Login = () => {
       >
         <div className="login-form">
           <form>
-            <TextInput value={formData.email} onChange={onChange} name="email" label={'Email *'} />
+            <TextInput value={formData.email} onChange={onChange} name="email" label={'Email *'}/>
             <TextInput
               value={formData.password}
               onChange={onChange}
@@ -35,11 +42,17 @@ const Login = () => {
               type={'password'}
             />
           </form>
-          <Button
-            text="Log in"
-            onClick={() => onLogin(formData.email, formData.password)}
-            classes="green width-full"
-          />
+
+          {AuthContext.loginFailed
+            ? (
+            <text className="login-error">Failed to login! Please make sure your email and password are correct!</text>
+              )
+            : null}
+
+          <button className="login-button width-full green" type="submit"
+                  onClick={() => onLogin(formData.email, formData.password)}>
+            Log in
+          </button>
         </div>
       </CredentialsCard>
     </div>

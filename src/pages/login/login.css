@@ -7,3 +7,11 @@
   gap: 24px;
   margin-bottom: 40px;
 }
+
+.login-error {
+  color: #ff0500;
+}
+
+.login-button {
+  margin-top: 20px;
+}

@@ -15,13 +15,12 @@ const Posts = () => {
         return (
           <Post
             key={'post' + post.id}
-            // name={`${post.author.first_name} ${post.author.last_name}`}
-            id={`${post.authorId}`}
+            name={`${post.firstname} ${post.lastname}`}
+            id={`${post.id}`}
             date={post.createdAt}
             content={post.body}
             comments={post.comments}
             likes={post.likes}
-            value={console.log(post.credential)}
           />
         );
       })}

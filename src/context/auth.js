@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Header from '../components/header';
 import Modal from '../components/modal';
+import Dialog from '../components/modalDIalog';
 import Navigation from '../components/navigation';
 import useAuth from '../hooks/useAuth';
 import { createProfile, login, register } from '../service/apiClient';
@@ -36,8 +37,13 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log('useEffect called');
     const storedToken = localStorage.getItem('token');
+    let activeToken;
+    if (!activeToken) {
+      if (storedToken) {
+        activeToken = storedToken;
+      }
+    }
     // Use the latest token from state if available
-    const activeToken = token || storedToken;
     console.log('Active token in useEffect:', activeToken);
     if (activeToken) {
       setToken(activeToken);
@@ -82,6 +88,7 @@ const AuthProvider = ({ children }) => {
     const res = await login(email, password);
     if (!res?.data?.token) {
       console.log('Login failed, navigating to /login');
+      AuthContext.loginFailed = true;
       return navigate('/login');
     }
     const t = res.data.token;
@@ -94,7 +101,8 @@ const AuthProvider = ({ children }) => {
       navigate('/welcome');
     } else {
       console.log('Login: profile complete, navigating to home');
-      navigate(location.state?.from?.pathname || '/');
+      AuthContext
+        .navigate(location.state?.from?.pathname || '/');
     }
   };
 
@@ -182,6 +190,7 @@ const ProtectedRoute = ({ children }) => {
       <Header />
       <Navigation />
       <Modal />
+      <Dialog />
       {children}
     </div>
   );
