@@ -3,7 +3,6 @@
   grid-template-columns: auto;
   grid-auto-rows: auto;
   row-gap: 20px;
-  width: 450px;
 }
 
 .modal-header {
@@ -32,4 +31,8 @@
 
 .modal-header p {
   cursor: pointer;
+}
+
+h4 {
+  margin-bottom: 15px;
 }

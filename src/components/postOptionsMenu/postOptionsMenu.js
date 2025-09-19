@@ -23,7 +23,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
 
   const showDeleteDialog = () => {
     setDialog(
-      'Delete Post?', 
+      'Delete Post?',
       <DeletePostConfirm postId={postId} />,
       'Are you sure you want to delete this post?'
     );

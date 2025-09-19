@@ -5,10 +5,8 @@ import './style.css';
 
 ReactModal.setAppElement('#root');
 
-const Dialog = ({ width = '612px' }) => {
+const Dialog = () => {
   const { isOpen, dialogComponent, closeDialog, dialogHeader, dialogMessage } = useDialog();
-
-  style.content.width = width;
 
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeDialog} style={style}>
