@@ -26,8 +26,13 @@ function DeletePostConfirm({ postId }) {
   return (
     <div className="deletePostConfirm">
       <section className="deletePostConfirmButtons">
-        <Button onClick={cancel} text="Cancel" />
-        <Button onClick={deletePost} text="Delete Post" />
+        <Button onClick={cancel} text="Cancel" className="dialogButton" classes="button offwhite" />
+        <Button
+          onClick={deletePost}
+          text="Delete Post"
+          className="dialogButton"
+          classes="button offwhite"
+        />
       </section>
     </div>
   );

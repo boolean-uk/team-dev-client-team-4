@@ -12,12 +12,14 @@ const Dialog = ({ width = '612px' }) => {
 
   return (
     <ReactModal isOpen={isOpen} onRequestClose={closeDialog} style={style}>
-      <div className="modal-body">
-        <section className="modal-content">
-          <h4>{dialogHeader}</h4>
-          <p>{dialogMessage}</p>
-          {dialogComponent}
+      <div className="dialog-body">
+        <section className="dialog-content">
+          <section className="dialog-text">
+            <h4>{dialogHeader}</h4>
+            <p>{dialogMessage}</p>
           </section>
+          {dialogComponent}
+        </section>
       </div>
     </ReactModal>
   );
