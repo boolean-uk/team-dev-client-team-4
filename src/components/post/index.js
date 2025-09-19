@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import useModal from '../../hooks/useModal';
 import Button from '../button';
 import Card from '../card';
@@ -24,6 +24,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const [showComments, setShowComments] = useState(false);
   const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
+  const commentsContainerRef = useRef(null);
 
   const showModal = () => {
     setModal(
@@ -46,6 +47,13 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     const name = `${user.firstName} ${user.lastName}`;
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
+
+  useEffect(() => {
+    if (showComments && commentsContainerRef.current) {
+      commentsContainerRef.current.scrollTop = commentsContainerRef.current.scrollHeight;
+    }
+  }, [showComments, allComments, comments]);
+
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -164,10 +172,10 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                   <button className="see-previous-comments" onClick={seeAllComments}>{!allComments ? 'See previous comments' : 'See less comments'}</button>
                 </div>
               }
-              <div className="post-comments">
-                {(allComments ? comments : comments.slice(0, 3)).map((comment, index) => (
+              <div className="post-comments" ref={commentsContainerRef}>
+                {(allComments ? comments : comments.slice(-3)).map((comment, index) => (
                   <>
-                    <div className="comment-detail post-comments" key={comment.id}>
+                    <div className="comment-detail" key={comment.id}>
                       <ProfileCircle
                         initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
                         uniqueKey={'comment' + comment.id + index}

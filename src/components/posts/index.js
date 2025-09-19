@@ -6,12 +6,19 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    getPosts().then(setPosts);
+    getPosts().then((data) => {
+      const sortedPosts = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      setPosts(sortedPosts);
+    });
   }, []);
 
   return (
     <>
       {posts.map((post) => {
+        const sortedComments = [...post.comments].sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+
         return (
           <Post
             key={'post' + post.id}
@@ -19,7 +26,7 @@ const Posts = () => {
             id={`${post.authorId}`}
             date={post.createdAt}
             content={post.body}
-            comments={post.comments}
+            comments={sortedComments}
             likes={post.likes}
           />
         );

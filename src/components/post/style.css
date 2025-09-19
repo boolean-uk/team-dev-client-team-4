@@ -4,11 +4,14 @@
   max-width: 100%;
 }
 
+
 .post-comments {
-  max-height: 300px;
+  max-height: 300px; /* juster etter behov */
   overflow-y: auto;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
+
 
 .post-details {
   display: grid;
