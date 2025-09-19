@@ -187,7 +187,10 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}>
               <TextInput
                 value={commentContent}
                 name="commentContent"
