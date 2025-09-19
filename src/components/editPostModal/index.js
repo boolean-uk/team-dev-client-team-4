@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import useModal from '../../hooks/useModal';
+import useDialog from '../../hooks/useDialog';
 import Button from '../button';
+import UpdatePostConfirm from '../updatePostConfirm';
 import './style.css';
 
 const EditPostModal = ({ author, postContent, postId }) => {
-  const { closeModal } = useModal();
+  const { setDialog, openDialog } = useDialog();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState(postContent || '');
 
@@ -17,13 +18,13 @@ const EditPostModal = ({ author, postContent, postId }) => {
     setText(e.target.value);
   };
 
-  const onSubmit = () => {
-    setMessage('Submit button was clicked! Closing modal in 2 seconds...');
-
-    setTimeout(() => {
-      setMessage(null);
-      closeModal();
-    }, 2000);
+  const showUpdateDialog = () => {
+    setDialog(
+      'Save and update your post?',
+      <UpdatePostConfirm postId={postId} />,
+      'Do you want to save the updates to your post?'
+    );
+    openDialog();
   };
 
   return (
@@ -47,7 +48,7 @@ const EditPostModal = ({ author, postContent, postId }) => {
 
       <section className="edit-post-actions">
         <Button
-          onClick={onSubmit}
+          onClick={showUpdateDialog}
           text="Update Post"
           classes={`${text.length ? 'blue' : 'offwhite'} width-full`}
           disabled={!text.length}
