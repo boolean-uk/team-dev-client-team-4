@@ -21,7 +21,7 @@ const EditPostModal = ({ author, postContent, postId }) => {
   const showUpdateDialog = () => {
     setDialog(
       'Save and update your post?',
-      <UpdatePostConfirm postId={postId} />,
+      <UpdatePostConfirm postId={postId} text={text} />,
       'Do you want to save the updates to your post?'
     );
     openDialog();

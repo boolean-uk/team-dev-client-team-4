@@ -5,7 +5,7 @@ import { patch } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function UpdatePostConfirm({ postId }) {
+function UpdatePostConfirm({ postId, text }) {
   const { closeModal } = useModal();
   const { closeDialog } = useDialog();
 
@@ -20,7 +20,7 @@ function UpdatePostConfirm({ postId }) {
 
   const updatePost = async () => {
     try {
-      const res = await patch('posts/' + postId, true);
+      const res = await patch('posts/' + postId, { body: text }, true);
       if (!res.ok) {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
