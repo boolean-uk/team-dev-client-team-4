@@ -9,12 +9,15 @@ import { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { DeleteIcon2 } from '../../assets/icons/deleteIcon2';
 import DeletePostConfirm from '../deletePostConfirm';
+import useAuth from '../../hooks/useAuth';
+import ReportIcon from '../../assets/icons/reportIcon';
 
 const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
   const { openModal, setModal } = useModal();
   const { openDialog, setDialog } = useDialog();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
+  const { loggedInUser } = useAuth();
 
   const showEditModal = () => {
     setModal('Edit Post', <EditPostModal postContent={content} author={author} postId={postId} />);
@@ -49,13 +52,21 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
     <div className="post-options-wrapper" onClick={toggleMenu}>
       <p>...</p>
       {uniqueKey === cascadingMenuVisibleId && (
-        <PostOptionsCascadingMenu showEditModal={showEditModal} deletePost={showDeleteDialog} />
+        <PostOptionsCascadingMenu showEditModal={showEditModal} deletePost={showDeleteDialog} author={author} loggedInUser={loggedInUser} />
       )}
     </div>
   );
 };
 
-const PostOptionsCascadingMenu = ({ showEditModal, deletePost }) => {
+const PostOptionsCascadingMenu = ({ showEditModal, deletePost, author, loggedInUser }) => {
+  if (loggedInUser.role.toLowerCase() === 'student' && author.id !== loggedInUser.id) {
+    return (
+      <Menu className="post-options-dropdown">
+        <MenuItem icon={<ReportIcon />} text="Report post" linkTo={'#nogo'} />
+      </Menu>
+    );
+  }
+
   return (
     <Menu className="post-options-dropdown">
       <MenuItem icon={<EditIcon />} text="Edit post" onClick={showEditModal} />
