@@ -6,7 +6,7 @@ import Comment from '../comment';
 import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
-import { get } from '../../service/apiClient';
+import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
@@ -70,9 +70,19 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     console.log(`Comments: ${showComments}`);
   };
 
-  const handleSend = () => {
-    console.log('Send kommentar:', commentContent);
-    setCommentContent('');
+  const handleSend = async () => {
+    if (!commentContent.trim()) return;
+
+    try {
+      const response = await post(`posts/${id}/comments`, {
+        body: commentContent
+      });
+
+      console.log('Comment sent:', response);
+      setCommentContent('');
+    } catch (error) {
+      console.error('Error while sending comment:', error);
+    }
   };
 
   const loggedInUserInitials = loggedInUser

@@ -61,8 +61,6 @@ form label {
   top: 50%;
   right: 16px;
   transform: translateY(-50%);
-  background: none;
-  border: none;
   cursor: pointer;
   padding: 0px !important;
   z-index: 2;
@@ -76,4 +74,3 @@ form label {
   padding-left: 15px;
   padding-right: 56px;
 }
-
