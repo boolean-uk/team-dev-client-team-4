@@ -15,9 +15,15 @@ function DeletePostConfirm({ postId }) {
   };
 
   const deletePost = async () => {
-    await deleteRequest('/posts/' + postId, true);
+    try {
+      const res = await deleteRequest('posts/' + postId, true);
+      if (!res.ok) {
+        throw new Error(`HTTP error, status: ${res.status}`);
+      }
+    } catch (err) {
+      console.log('ERROR ' + err);
+    }
 
-    // todo process response
     setTimeout(() => {
       closeDialog();
     }, 2000);

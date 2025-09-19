@@ -19,20 +19,38 @@ function UpdatePostConfirm({ postId }) {
   };
 
   const updatePost = async () => {
-    await patch('/posts/' + postId, true);
+    try {
+      const res = await patch('posts/' + postId, true);
+      if (!res.ok) {
+        throw new Error(`HTTP error, status: ${res.status}`);
+      }
 
-    // todo process response
+      console.log('EDIT POST RESPONSE: ' + res);
+    } catch (err) {
+      console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
+    }
     setTimeout(() => {
       closeDialog();
-    }, 2000);
+      closeModal();
+    }, 1000);
   };
 
   return (
     <div className="updatePostConfirm">
       <section className="updatePostConfirmButtons">
-        <Button onClick={dontSave} text="Don't save" className="dialogButton" classes="button offwhite"/>
-        <Button onClick={cancel} text="Cancel" className="dialogButton" classes="button offwhite"/>
-        <Button onClick={updatePost} text="Save & update" className="dialogButton" classes="button offwhite"/>
+        <Button
+          onClick={dontSave}
+          text="Don't save"
+          className="dialogButton"
+          classes="button offwhite"
+        />
+        <Button onClick={cancel} text="Cancel" className="dialogButton" classes="button offwhite" />
+        <Button
+          onClick={updatePost}
+          text="Save & update"
+          className="dialogButton"
+          classes="button offwhite"
+        />
       </section>
     </div>
   );
