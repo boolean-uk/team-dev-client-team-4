@@ -135,7 +135,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                   <FiHeart className='icon not-liked' />
                     )}
               </Button>
-                <div className='interaction-text'>Like</div>
+                <div className='interaction-text'>Like ({likes})</div>
               </div>
               <div className='interaction'>
                 <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
@@ -146,7 +146,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                     : (
                   <MdOutlineInsertComment className='icon not-show-comments'/>
                       )}
-                  <div className='interaction-text'>Comment</div>
+                  <div className='interaction-text'>Comment ({comments.length})</div>
                 </Button>
               </div>
             </div>
