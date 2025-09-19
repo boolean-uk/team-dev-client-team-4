@@ -13,7 +13,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -25,7 +25,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0, onCommentAdde
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await get(`users/${id}`).then((result) => result.data);
+      const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
       setUser(fetchedUser);
     };
     fetchUser();
@@ -169,7 +169,6 @@ const Post = ({ id, name, date, content, comments = [], likes = 0, onCommentAdde
               </p>
             </div>
           </section>
-
 
           {showComments && (
             <section>
