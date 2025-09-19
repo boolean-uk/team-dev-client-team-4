@@ -47,6 +47,10 @@ async function patch(endpoint, data, auth = true) {
   return await request('PATCH', endpoint, data, auth);
 }
 
+async function deleteRequest(endpoint, auth = true) {
+  return await request('DELETE', endpoint, null, auth);
+}
+
 async function get(endpoint, auth = true) {
   const res = await request('GET', endpoint, null, auth);
   console.log(res);
@@ -75,4 +79,4 @@ async function request(method, endpoint, data, auth = true) {
   return response.json();
 }
 
-export { login, getPosts, register, createProfile, get, patch, post };
+export { login, getPosts, register, createProfile, get, patch, post, deleteRequest };

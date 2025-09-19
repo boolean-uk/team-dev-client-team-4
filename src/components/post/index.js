@@ -1,22 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
-import useModal from '../../hooks/useModal';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
-import EditPostModal from '../editPostModal';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
+import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
-  const { openModal, setModal } = useModal();
-
+const Post = ({ id, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -25,14 +22,6 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCom
   const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
   const commentsContainerRef = useRef(null);
-
-  const showModal = () => {
-    setModal(
-      'Edit post',
-      <EditPostModal author={user} postAuthorInitials={userInitials} postContent={content} />
-    );
-    openModal();
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -59,8 +48,18 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCom
 
     const day = date.getDate();
     const monthNames = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     const month = monthNames[date.getMonth()];
     const hours = date.getHours().toString().padStart(2, '0');
@@ -82,7 +81,7 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCom
     if (!commentContent.trim()) return;
 
     try {
-      const response = await post(`posts/${postId}/comments`, {
+      const response = await post(`posts/${id}/comments`, {
         body: commentContent
       });
 
@@ -122,7 +121,12 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCom
             </div>
 
             <div className="edit-icon">
-              <p onClick={showModal}>...</p>
+              <PostOptionsMenu
+                uniqueKey={'postOptionsMenu' + id}
+                postId={id}
+                content={content}
+                author={user}
+              />
             </div>
           </section>
 
@@ -165,6 +169,7 @@ const Post = ({ id, postId, name, date, content, comments = [], likes = 0, onCom
               </p>
             </div>
           </section>
+
 
           {showComments && (
             <section>

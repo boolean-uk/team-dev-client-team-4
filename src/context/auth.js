@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Header from '../components/header';
 import Modal from '../components/modal';
+import Dialog from '../components/modalDIalog';
 import Navigation from '../components/navigation';
 import useAuth from '../hooks/useAuth';
 import { createProfile, login, register } from '../service/apiClient';
@@ -189,6 +190,7 @@ const ProtectedRoute = ({ children }) => {
       <Header />
       <Navigation />
       <Modal />
+      <Dialog />
       {children}
     </div>
   );
