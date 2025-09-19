@@ -41,7 +41,7 @@ const Profile = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem('token');
-    const decoded = jwt_decode(storedToken);
+    const decoded = jwtDecode(storedToken);
     let thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
 
     if (id != null) {
