@@ -6,10 +6,37 @@ import useAuth from '../../hooks/useAuth';
 import './style.css';
 
 const Navigation = () => {
-  const { token } = useAuth();
+  const { token, loggedInUser } = useAuth();
 
-  if (!token) {
+  if (!token || !loggedInUser) {
     return null;
+  }
+
+  if (loggedInUser.role.toLowerCase() === 'student') {
+    return (
+      <nav>
+        <ul>
+          <li>
+            <NavLink to="/">
+              <HomeIcon colour="#000046" />
+              <p>Home</p>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/profile">
+              <ProfileIcon />
+              <p>Profile</p>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/">
+              <CohortIcon />
+              <p>Cohort</p>
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+    );
   }
 
   return (
@@ -31,6 +58,18 @@ const Navigation = () => {
           <NavLink to="/">
             <CohortIcon />
             <p>Cohort</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/">
+            <CohortIcon />
+            <p>Notes</p>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/">
+            <CohortIcon />
+            <p>Logs</p>
           </NavLink>
         </li>
       </ul>
