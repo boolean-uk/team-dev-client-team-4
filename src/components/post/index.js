@@ -11,6 +11,8 @@ import useAuth from '../../hooks/useAuth';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
+import TextInput from '../form/textInput';
+import SendIcon from '../../assets/icons/sendIcon';
 
 const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const { openModal, setModal } = useModal();
@@ -19,6 +21,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
 
   const showModal = () => {
@@ -65,6 +68,11 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
   const viewComments = () => {
     setShowComments(!showComments);
     console.log(`Comments: ${showComments}`);
+  };
+
+  const handleSend = () => {
+    console.log('Send kommentar:', commentContent);
+    setCommentContent('');
   };
 
   const loggedInUserInitials = loggedInUser
@@ -161,7 +169,16 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />
-            <Button text="Add a comment..." />
+            <form onSubmit={(e) => e.preventDefault()}>
+              <TextInput
+                value={commentContent}
+                name="commentContent"
+                onChange={(e) => setCommentContent(e.target.value)}
+                placeholder="Add a comment..."
+                actionIcon={<SendIcon />}
+                onActionClick={handleSend}
+              />
+            </form>
           </section>
         </article>
       </Card>

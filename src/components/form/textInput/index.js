@@ -7,6 +7,8 @@ const TextInput = ({
   name,
   label,
   icon,
+  actionIcon,
+  onActionClick,
   type = 'text',
   errors = [],
   placeholder,
@@ -52,11 +54,22 @@ const TextInput = ({
           name={name}
           value={value}
           onChange={onChange}
-          className={icon && 'input-has-icon'}
+          className={ icon ? 'input-has-icon' : actionIcon ? 'input-has-action-icon' : ''}
           disabled={disabled}
           placeholder={placeholder}
         />
         {icon && <span className="input-icon">{icon}</span>}
+
+        {actionIcon && (
+          <button
+            type="button"
+            className="action-icon-button"
+            onClick={onActionClick}
+          >
+            {actionIcon}
+          </button>
+        )}
+
         <ul className="error_list">
           {errors.map((error, i) => (
             <li key={i}>{error}</li>
