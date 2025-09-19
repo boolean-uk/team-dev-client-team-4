@@ -7,6 +7,7 @@ const style = {
     overflow: 'auto',
     width: 'fit-content',
     maxWidth: '90vw'
+  },
   overlay: {
     backgroundColor: 'rgba(0, 0, 0, 0.75)',
     display: 'flex',
