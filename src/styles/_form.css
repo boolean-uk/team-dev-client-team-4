@@ -26,6 +26,7 @@ form label {
   left: 16px;
   padding-top: 15px;
 }
+
 .input-has-icon {
   padding-left: 56px;
   padding-right: 10px;
@@ -53,4 +54,22 @@ form label {
   right: 0;
   width: 100%;
   z-index: 1;
+}
+
+.action-icon-button {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  padding: 0px !important;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px;
+}
+
+.input-has-action-icon {
+  padding-left: 15px;
+  padding-right: 56px;
 }

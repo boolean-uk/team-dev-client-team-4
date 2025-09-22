@@ -1,26 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
 import ProfileCircle from '../profileCircle';
 import './style.css';
-import { get } from '../../service/apiClient';
+import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
+import TextInput from '../form/textInput';
+import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [allComments, setAllComments] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
+  const commentsContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await get(`users/${id}`).then((result) => result.data);
+      const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
       setUser(fetchedUser);
     };
     fetchUser();
@@ -31,6 +36,12 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     const name = `${user.firstName} ${user.lastName}`;
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
+
+  useEffect(() => {
+    if (showComments && commentsContainerRef.current) {
+      commentsContainerRef.current.scrollTop = commentsContainerRef.current.scrollHeight;
+    }
+  }, [showComments, allComments, comments]);
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -65,6 +76,27 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     setShowComments(!showComments);
     console.log(`Comments: ${showComments}`);
   };
+
+  const handleSend = async () => {
+    if (!commentContent.trim()) return;
+
+    try {
+      const response = await post(`posts/${id}/comments`, {
+        body: commentContent
+      });
+
+      console.log('Comment sent:', response);
+      setCommentContent('');
+
+      onCommentAdded();
+    } catch (error) {
+      console.error('Error while sending comment:', error);
+    }
+  };
+
+  const seeAllComments = () => {
+    setAllComments(!allComments);
+  }
 
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
@@ -116,7 +148,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                   <FiHeart className='icon not-liked' />
                     )}
               </Button>
-                <div className='interaction-text'>Like</div>
+                <div className='interaction-text'>Like ({likes})</div>
               </div>
               <div className='interaction'>
                 <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
@@ -127,7 +159,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                     : (
                   <MdOutlineInsertComment className='icon not-show-comments'/>
                       )}
-                  <div className='interaction-text'>Comment</div>
+                  <div className='interaction-text'>Comment ({comments.length})</div>
                 </Button>
               </div>
             </div>
@@ -138,24 +170,30 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
             </div>
           </section>
 
-
           {showComments && (
             <section>
-              {comments.map((comment, index) => (
-                <>
-                  <div className="comment-detail" key={comment.id}>
-                    <ProfileCircle
-                      initials={comment.user}
-                      uniqueKey={'comment' + comment.id + index}
-                      role={comment.role}
-                      userId={comment.userId}
-                    />
-                    <div className="comment-container">
-                      <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+              { comments.length > 3 &&
+                <div className="interaction">
+                  <button className="see-previous-comments" onClick={seeAllComments}>{!allComments ? 'See previous comments' : 'See less comments'}</button>
+                </div>
+              }
+              <div className="post-comments" ref={commentsContainerRef}>
+                {(allComments ? comments : comments.slice(-3)).map((comment, index) => (
+                  <>
+                    <div className="comment-detail" key={comment.id}>
+                      <ProfileCircle
+                        initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
+                        uniqueKey={'comment' + comment.id + index}
+                        role={comment.role}
+                        userId={comment.userId}
+                      />
+                      <div className="comment-container">
+                        <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              ))}
+                  </>
+                ))}
+              </div>
             </section>
           )}
 
@@ -166,7 +204,19 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />
-            <Button text="Add a comment..." />
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}>
+              <TextInput
+                value={commentContent}
+                name="commentContent"
+                onChange={(e) => setCommentContent(e.target.value)}
+                placeholder="Add a comment..."
+                actionIcon={<SendIcon />}
+                onActionClick={handleSend}
+              />
+            </form>
           </section>
         </article>
       </Card>
