@@ -191,7 +191,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                       <div className="comment-container">
                         <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
                       </div>
-                      <div className="edit-icon">
+                      <div className="edit-icon menu-comment">
                         <CommentOptionsMenu
                           uniqueKey={'commentOptionsMenu' + comment.id}
                           commentId={comment.id}

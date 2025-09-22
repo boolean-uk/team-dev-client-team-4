@@ -4,14 +4,12 @@
   max-width: 100%;
 }
 
-
 .post-comments {
-  max-height: 300px; /* juster etter behov */
+  max-height: 400px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
-
 
 .post-details {
   display: grid;
@@ -67,8 +65,9 @@
 }
 
 .comment-detail {
-  display: grid;
-  grid-template-columns: 50px auto;
+  display: flex;
+  align-items: flex-start;
+  padding-right: 10px;
   column-gap: 20px;
   margin-top: 0.5rem;
 }
@@ -148,4 +147,9 @@
 
 .see-previous-comments:hover {
   text-decoration: underline;
+}
+
+.menu-comment {
+  min-height: 40px;
+  min-width: 40px;
 }
