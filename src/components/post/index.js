@@ -7,6 +7,7 @@ import './style.css';
 import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
+import CommentOptionsMenu from '../commentOptionsMenu/commentOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
@@ -189,6 +190,14 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                       />
                       <div className="comment-container">
                         <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                      </div>
+                      <div className="edit-icon">
+                        <CommentOptionsMenu
+                          uniqueKey={'commentOptionsMenu' + comment.id}
+                          commentId={comment.id}
+                          content={comment.body}
+                          authorId={comment.userId}
+                        />
                       </div>
                     </div>
                   </>
