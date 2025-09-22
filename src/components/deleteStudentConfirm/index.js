@@ -14,7 +14,7 @@ const DeleteStudentModal = ({ studentId }) => {
 
   const deleteUser = async () => {
     try {
-      const res = await deleteRequest('students/' + studentId);
+      const res = await deleteRequest('users/' + studentId);
       if (!res.ok) {
         throw new Error(`HTTP error, status: ${res.status}`);
       }

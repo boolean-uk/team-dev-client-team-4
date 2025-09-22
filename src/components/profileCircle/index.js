@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import DeleteStudentConfirm from '../deleteStudentConfirm';
 import useDialog from '../../hooks/useDialog';
+import MoveToCohortConfirm from '../moveToCohortConfirm';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
@@ -58,6 +59,17 @@ const CascadingMenu = ({ role, id, name }) => {
     openDialog();
   };
 
+  const showMoveToCohortDialog = (course, cohort, cohortId) => {
+    setDialog(
+      `Move ${name} to new cohort?`,
+      <MoveToCohortConfirm studentId={id} cohortId={cohortId} />,
+      <div className='dialog-texts'>
+        <p>Are you sure you want to move this user to <br/>{course}, {cohort}?</p>
+      </div>
+    );
+    openDialog();
+  };
+
   if (role === 'teacher') {
     return (
       <Menu className="profile-circle-menu">
@@ -73,15 +85,15 @@ const CascadingMenu = ({ role, id, name }) => {
 
       <MenuItem icon={<CohortIcon />} text="Move to cohort">
         <MenuItem icon={<SquareBracketsIcon />} text="Software Development">
-          <MenuItem icon={<CohortIconFill />} text="Cohort 1" />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 2" />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 3" />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 1" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 1', 1)} />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 2" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 2', 2)} />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 3" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 3', 3)} />
         </MenuItem>
 
         <MenuItem icon={<MonitorIcon />} text="Frontend Development">
-          <MenuItem icon={<CohortIconFill />} text="Cohort 1" />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 2" />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 3" />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 1" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 1', 1)} />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 2" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 2', 2)} />
+          <MenuItem icon={<CohortIconFill />} text="Cohort 3" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 3', 3)} />
         </MenuItem>
       </MenuItem>
 
