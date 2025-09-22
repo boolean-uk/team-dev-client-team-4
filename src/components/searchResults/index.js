@@ -6,6 +6,7 @@ import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
 import mapSpecialism from '../../userUtils/mapSpecialism';
 import Button from '../button';
+import { API_URL } from '../../service/constants';
 
 const SearchResults = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -18,7 +19,7 @@ const SearchResults = () => {
     if (searchVal.trim().length >= 3) {
       setLoading(true);
       const timer = setTimeout(() => {
-        fetch(`https://localhost:7233/users?searchTerm=${encodeURIComponent(searchVal)}`)
+        fetch(`${API_URL}/users?searchTerm=${encodeURIComponent(searchVal)}`)
           .then((res) => res.json())
           .then((data) => {
             const sortedUsers = data.data.users.sort((a, b) => {

@@ -22,14 +22,32 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
   const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
   const commentsContainerRef = useRef(null);
+  const likeCount =
+    typeof likes === 'number'
+      ? likes
+      : Array.isArray(likes)
+        ? likes.length
+        : (likes?.count ?? likes?.likeCount ?? 0);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
-      setUser(fetchedUser);
+      if (authorId) {
+        try {
+          const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
+          setUser(fetchedUser);
+          return;
+        } catch (e) {
+        }
+      }
+      if (!authorId && name) {
+        const parts = String(name).split(' ');
+        const firstName = parts[0] ?? '';
+        const lastName = parts.slice(1).join(' ') ?? '';
+        setUser({ id: 0, firstName, lastName, role: 'student' });
+      }
     };
     fetchUser();
-  }, []);
+  }, [authorId, name]);
 
   useEffect(() => {
     if (!user) return;
@@ -148,7 +166,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                   <FiHeart className='icon not-liked' />
                     )}
               </Button>
-                <div className='interaction-text'>Like ({likes})</div>
+                <div className='interaction-text'>Like ({likeCount})</div>
               </div>
               <div className='interaction'>
                 <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
@@ -165,7 +183,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
             </div>
             <div className="interaction">
               <p className="interaction-text">
-                {!likes && 'Be the first to like this'}
+                {!likeCount && 'Be the first to like this'}
               </p>
             </div>
           </section>
@@ -178,21 +196,27 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                 </div>
               }
               <div className="post-comments" ref={commentsContainerRef}>
-                {(allComments ? comments : comments.slice(-3)).map((comment, index) => (
+                {(allComments ? comments : comments.slice(-3)).map((comment, index) => {
+                  const firstName = comment.firstName ?? comment.firstname ?? comment.user?.firstName ?? '';
+                  const lastName = comment.lastName ?? comment.lastname ?? comment.user?.lastName ?? '';
+                  const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
+                  const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
+                  return (
                   <>
                     <div className="comment-detail" key={comment.id}>
                       <ProfileCircle
-                        initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
+                        initials={`${firstName.charAt(0)}${lastName.charAt(0)}`}
                         uniqueKey={'comment' + comment.id + index}
-                        role={comment.role}
-                        userId={comment.userId}
+                        role={role}
+                        userId={userIdFromComment}
                       />
                       <div className="comment-container">
-                        <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                        <Comment key={comment.id} name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
                       </div>
                     </div>
                   </>
-                ))}
+                  );
+                })}
               </div>
             </section>
           )}
