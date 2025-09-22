@@ -8,6 +8,8 @@ const DialogProvider = ({ children }) => {
   const [dialogHeader, setDialogHeader] = useState(null);
   const [dialogMessage, setDialogMessage] = useState(null);
 
+  const [actionSuccessPopup, setActionSuccessPopup] = useState({ message: '', duration: 0 });
+
   const openDialog = () => {
     setIsOpen(true);
   };
@@ -22,12 +24,24 @@ const DialogProvider = ({ children }) => {
     setDialogMessage(message);
   };
 
+  // action success popup
+  const showActionSuccessPopup = (message, duration = 3000) => {
+    setActionSuccessPopup({ message, duration });
+  };
+
+  const handleCloseActionSuccessPopup = () => {
+    setActionSuccessPopup(null);
+  };
+
   const value = {
     isOpen,
     openDialog,
     closeDialog,
     setDialog,
     setDialogMessage,
+    actionSuccessPopup,
+    showActionSuccessPopup,
+    handleCloseActionSuccessPopup,
     dialogComponent,
     dialogHeader,
     dialogMessage

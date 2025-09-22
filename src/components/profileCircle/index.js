@@ -13,10 +13,12 @@ import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import DeleteStudentConfirm from '../deleteStudentConfirm';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
+  const profileIconColor = ProfileIconColor(userId);
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -35,9 +37,11 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name }) => {
 
   return (
     <div className="profile-circle" onClick={toggleMenu}>
-      {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} name={name} />}
+      {uniqueKey === cascadingMenuVisibleId && (
+        <CascadingMenu role={role} id={userId} name={name} />
+      )}
 
-      <div className="profile-icon">
+      <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
         <p>{initials}</p>
       </div>
     </div>
@@ -51,7 +55,7 @@ const CascadingMenu = ({ role, id, name }) => {
     setDialog(
       `Delete ${name}?`,
       <DeleteStudentConfirm studentId={id} />,
-      <div className='dialog-texts'>
+      <div className="dialog-texts">
         <p>Are you sure you want to delete this user?</p>
         <p>This will remove their account from Cohort Manager.</p>
       </div>
@@ -63,8 +67,11 @@ const CascadingMenu = ({ role, id, name }) => {
     setDialog(
       `Move ${name} to new cohort?`,
       <MoveToCohortConfirm studentId={id} cohortId={cohortId} />,
-      <div className='dialog-texts'>
-        <p>Are you sure you want to move this user to <br/>{course}, {cohort}?</p>
+      <div className="dialog-texts">
+        <p>
+          Are you sure you want to move this user to <br />
+          {course}, {cohort}?
+        </p>
       </div>
     );
     openDialog();
@@ -85,19 +92,43 @@ const CascadingMenu = ({ role, id, name }) => {
 
       <MenuItem icon={<CohortIcon />} text="Move to cohort">
         <MenuItem icon={<SquareBracketsIcon />} text="Software Development">
-          <MenuItem icon={<CohortIconFill />} text="Cohort 1" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 1', 1)} />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 2" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 2', 2)} />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 3" onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 3', 3)} />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 1"
+            onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 1', 1)}
+          />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 2"
+            onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 2', 2)}
+          />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 3"
+            onClick={() => showMoveToCohortDialog('Software Development', 'Cohort 3', 3)}
+          />
         </MenuItem>
 
         <MenuItem icon={<MonitorIcon />} text="Frontend Development">
-          <MenuItem icon={<CohortIconFill />} text="Cohort 1" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 1', 1)} />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 2" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 2', 2)} />
-          <MenuItem icon={<CohortIconFill />} text="Cohort 3" onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 3', 3)} />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 1"
+            onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 1', 1)}
+          />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 2"
+            onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 2', 2)}
+          />
+          <MenuItem
+            icon={<CohortIconFill />}
+            text="Cohort 3"
+            onClick={() => showMoveToCohortDialog('Frontend Development', 'Cohort 3', 3)}
+          />
         </MenuItem>
       </MenuItem>
 
-      <MenuItem icon={<DeleteIcon />} text="Delete student" onClick={showDeleteDialog}/>
+      <MenuItem icon={<DeleteIcon />} text="Delete student" onClick={showDeleteDialog} />
     </Menu>
   );
 };
