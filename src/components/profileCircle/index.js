@@ -10,8 +10,10 @@ import MenuItem from '../menu/menuItem';
 import './style.css';
 import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
+import DeleteStudentConfirm from '../deleteStudentConfirm';
+import useDialog from '../../hooks/useDialog';
 
-const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
+const ProfileCircle = ({ initials, uniqueKey, role, userId, name }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
 
@@ -32,7 +34,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
 
   return (
     <div className="profile-circle" onClick={toggleMenu}>
-      {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} />}
+      {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} name={name} />}
 
       <div className="profile-icon">
         <p>{initials}</p>
@@ -41,7 +43,21 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
   );
 };
 
-const CascadingMenu = ({ role, id }) => {
+const CascadingMenu = ({ role, id, name }) => {
+  const { setDialog, openDialog } = useDialog();
+
+  const showDeleteDialog = () => {
+    setDialog(
+      `Delete ${name}?`,
+      <DeleteStudentConfirm studentId={id} />,
+      <div className='dialog-texts'>
+        <p>Are you sure you want to delete this user?</p>
+        <p>This will remove their account from Cohort Manager.</p>
+      </div>
+    );
+    openDialog();
+  };
+
   if (role === 'teacher') {
     return (
       <Menu className="profile-circle-menu">
@@ -69,7 +85,7 @@ const CascadingMenu = ({ role, id }) => {
         </MenuItem>
       </MenuItem>
 
-      <MenuItem icon={<DeleteIcon />} text="Delete student" />
+      <MenuItem icon={<DeleteIcon />} text="Delete student" onClick={showDeleteDialog}/>
     </Menu>
   );
 };

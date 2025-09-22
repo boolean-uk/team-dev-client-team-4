@@ -113,6 +113,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
               uniqueKey={'post' + id}
               role={user.role.toLowerCase()}
               userId={user.id}
+              name={name}
             />
 
             <div className="post-user-name">

@@ -1,0 +1,20 @@
+.deleteUserButtons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: nowrap;
+  padding: 0;
+}
+
+.dialogButton {
+  white-space: nowrap;
+  padding: 8px 16px;
+}
+
+.dialog-texts p {
+  margin: 0 0 12px 0; 
+}
+
+.dialog-texts p:last-child {
+  margin-bottom: 0; 
+}
