@@ -7,7 +7,7 @@ import useDialog from '../../hooks/useDialog';
 
 function DeletePostConfirm({ postId }) {
   const { closeModal } = useModal();
-  const { closeDialog } = useDialog();
+  const { closeDialog, showActionSuccessPopup } = useDialog();
 
   const cancel = () => {
     closeModal();
@@ -17,9 +17,10 @@ function DeletePostConfirm({ postId }) {
   const deletePost = async () => {
     try {
       const res = await deleteRequest('posts/' + postId, true);
-      if (!res.ok) {
+      if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
+      showActionSuccessPopup('Deleted', 4000);
     } catch (err) {
       console.log('ERROR ' + err);
     }

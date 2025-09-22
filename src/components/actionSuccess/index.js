@@ -4,7 +4,7 @@ import useDialog from '../../hooks/useDialog';
 import './style.css';
 
 function ActionSuccess() {
-  const { actionSuccessPopup, handleCloseActionSuccessPopup } = useDialog(); // TODO move out
+  const { actionSuccessPopup, handleCloseActionSuccessPopup } = useDialog();
 
   const [visible, setVisible] = useState(true);
 
