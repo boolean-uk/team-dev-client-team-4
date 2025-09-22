@@ -12,7 +12,7 @@ import DeletePostConfirm from '../deletePostConfirm';
 import useAuth from '../../hooks/useAuth';
 import ReportIcon from '../../assets/icons/reportIcon';
 
-const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
+const PostOptionsMenu = ({ uniqueKey, content, author, postId, refreshPosts }) => {
   const { openModal, setModal } = useModal();
   const { openDialog, setDialog } = useDialog();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
@@ -27,7 +27,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
   const showDeleteDialog = () => {
     setDialog(
       'Delete Post?',
-      <DeletePostConfirm postId={postId} />,
+      <DeletePostConfirm postId={postId} refreshPosts={refreshPosts}/>,
       'Are you sure you want to delete this post?'
     );
     openDialog();

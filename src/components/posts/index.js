@@ -33,7 +33,7 @@ const Posts = () => {
             content={post.body}
             comments={sortedComments}
             likes={post.likes}
-            onCommentAdded={refreshPosts}
+            refreshPosts={refreshPosts}
           />
         );
       })}

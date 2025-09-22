@@ -5,7 +5,7 @@ import { deleteRequest } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function DeletePostConfirm({ postId }) {
+function DeletePostConfirm({ postId, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -28,6 +28,8 @@ function DeletePostConfirm({ postId }) {
     setTimeout(() => {
       closeDialog();
     }, 300);
+
+    refreshPosts();
   };
 
   return (

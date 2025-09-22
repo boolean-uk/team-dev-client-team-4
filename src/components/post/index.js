@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, refreshPosts }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -89,7 +89,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
       console.log('Comment sent:', response);
       setCommentContent('');
 
-      onCommentAdded();
+      refreshPosts();
     } catch (error) {
       console.error('Error while sending comment:', error);
     }
@@ -127,6 +127,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                 postId={id}
                 content={content}
                 author={user}
+                refreshPosts={refreshPosts}
               />
             </div>
           </section>
