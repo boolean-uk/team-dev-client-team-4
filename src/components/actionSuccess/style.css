@@ -4,4 +4,16 @@
   right: 10%;
   padding: 10px;
   z-index: 1000;
+  background-color: #000046;
+  color: white;
+  max-height: 100px;
+  max-width: 250px;
+  width: 25%;
+  display: flex;
+}
+
+.actionSuccessPopup h5 {
+  margin-left: auto;
+  color: white;
+  margin-right: 15px;
 }

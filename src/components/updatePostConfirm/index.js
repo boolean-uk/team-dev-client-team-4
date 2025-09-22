@@ -21,15 +21,15 @@ function UpdatePostConfirm({ postId, text }) {
   const updatePost = async () => {
     try {
       const res = await patch('posts/' + postId, { body: text }, true);
-      if (!res.ok) {
+      if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-
+      showActionSuccessPopup('Edited', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
     }
-    showActionSuccessPopup('Edited', 3000);
+
     setTimeout(() => {
       closeDialog();
       closeModal();

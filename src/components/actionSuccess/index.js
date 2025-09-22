@@ -23,8 +23,8 @@ function ActionSuccess() {
 
   return (
     <div className="actionSuccessPopup">
-      <TickIcon />
-      {actionSuccessPopup.message}
+      <TickIcon height={32} width={32} />
+      <h5>{actionSuccessPopup.message}</h5>
     </div>
   );
 }
