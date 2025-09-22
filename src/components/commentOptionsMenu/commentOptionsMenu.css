@@ -10,7 +10,7 @@
 }
 
 .comment-options-dropdown ul {
-  width: 100%;       
+  width: 120%;       
 }
 
 .comment-options-dropdown li button {
@@ -45,4 +45,13 @@
 
 .comment-options-dropdown li:hover button p{
   color: var(--color-blue);
+}
+
+.comment-options-dropdown li a {
+ gap: 20px;
+}
+
+.comment-options-dropdown li a p {
+  font-size: 1rem;
+  text-align: left;
 }
