@@ -4,9 +4,9 @@ import useModal from '../../hooks/useModal';
 import { patch } from '../../service/apiClient';
 import './style.css';
 
-const MoveToCohortConfirm = ({ studentId, cohortId }) => {
+function MoveToCohortConfirm({ userToMoveId, cohortId }) {
   const { closeModal } = useModal();
-  const { closeDialog } = useDialog();
+  const { closeDialog, showActionSuccessPopup } = useDialog();
 
   const cancel = () => {
     closeDialog();
@@ -14,11 +14,11 @@ const MoveToCohortConfirm = ({ studentId, cohortId }) => {
 
   const moveToCohort = async () => {
     try {
-      const res = await patch('users/' + studentId, { cohortId }, true);
-      if (!res.ok) {
+      const res = await patch('users/' + userToMoveId, { cohortId }, true);
+      if (!res === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-
+      showActionSuccessPopup('User moved', 4000);
       console.log('PATCH COHORT RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR PATCH COHORT:' + cohortId + ', ' + err);

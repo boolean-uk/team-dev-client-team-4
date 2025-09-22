@@ -10,10 +10,10 @@ import MenuItem from '../menu/menuItem';
 import './style.css';
 import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
-import DeleteStudentConfirm from '../deleteStudentConfirm';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import DeleteUserConfirm from '../deleteUserConfirm';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
@@ -54,7 +54,7 @@ const CascadingMenu = ({ role, id, name }) => {
   const showDeleteDialog = () => {
     setDialog(
       `Delete ${name}?`,
-      <DeleteStudentConfirm studentId={id} />,
+      <DeleteUserConfirm userToDeleteId={id} />,
       <div className="dialog-texts">
         <p>Are you sure you want to delete this user?</p>
         <p>This will remove their account from Cohort Manager.</p>
@@ -66,7 +66,7 @@ const CascadingMenu = ({ role, id, name }) => {
   const showMoveToCohortDialog = (course, cohort, cohortId) => {
     setDialog(
       `Move ${name} to new cohort?`,
-      <MoveToCohortConfirm studentId={id} cohortId={cohortId} />,
+      <MoveToCohortConfirm userToMoveId={id} cohortId={cohortId} />,
       <div className="dialog-texts">
         <p>
           Are you sure you want to move this user to <br />
@@ -128,7 +128,7 @@ const CascadingMenu = ({ role, id, name }) => {
         </MenuItem>
       </MenuItem>
 
-      <MenuItem icon={<DeleteIcon />} text="Delete student" onClick={showDeleteDialog} />
+      <MenuItem icon={<DeleteIcon />} text="Delete user" onClick={showDeleteDialog} />
     </Menu>
   );
 };

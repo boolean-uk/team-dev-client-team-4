@@ -20,7 +20,7 @@ function DeletePostConfirm({ postId }) {
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Deleted', 4000);
+      showActionSuccessPopup('Post deleted', 4000);
     } catch (err) {
       console.log('ERROR ' + err);
     }

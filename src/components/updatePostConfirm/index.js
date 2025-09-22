@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../button';
 import './style.css';
 import { patch } from '../../service/apiClient';
@@ -24,7 +23,7 @@ function UpdatePostConfirm({ postId, text }) {
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Edited', 4000);
+      showActionSuccessPopup('Post Updated', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
