@@ -10,10 +10,12 @@ import MenuItem from '../menu/menuItem';
 import './style.css';
 import React, { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
+  const profileIconColor = ProfileIconColor(userId);
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -34,7 +36,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
     <div className="profile-circle" onClick={toggleMenu}>
       {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} />}
 
-      <div className="profile-icon">
+      <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
         <p>{initials}</p>
       </div>
     </div>
