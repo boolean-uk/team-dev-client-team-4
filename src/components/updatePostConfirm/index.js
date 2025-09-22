@@ -7,7 +7,7 @@ import useDialog from '../../hooks/useDialog';
 
 function UpdatePostConfirm({ postId, text }) {
   const { closeModal } = useModal();
-  const { closeDialog } = useDialog();
+  const { closeDialog, showActionSuccessPopup } = useDialog();
 
   const dontSave = () => {
     closeModal();
@@ -29,6 +29,7 @@ function UpdatePostConfirm({ postId, text }) {
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
     }
+    showActionSuccessPopup('Edited', 3000);
     setTimeout(() => {
       closeDialog();
       closeModal();
