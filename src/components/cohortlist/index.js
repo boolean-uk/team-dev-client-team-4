@@ -65,12 +65,9 @@ const CohortList = ({ cohortId, userId }) => {
                   <strong style={{ marginLeft: '8px' }}>
                     {user?.firstName} {user?.lastName}
                   </strong>
-                  <div className="dots-icon">
-                    <PiDotsThree />
-                  </div>
                 </div>
               </li>
-            );
+              );
             })}
       </ul>
     </>
