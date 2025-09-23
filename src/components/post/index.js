@@ -197,7 +197,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, ref
                           uniqueKey={'commentOptionsMenu' + comment.id}
                           commentId={comment.id}
                           content={comment.body}
-                          authorId={comment.userId}
+                          author={{ id: comment.userId, firstName: comment.firstName, lastName: comment.lastName }}
                           refreshPosts={refreshPosts}
                         />
                       </div>

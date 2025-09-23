@@ -2,6 +2,7 @@ import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import { EditIcon } from '../../assets/icons/editIcon';
 import './commentOptionsMenu.css';
+import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 import { useContext, useEffect, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
@@ -9,12 +10,19 @@ import { DeleteIcon2 } from '../../assets/icons/deleteIcon2';
 import useAuth from '../../hooks/useAuth';
 import ReportIcon from '../../assets/icons/reportIcon';
 import DeleteCommentConfirm from '../deleteCommentConfirm';
+import EditCommentModal from '../editCommentModal';
 
-const CommentOptionsMenu = ({ uniqueKey, content, authorId, commentId, refreshPosts }) => {
+const CommentOptionsMenu = ({ uniqueKey, content, author, commentId, refreshPosts }) => {
+  const { openModal, setModal } = useModal();
   const { openDialog, setDialog } = useDialog();
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
   const { loggedInUser } = useAuth();
+
+  const showEditModal = () => {
+    setModal('Edit Comment', <EditCommentModal commentContent={content} author={author} commentId={commentId} refreshPosts={refreshPosts}/>);
+    openModal();
+  };
 
   const showDeleteDialog = () => {
     setDialog(
@@ -44,13 +52,13 @@ const CommentOptionsMenu = ({ uniqueKey, content, authorId, commentId, refreshPo
     <div className="comment-options-wrapper" onClick={toggleMenu}>
       <p>...</p>
       {uniqueKey === cascadingMenuVisibleId && (
-        <CommentOptionsCascadingMenu deleteComment={showDeleteDialog} authorId={authorId} loggedInUser={loggedInUser} />
+        <CommentOptionsCascadingMenu deleteComment={showDeleteDialog} editComment={showEditModal} authorId={author.id} loggedInUser={loggedInUser} />
       )}
     </div>
   );
 };
 
-const CommentOptionsCascadingMenu = ({ deleteComment, authorId, loggedInUser }) => {
+const CommentOptionsCascadingMenu = ({ deleteComment, editComment, authorId, loggedInUser }) => {
   if (loggedInUser.role.toLowerCase() === 'student' && authorId !== loggedInUser.id) {
     return (
       <Menu className="comment-options-dropdown">
@@ -61,7 +69,7 @@ const CommentOptionsCascadingMenu = ({ deleteComment, authorId, loggedInUser }) 
 
   return (
     <Menu className="comment-options-dropdown">
-      <MenuItem icon={<EditIcon />} text="Edit comment" />
+      <MenuItem icon={<EditIcon />} text="Edit comment" onClick={editComment}/>
       <MenuItem icon={<DeleteIcon2 />} text="Delete comment" onClick={deleteComment}/>
     </Menu>
   );
