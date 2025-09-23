@@ -13,7 +13,12 @@ const CascadingMenuProvider = ({ children }) => {
       }
       setCascadingMenuVisibleId(null);
     };
-    document.addEventListener('click', handleClick);
+    document.addEventListener('click', (e) => {
+      setTimeout(() => {
+        const insideMenu = e.target.closest('[data-menu-root="true"]');
+        if (!insideMenu) setCascadingMenuVisibleId(null);
+      }, 0);
+    });
     return () => document.removeEventListener('click', handleClick);
   }, []);
 
