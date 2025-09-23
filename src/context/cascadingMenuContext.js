@@ -6,6 +6,11 @@ const CascadingMenuProvider = ({ children }) => {
 
   useEffect(() => {
     const handleClick = (e) => {
+      // Ignore clicks inside any menu root so inner actions can run
+      if (e.target && typeof e.target.closest === 'function') {
+        const insideMenu = e.target.closest('[data-menu-root="true"]');
+        if (insideMenu) return;
+      }
       setCascadingMenuVisibleId(null);
     };
     document.addEventListener('click', handleClick);

@@ -1,7 +1,17 @@
 .post {
   display: grid;
   row-gap: 20px;
+  max-width: 100%;
 }
+
+
+.post-comments {
+  max-height: 300px; /* juster etter behov */
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
 
 .post-details {
   display: grid;
@@ -72,7 +82,7 @@
 .create-a-comment button {
   color: var(--color-blue1);
   font-size: 1rem !important;
-  padding-left: 15px !important;
+  padding-left: 15px;
   text-align: left !important;
   max-width: 100% !important;
   background-color: var(--color-blue5);
@@ -126,4 +136,16 @@
 .show-comments{
   fill: var(--color-blue);
   transform: scale(0.95);
+}
+
+.see-previous-comments {
+  color: var(--color-blue1);
+  font-size: 16px !important;
+  margin-bottom: 8px;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.see-previous-comments:hover {
+  text-decoration: underline;
 }

@@ -1,36 +1,65 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Button from '../button';
 import Card from '../card';
 import Comment from '../comment';
 import ProfileCircle from '../profileCircle';
 import './style.css';
-import { get } from '../../service/apiClient';
+import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
+import TextInput from '../form/textInput';
+import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [allComments, setAllComments] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
+  const commentsContainerRef = useRef(null);
+  const likeCount =
+    typeof likes === 'number'
+      ? likes
+      : Array.isArray(likes)
+        ? likes.length
+        : (likes?.count ?? likes?.likeCount ?? 0);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await get(`users/${id}`).then((result) => result.data);
-      setUser(fetchedUser);
+      if (authorId) {
+        try {
+          const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
+          setUser(fetchedUser);
+          return;
+        } catch (e) {
+        }
+      }
+      if (!authorId && name) {
+        const parts = String(name).split(' ');
+        const firstName = parts[0] ?? '';
+        const lastName = parts.slice(1).join(' ') ?? '';
+        setUser({ id: 0, firstName, lastName, role: 'student' });
+      }
     };
     fetchUser();
-  }, []);
+  }, [authorId, name]);
 
   useEffect(() => {
     if (!user) return;
     const name = `${user.firstName} ${user.lastName}`;
     setUserInitials(name.match(/\b(\w)/g));
   }, [user]);
+
+  useEffect(() => {
+    if (showComments && commentsContainerRef.current) {
+      commentsContainerRef.current.scrollTop = commentsContainerRef.current.scrollHeight;
+    }
+  }, [showComments, allComments, comments]);
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -66,6 +95,27 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
     console.log(`Comments: ${showComments}`);
   };
 
+  const handleSend = async () => {
+    if (!commentContent.trim()) return;
+
+    try {
+      const response = await post(`posts/${id}/comments`, {
+        body: commentContent
+      });
+
+      console.log('Comment sent:', response);
+      setCommentContent('');
+
+      onCommentAdded();
+    } catch (error) {
+      console.error('Error while sending comment:', error);
+    }
+  };
+
+  const seeAllComments = () => {
+    setAllComments(!allComments);
+  }
+
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
     : '';
@@ -78,7 +128,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
           <section className="post-details">
             <ProfileCircle
               initials={userInitials}
-              uniqueKey={'post' + id}
+              uniqueKey={`post-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
               role={user.role.toLowerCase()}
               userId={user.id}
             />
@@ -90,7 +140,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
 
             <div className="edit-icon">
               <PostOptionsMenu
-                uniqueKey={'postOptionsMenu' + id}
+                uniqueKey={`postOptionsMenu-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
                 postId={id}
                 content={content}
                 author={user}
@@ -116,7 +166,7 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                   <FiHeart className='icon not-liked' />
                     )}
               </Button>
-                <div className='interaction-text'>Like</div>
+                <div className='interaction-text'>Like ({likeCount})</div>
               </div>
               <div className='interaction'>
                 <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
@@ -127,46 +177,68 @@ const Post = ({ id, name, date, content, comments = [], likes = 0 }) => {
                     : (
                   <MdOutlineInsertComment className='icon not-show-comments'/>
                       )}
-                  <div className='interaction-text'>Comment</div>
+                  <div className='interaction-text'>Comment ({comments.length})</div>
                 </Button>
               </div>
             </div>
             <div className="interaction">
               <p className="interaction-text">
-                {!likes && 'Be the first to like this'}
+                {!likeCount && 'Be the first to like this'}
               </p>
             </div>
           </section>
 
-
           {showComments && (
             <section>
-              {comments.map((comment, index) => (
-                <>
-                  <div className="comment-detail" key={comment.id}>
-                    <ProfileCircle
-                      initials={comment.user}
-                      uniqueKey={'comment' + comment.id + index}
-                      role={comment.role}
-                      userId={comment.userId}
-                    />
-                    <div className="comment-container">
-                      <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+              { comments.length > 3 &&
+                <div className="interaction">
+                  <button className="see-previous-comments" onClick={seeAllComments}>{!allComments ? 'See previous comments' : 'See less comments'}</button>
+                </div>
+              }
+              <div className="post-comments" ref={commentsContainerRef}>
+                {(allComments ? comments : comments.slice(-3)).map((comment, index) => {
+                  const firstName = comment.firstName ?? comment.firstname ?? comment.user?.firstName ?? '';
+                  const lastName = comment.lastName ?? comment.lastname ?? comment.user?.lastName ?? '';
+                  const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
+                  const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
+                  return (
+                    <div className="comment-detail" key={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}>
+                      <ProfileCircle
+                        initials={`${firstName.charAt(0)}${lastName.charAt(0)}`}
+                        uniqueKey={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}
+                        role={role}
+                        userId={userIdFromComment}
+                      />
+                      <div className="comment-container">
+                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
+                      </div>
                     </div>
-                  </div>
-                </>
-              ))}
+                  );
+                })}
+              </div>
             </section>
           )}
 
           <section className="create-a-comment">
             <ProfileCircle
               initials={loggedInUserInitials}
-              uniqueKey={'comment' + id + 'owninput'}
+              uniqueKey={`comment-${id ?? listIndex}-owninput`}
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />
-            <Button text="Add a comment..." />
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              handleSend();
+            }}>
+              <TextInput
+                value={commentContent}
+                name="commentContent"
+                onChange={(e) => setCommentContent(e.target.value)}
+                placeholder="Add a comment..."
+                actionIcon={<SendIcon />}
+                onActionClick={handleSend}
+              />
+            </form>
           </section>
         </article>
       </Card>

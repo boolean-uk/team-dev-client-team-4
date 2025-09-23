@@ -5,9 +5,9 @@ import { patch } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function UpdatePostConfirm({ postId }) {
+function UpdatePostConfirm({ postId, text }) {
   const { closeModal } = useModal();
-  const { closeDialog } = useDialog();
+  const { closeDialog, showActionSuccessPopup } = useDialog();
 
   const dontSave = () => {
     closeModal();
@@ -20,15 +20,16 @@ function UpdatePostConfirm({ postId }) {
 
   const updatePost = async () => {
     try {
-      const res = await patch('posts/' + postId, true);
-      if (!res.ok) {
+      const res = await patch('posts/' + postId, { body: text }, true);
+      if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-
+      showActionSuccessPopup('Edited', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
     }
+
     setTimeout(() => {
       closeDialog();
       closeModal();

@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
 import useAuth from '../../hooks/useAuth';
-import { API_URL } from '../../service/constants';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -18,14 +18,18 @@ const Dashboard = () => {
   const decodedToken = jwtDecode(storedToken);
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-  const userURL = `${API_URL}/users/`;
+
   const { loggedInUser } = useAuth();
+  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
   useEffect(() => {
-    fetch(`${userURL}${userId}`)
+    fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`)
       .then((res) => res.json())
       .then((data) => {
-        setCohortId(data.data.cohortId);
+        const u = data?.data ?? {};
+        const direct = u.cohortId ?? u.cohort_id;
+        const viaMembership = u?.userCCs?.[0]?.cc?.cohortId ?? u?.userCCs?.[0]?.cc?.cohort?.id;
+        setCohortId(direct ?? viaMembership ?? null);
       })
       .catch(() => setCohortId(null));
   }, [userId]);
@@ -51,7 +55,7 @@ const Dashboard = () => {
       <main>
         <Card>
           <div className="create-post-input">
-            <div className="profile-icon">
+            <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
               <p>{initials}</p>
             </div>
             <Button text="What's on your mind?" onClick={showModal} />

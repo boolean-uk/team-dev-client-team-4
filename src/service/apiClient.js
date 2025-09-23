@@ -23,20 +23,20 @@ async function createProfile(
   return await patch(
     `users/${userId}`,
     {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      github: github,
-      phone: phone,
-      bio: bio
+      firstName,
+      lastName,
+      username,
+      github,
+      phone,
+      bio
     },
     auth
   );
 }
 
 async function getPosts() {
-  const res = await get('posts/v2');
-  return res.data.posts;
+  const res = await get('posts');
+  return res?.data?.posts ?? res?.data ?? [];
 }
 
 async function post(endpoint, data, auth = true) {
@@ -79,4 +79,4 @@ async function request(method, endpoint, data, auth = true) {
   return response.json();
 }
 
-export { login, getPosts, register, createProfile, get, patch, deleteRequest };
+export { login, getPosts, register, createProfile, get, patch, post, deleteRequest };

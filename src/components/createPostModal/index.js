@@ -3,6 +3,7 @@ import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
 import useAuth from '../../hooks/useAuth';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const CreatePostModal = () => {
   // Use the useModal hook to get the closeModal function so we can close the modal on user interaction
@@ -11,6 +12,7 @@ const CreatePostModal = () => {
   const { loggedInUser } = useAuth();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState('');
+  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
   const onChange = (e) => {
     setText(e.target.value);
@@ -32,7 +34,7 @@ const CreatePostModal = () => {
   return (
     <>
       <section className="create-post-user-details">
-        <div className="profile-icon">
+        <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
           <p>{loggedInUserInitials}</p>
         </div>
         <div className="post-user-name">

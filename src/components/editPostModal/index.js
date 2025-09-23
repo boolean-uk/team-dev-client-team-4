@@ -3,11 +3,13 @@ import useDialog from '../../hooks/useDialog';
 import Button from '../button';
 import UpdatePostConfirm from '../updatePostConfirm';
 import './style.css';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const EditPostModal = ({ author, postContent, postId }) => {
   const { setDialog, openDialog } = useDialog();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState(postContent || '');
+  const profileIconColor = ProfileIconColor(author?.id || 0);
 
   const postAuthor = author ? `${author.firstName} ${author.lastName}` : '';
   const postAuthorInitials = author
@@ -21,7 +23,7 @@ const EditPostModal = ({ author, postContent, postId }) => {
   const showUpdateDialog = () => {
     setDialog(
       'Save and update your post?',
-      <UpdatePostConfirm postId={postId} />,
+      <UpdatePostConfirm postId={postId} text={text} />,
       'Do you want to save the updates to your post?'
     );
     openDialog();
@@ -30,7 +32,7 @@ const EditPostModal = ({ author, postContent, postId }) => {
   return (
     <>
       <section className="edit-post-user-details">
-        <div className="profile-icon">
+        <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
           <p>{postAuthorInitials}</p>
         </div>
         <div className="post-user-name">
