@@ -10,7 +10,7 @@
 }
 
 .comment-options-dropdown ul {
-  width: 120%;       
+  width: 110%;       
 }
 
 .comment-options-dropdown li button {
@@ -54,4 +54,8 @@
 .comment-options-dropdown li a p {
   font-size: 1rem;
   text-align: left;
+}
+
+.comment-options-dropdown li button {
+  max-width: 300px !important;
 }
