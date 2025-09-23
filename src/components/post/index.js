@@ -198,6 +198,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, ref
                           commentId={comment.id}
                           content={comment.body}
                           authorId={comment.userId}
+                          refreshPosts={refreshPosts}
                         />
                       </div>
                     </div>
