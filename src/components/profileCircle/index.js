@@ -13,11 +13,13 @@ import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import DeleteUserConfirm from '../deleteUserConfirm';
+import useAuth from '../../hooks/useAuth';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
   const profileIconColor = ProfileIconColor(userId);
+  const { loggedInUser } = useAuth();
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -37,7 +39,14 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   return (
     <div className="profile-circle" onClick={toggleMenu}>
       {uniqueKey === cascadingMenuVisibleId && (
-        <CascadingMenu role={role} id={userId} name={name} currentCohortId={user?.cohortId} onUserUpdate={onUserUpdate} />
+        <CascadingMenu
+            role={role}
+            id={userId}
+            name={name}
+            currentCohortId={user?.cohortId}
+            onUserUpdate={onUserUpdate}
+            loggedInUser={loggedInUser}
+        />
       )}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
@@ -47,7 +56,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   );
 };
 
-const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate }) => {
+const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedInUser }) => {
   const { setDialog, openDialog } = useDialog();
 
   const showDeleteDialog = () => {
@@ -91,35 +100,35 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate }) => {
     ]
   }
 
-  if (role === 'teacher') {
-    return (
-      <Menu className="profile-circle-menu">
-        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
-      </Menu>
-    );
-  }
+  const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
+  const isSelf = loggedInUser?.id === id;
 
   return (
-    <Menu className="profile-circle-menu">
-      <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
-      <MenuItem icon={<AddIcon />} text="Add note" />
-      <MenuItem icon={<CohortIcon />} text="Move to cohort">
-        {Object.entries(cohorts).map(([course, cohortList]) => (
-          <MenuItem key={course} icon={<SquareBracketsIcon />} text={course}>
-            {cohortList
-              .filter(c => c.id !== currentCohortId)
-              .map(c => (
-                <MenuItem
-                  key={c.id}
-                  icon={<CohortIconFill />}
-                  text={c.name}
-                  onClick={() => showMoveToCohortDialog(course, c.name, c.id)}
-                />
-              ))}
+      <Menu className="profile-circle-menu">
+        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
+
+      {isLoggedInTeacher && !isSelf && (
+        <>
+          <MenuItem icon={<AddIcon />} text="Add note" />
+          <MenuItem icon={<CohortIcon />} text="Move to cohort">
+            {Object.entries(cohorts).map(([course, cohortList]) => (
+              <MenuItem key={course} icon={<SquareBracketsIcon />} text={course}>
+                {cohortList
+                  .filter(c => c.id !== currentCohortId)
+                  .map(c => (
+                    <MenuItem
+                      key={c.id}
+                      icon={<CohortIconFill />}
+                      text={c.name}
+                      onClick={() => showMoveToCohortDialog(course, c.name, c.id)}
+                    />
+                  ))}
+              </MenuItem>
+            ))}
           </MenuItem>
-        ))}
-      </MenuItem>
-      <MenuItem icon={<DeleteIcon />} text="Delete user" onClick={showDeleteDialog} />
+          <MenuItem icon={<DeleteIcon />} text="Delete user" onClick={showDeleteDialog} />
+        </>
+      )}
     </Menu>
   );
 };
