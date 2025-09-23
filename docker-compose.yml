@@ -1,4 +1,31 @@
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=appuser
+      - POSTGRES_PASSWORD=apppassword
+      - POSTGRES_DB=appdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ../csharp-team-dev-server-team-4/exercise.wwwapi
+      dockerfile: Dockerfile
+    image: team-dev-api
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=appdb;Username=appuser;Password=apppassword;SSL Mode=Disable
+      - Token="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/"
+      - JWT__SigningKey=dev-super-secret-signing-key
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "3001:8080"
+    depends_on:
+      - db
+
   web:
     build:
       context: .
@@ -8,3 +35,8 @@ services:
     image: team-dev-client:web
     ports:
       - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
