@@ -49,7 +49,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
   }, [setCascadingMenuVisibleId]);
 
   return (
-    <div className="post-options-wrapper" onClick={toggleMenu}>
+    <div className="post-options-wrapper" onClick={toggleMenu} ref={ref}>
       <p>...</p>
       {uniqueKey === cascadingMenuVisibleId && (
         <PostOptionsCascadingMenu showEditModal={showEditModal} deletePost={showDeleteDialog} author={author} loggedInUser={loggedInUser} />
@@ -59,7 +59,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId }) => {
 };
 
 const PostOptionsCascadingMenu = ({ showEditModal, deletePost, author, loggedInUser }) => {
-  if (loggedInUser.role.toLowerCase() === 'student' && author.id !== loggedInUser.id) {
+  if ((loggedInUser?.role || '').toLowerCase() === 'student' && author.id !== loggedInUser?.id) {
     return (
       <Menu className="post-options-dropdown">
         <MenuItem icon={<ReportIcon />} text="Report post" linkTo={'#nogo'} />

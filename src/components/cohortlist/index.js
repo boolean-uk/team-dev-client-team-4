@@ -51,14 +51,16 @@ const CohortList = ({ cohortId, userId }) => {
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
-            .map((user) => (
-              <li key={user.id} className="cohort-list-item">
+            .map((user, idx) => {
+              const uid = user.id ?? user.userId ?? user.user_id ?? idx;
+              return (
+                <li key={uid} className="cohort-list-item">
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                   <ProfileCircle
                     initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                    userId={user.id}
+                    userId={uid}
                     role={(user.role || '').toLowerCase()}
-                    uniqueKey={'cohortlist' + user.id}
+                    uniqueKey={`cohortlist-${uid}`}
                   />
                   <strong style={{ marginLeft: '8px' }}>
                     {user?.firstName} {user?.lastName}
@@ -68,7 +70,8 @@ const CohortList = ({ cohortId, userId }) => {
                   </div>
                 </div>
               </li>
-            ))}
+            );
+            })}
       </ul>
     </>
   );

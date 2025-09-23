@@ -80,12 +80,15 @@ const SearchResults = () => {
               ? (
               <>
                 <ul className="cohort-list">
-                  {searchResults.slice(0, 10).map((user) => (
-                    <li key={user.id} className="cohort-list-item">
+                  {searchResults.slice(0, 10).map((user, idx) => {
+                    const uid = user.id ?? user.userId ?? user.user_id ?? idx;
+                    return (
+                    <li key={uid} className="cohort-list-item">
                       <ProfileCircle
                         initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                        userId={user.id}
-                        role={user.role.toLowerCase()}
+                        uniqueKey={`search-${uid}`}
+                        userId={uid}
+                        role={(user.role || '').toLowerCase()}
                       />
                       <div className="user-info">
                       <strong>
@@ -96,7 +99,8 @@ const SearchResults = () => {
                       </div>
                     </div>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
 
                 {searchResults.length >= 10 && (

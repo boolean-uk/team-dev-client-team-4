@@ -13,7 +13,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -128,7 +128,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
           <section className="post-details">
             <ProfileCircle
               initials={userInitials}
-              uniqueKey={'post' + id}
+              uniqueKey={`post-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
               role={user.role.toLowerCase()}
               userId={user.id}
             />
@@ -140,7 +140,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
 
             <div className="edit-icon">
               <PostOptionsMenu
-                uniqueKey={'postOptionsMenu' + id}
+                uniqueKey={`postOptionsMenu-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
                 postId={id}
                 content={content}
                 author={user}
@@ -202,19 +202,17 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                   const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
                   const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
                   return (
-                  <>
-                    <div className="comment-detail" key={comment.id}>
+                    <div className="comment-detail" key={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}>
                       <ProfileCircle
                         initials={`${firstName.charAt(0)}${lastName.charAt(0)}`}
-                        uniqueKey={'comment' + comment.id + index}
+                        uniqueKey={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}
                         role={role}
                         userId={userIdFromComment}
                       />
                       <div className="comment-container">
-                        <Comment key={comment.id} name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
+                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
                       </div>
                     </div>
-                  </>
                   );
                 })}
               </div>
@@ -224,7 +222,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
           <section className="create-a-comment">
             <ProfileCircle
               initials={loggedInUserInitials}
-              uniqueKey={'comment' + id + 'owninput'}
+              uniqueKey={`comment-${id ?? listIndex}-owninput`}
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />

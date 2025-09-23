@@ -29,14 +29,15 @@ const Posts = () => {
 
   return (
     <>
-      {posts.map((post) => {
+      {posts.map((post, i) => {
         const sortedComments = [...post.comments].sort(
           (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
         );
 
         return (
           <Post
-            key={`post-${post.id ?? `${post.authorId}-${post.createdAt}`}`}
+            key={`post-${post.id ?? `${post.authorId ?? 'na'}-${post.createdAt}-${i}`}`}
+            listIndex={i}
             name={`${post.firstname} ${post.lastname}`}
             authorId={post.authorId}
             id={post.id}
