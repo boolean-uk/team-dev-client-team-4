@@ -5,7 +5,7 @@ import { patch } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function UpdatePostConfirm({ postId, text }) {
+function UpdatePostConfirm({ postId, text, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -34,6 +34,8 @@ function UpdatePostConfirm({ postId, text }) {
       closeDialog();
       closeModal();
     }, 300);
+
+    refreshPosts();
   };
 
   return (

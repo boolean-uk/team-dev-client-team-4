@@ -20,7 +20,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId, refreshPosts }) =
   const { loggedInUser } = useAuth();
 
   const showEditModal = () => {
-    setModal('Edit Post', <EditPostModal postContent={content} author={author} postId={postId} />);
+    setModal('Edit Post', <EditPostModal postContent={content} author={author} postId={postId} refreshPosts={refreshPosts}/>);
     openModal();
   };
 
