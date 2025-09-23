@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const Header = () => {
   const { token, onLogout, loggedInUser } = useAuth();
@@ -60,7 +61,7 @@ const Header = () => {
                 <p>
                   {loggedInUser?.firstName} {loggedInUser?.lastName}
                 </p>
-                <small>Software Developer, Cohort {loggedInUser?.cohortId}</small>
+                <small>{mapSpecialism(loggedInUser?.specialism)}, Cohort {loggedInUser?.cohortId}</small>
               </div>
             </section>
 
