@@ -15,7 +15,7 @@ import MoveToCohortConfirm from '../moveToCohortConfirm';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import DeleteUserConfirm from '../deleteUserConfirm';
 
-const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user }) => {
+const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
   const profileIconColor = ProfileIconColor(userId);
@@ -38,7 +38,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user }) => {
   return (
     <div className="profile-circle" onClick={toggleMenu}>
       {uniqueKey === cascadingMenuVisibleId && (
-        <CascadingMenu role={role} id={userId} name={name} currentCohortId={user.cohortId} />
+        <CascadingMenu role={role} id={userId} name={name} currentCohortId={user?.cohortId} onUserUpdate={onUserUpdate} />
       )}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
@@ -48,7 +48,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user }) => {
   );
 };
 
-const CascadingMenu = ({ role, id, name, currentCohortId }) => {
+const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate }) => {
   const { setDialog, openDialog } = useDialog();
 
   const showDeleteDialog = () => {
@@ -56,8 +56,10 @@ const CascadingMenu = ({ role, id, name, currentCohortId }) => {
       `Delete ${name}?`,
       <DeleteUserConfirm userToDeleteId={id} />,
       <div className="dialog-texts">
-        <p>Are you sure you want to delete this user?</p>
-        <p>This will remove their account from Cohort Manager.</p>
+        <div>
+          Are you sure you want to delete this user? <br />
+          This will remove their account from Cohort Manager.
+        </div>
       </div>
     );
     openDialog();
@@ -66,12 +68,12 @@ const CascadingMenu = ({ role, id, name, currentCohortId }) => {
   const showMoveToCohortDialog = (course, cohort, newCohortId) => {
     setDialog(
       `Move ${name} to new cohort?`,
-      <MoveToCohortConfirm userToMoveId={id} newCohortId={newCohortId} />,
+      <MoveToCohortConfirm userToMoveId={id} newCohortId={newCohortId} onUserUpdate={onUserUpdate}/>,
       <div className="dialog-texts">
-        <p>
+        <div>
           Are you sure you want to move this user to <br />
           {course}, {cohort}?
-        </p>
+        </div>
       </div>
     );
     openDialog();

@@ -15,7 +15,7 @@ function DeleteUserConfirm({ userToDeleteId }) {
   const deleteUser = async () => {
     try {
       const res = await deleteRequest('users/' + userToDeleteId);
-      if (!res === 'success') {
+      if (res !== 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
       showActionSuccessPopup('User deleted', 4000);

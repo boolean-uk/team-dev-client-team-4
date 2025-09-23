@@ -11,10 +11,3 @@
   padding: 8px 16px;
 }
 
-.dialog-texts p {
-  margin: 0 0 12px 0; 
-}
-
-.dialog-texts p:last-child {
-  margin-bottom: 0; 
-}

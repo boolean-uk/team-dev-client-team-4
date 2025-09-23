@@ -6,6 +6,7 @@ import './index.css';
 import { API_URL } from '../../service/constants';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import mapSpecialism from '../../userUtils/mapSpecialism';
+import { get } from '../../service/apiClient';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
@@ -32,6 +33,21 @@ const TeacherUserlist = ({ title, role, userId }) => {
     navigate('/search');
   };
 
+  const fetchUser = async (userId) => {
+    try {
+      const updatedUser = await get(`users/${userId}`).then(res => res.data.user || res.data);
+
+      setUsers(prevUsers =>
+        prevUsers.map(user =>
+          user.id === userId ? updatedUser : user
+        )
+      );
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  };
+
+
   return (
     <>
       <h4>{title}</h4>
@@ -53,6 +69,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   userId={user.id}
                   name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
                   user={user}
+                  onUserUpdate={fetchUser}
                 />
                 <div className="user-info">
                   <strong>
