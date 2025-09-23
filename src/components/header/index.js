@@ -68,7 +68,10 @@ const Header = () => {
             <section className="user-panel-options border-top">
               <ul>
                 <li>
-                  <NavLink to="/profile">
+                  <NavLink
+                    to="/profile"
+                    onClick={() => setCascadingMenuVisibleId(null)}
+                  >
                     <ProfileIcon /> <p>Profile</p>
                   </NavLink>
                 </li>
