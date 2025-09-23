@@ -111,6 +111,8 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     setToken(null);
     setLoggedInUser(null);
+    // Ensure we land on the login screen immediately after logout
+    navigate('/login', { replace: true });
   };
 
   const handleRegister = async (email, password) => {

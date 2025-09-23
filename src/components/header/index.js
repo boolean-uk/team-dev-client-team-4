@@ -41,7 +41,15 @@ const Header = () => {
       </div>
 
       {cascadingMenuVisibleId === menuId && (
-        <div className="user-panel" ref={menuRef}>
+        <div
+          className="user-panel"
+          ref={menuRef}
+          data-menu-root="true"
+          onClick={(e) => {
+            // Prevent outside click handler from closing the menu before inner actions fire
+            e.stopPropagation();
+          }}
+        >
           <Card>
             <section className="post-details">
               <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
@@ -69,7 +77,20 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="#" onClick={onLogout}>
+                  <NavLink
+                    to="#"
+                    onMouseDown={(e) => {
+                      // Fire early to beat any outside-click closers
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onLogout();
+                    }}
+                    onClick={(e) => {
+                      // Safety: also prevent default on click
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
                     <LogoutIcon /> <p>Log out</p>
                   </NavLink>
                 </li>
