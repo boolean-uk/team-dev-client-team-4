@@ -192,15 +192,15 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, ref
                       <div className="comment-container">
                         <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
                       </div>
-                      <div className="edit-icon menu-comment">
-                        <CommentOptionsMenu
-                          uniqueKey={'commentOptionsMenu' + comment.id}
-                          commentId={comment.id}
-                          content={comment.body}
-                          author={{ id: comment.userId, firstName: comment.firstName, lastName: comment.lastName }}
-                          refreshPosts={refreshPosts}
-                        />
-                      </div>
+                        <div className="edit-icon menu-comment">
+                          <CommentOptionsMenu
+                            uniqueKey={'commentOptionsMenu' + comment.id}
+                            commentId={comment.id}
+                            content={comment.body}
+                            author={{ id: comment.userId, firstName: comment.firstName, lastName: comment.lastName }}
+                            refreshPosts={refreshPosts}
+                          />
+                        </div>
                     </div>
                   </>
                 ))}
