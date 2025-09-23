@@ -52,6 +52,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                   userId={user.id}
                   name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
+                  user={user}
                 />
                 <div className="user-info">
                   <strong>
