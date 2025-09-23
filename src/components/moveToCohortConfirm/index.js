@@ -18,7 +18,7 @@ function MoveToCohortConfirm({ userToMoveId, newCohortId, onUserUpdate }) {
       if (res !== 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      if (onUserUpdate) onUserUpdate(userToMoveId); // refresh user data in parent component
+      if (onUserUpdate) onUserUpdate(userToMoveId); // refresh user data when cohort is updated
       showActionSuccessPopup('User moved', 4000);
       console.log('PATCH COHORT RESPONSE: ' + res);
     } catch (err) {

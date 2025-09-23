@@ -2,7 +2,6 @@ import AddIcon from '../../assets/icons/addIcon';
 import CohortIcon from '../../assets/icons/cohortIcon';
 import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import DeleteIcon from '../../assets/icons/deleteIcon';
-import MonitorIcon from '../../assets/icons/monitorIcon';
 import ProfileIcon from '../../assets/icons/profileIcon';
 import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';

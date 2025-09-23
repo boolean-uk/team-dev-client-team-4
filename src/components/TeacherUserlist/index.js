@@ -47,7 +47,6 @@ const TeacherUserlist = ({ title, role, userId }) => {
     }
   };
 
-
   return (
     <>
       <h4>{title}</h4>
