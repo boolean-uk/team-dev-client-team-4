@@ -35,8 +35,8 @@ async function createProfile(
 }
 
 async function getPosts() {
-  const res = await get('posts/v2');
-  return res.data.posts;
+  const res = await get('posts');
+  return res?.data?.posts ?? res?.data ?? [];
 }
 
 async function post(endpoint, data, auth = true) {

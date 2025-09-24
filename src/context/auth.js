@@ -101,8 +101,7 @@ const AuthProvider = ({ children }) => {
       navigate('/welcome');
     } else {
       console.log('Login: profile complete, navigating to home');
-      AuthContext
-        .navigate(location.state?.from?.pathname || '/');
+      navigate(location.state?.from?.pathname || '/');
     }
   };
 
@@ -111,6 +110,8 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('token');
     setToken(null);
     setLoggedInUser(null);
+    // Ensure we land on the login screen immediately after logout
+    navigate('/login', { replace: true });
   };
 
   const handleRegister = async (email, password) => {
