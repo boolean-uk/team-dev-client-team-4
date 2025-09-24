@@ -1,0 +1,21 @@
+.cohorts-list {
+  padding-left: 0;
+}
+
+.cohorts-list-item {
+  list-style: none;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-icon {
+  background: #05f569ff;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+}
+
+.profile-icon svg {
+  fill: #ffffff !important;
+}

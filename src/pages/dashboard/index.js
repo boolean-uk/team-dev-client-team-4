@@ -11,6 +11,7 @@ import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
 import useAuth from '../../hooks/useAuth';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import Cohorts from '../../components/cohorts';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -68,6 +69,9 @@ const Dashboard = () => {
       <aside>
         <Card>
           <SearchResults />
+        </Card>
+        <Card>
+          {userRole === 'Teacher' && <Cohorts />}
         </Card>
 
         <Card>
