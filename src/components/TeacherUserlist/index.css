@@ -5,6 +5,8 @@ hr {
 .student-list {
   list-style: none;
   padding: 0;
+  overflow-y: scroll;
+  max-height: 700px;
 }
 
 .user-list-item {
