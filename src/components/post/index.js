@@ -139,7 +139,7 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes 
               <small>{formatDateTime(date)}</small>
             </div>
 
-             <div className="edit-tag">
+            <div className="edit-tag">
               <p>
                 {edited && 'Edited'}
               </p>
@@ -209,6 +209,7 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes 
                   const lastName = comment.lastName ?? comment.lastname ?? comment.user?.lastName ?? '';
                   const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
                   const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
+                  const editedComment = comment.updatedAt && comment.updatedAt !== comment.createdAt;
                   return (
                     <div className="comment-detail" key={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}>
                       <ProfileCircle
@@ -218,7 +219,7 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes 
                         userId={userIdFromComment}
                       />
                       <div className="comment-container">
-                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
+                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} editedComment={editedComment} />
                       </div>
                         <div className="edit-icon menu-comment">
                           <CommentOptionsMenu
