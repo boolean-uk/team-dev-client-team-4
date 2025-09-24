@@ -11,11 +11,15 @@ const CreatePostModal = (props) => {
     const {loggedInUser} = useAuth();
     const {refreshPosts} = props;
 
+    const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
+
     const [message, setMessage] = useState('');
     const [showError, setShowError] = useState(false);
 
-    const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
-
+    const loggedInUserInitials = loggedInUser
+        ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+        : '';
+    
     const onChange = (e) => {
         setMessage(e.target.value);
     };
@@ -28,12 +32,13 @@ const CreatePostModal = (props) => {
         };
 
         try {
-        const createdPost = await post('posts', postRequest, true);
+            const createdPost = await post('posts', postRequest, true);
             setShowError(createdPost.status !== 'success');
 
             if (createdPost.status !== 'success') {
                 setShowError(true);
             } else {
+                console.log(createdPost);
                 refreshPosts();
                 closeModal();
             }
@@ -42,11 +47,7 @@ const CreatePostModal = (props) => {
             setShowError(true);
         }
     };
-
-    const loggedInUserInitials = loggedInUser
-        ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
-        : '';
-
+    
     return (
         <>
             <section className="create-post-user-details">
