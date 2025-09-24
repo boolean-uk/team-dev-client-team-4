@@ -12,3 +12,7 @@ textarea {
   border-radius: 8px;
   padding: 16px;
 }
+
+.create-error {
+    color: #ff0500;
+}

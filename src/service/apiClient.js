@@ -52,9 +52,7 @@ async function deleteRequest(endpoint, auth = true) {
 }
 
 async function get(endpoint, auth = true) {
-  const res = await request('GET', endpoint, null, auth);
-  console.log(res);
-  return res;
+  return await request('GET', endpoint, null, auth);
 }
 
 async function request(method, endpoint, data, auth = true) {
