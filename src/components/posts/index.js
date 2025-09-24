@@ -18,10 +18,11 @@ const Posts = (props) => {
                         authorId={post.authorId}
                         id={post.id}
                         date={post.createdAt}
+                        edited={post.updatedAt && post.updatedAt !== post.createdAt}
                         content={post.body}
                         comments={sortedComments}
                         likes={post.likes}
-                        onCommentAdded={refreshPosts}
+                        refreshPosts={refreshPosts}
                     />
                 );
             })}

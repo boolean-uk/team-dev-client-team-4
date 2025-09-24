@@ -35,7 +35,7 @@ const Dashboard = () => {
     const initials = loggedInUser
         ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
         : '';
-
+    
     const refreshPosts = () => {
         getPosts().then((data) => {
             const sortedPosts = data
@@ -43,6 +43,7 @@ const Dashboard = () => {
                     // normalise naming to what Post component expects
                     ...p,
                     createdAt: p.createdAt ?? p.created_at ?? p.dateCreated,
+                    updatedAt: p.updatedAt ?? p.updated_at ?? p.dateUpdated,
                     body: p.body ?? p.content,
                     authorId: p.authorId ?? p.author_id ?? p.author?.id,
                     firstname: p.firstname ?? p.firstName ?? p.author?.firstName ?? '',
