@@ -12,6 +12,7 @@ import { DialogProvider } from './context/dialog';
 import { CascadingMenuProvider } from './context/cascadingMenuContext';
 import Welcome from './pages/welcome';
 import Searching from './pages/searching';
+import ActionSuccess from './components/actionSuccess';
 
 const App = () => {
   return (
@@ -66,6 +67,7 @@ const App = () => {
                   }
                 />
               </Routes>
+              <ActionSuccess />
             </DialogProvider>
           </CascadingMenuProvider>
         </ModalProvider>

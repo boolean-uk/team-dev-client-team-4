@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
 import useAuth from '../../hooks/useAuth';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const Dashboard = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const userURL = `https://localhost:7233/users/`;
   const { loggedInUser } = useAuth();
+  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
   useEffect(() => {
     fetch(`${userURL}${userId}`)
@@ -50,7 +52,7 @@ const Dashboard = () => {
       <main>
         <Card>
           <div className="create-post-input">
-            <div className="profile-icon">
+            <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
               <p>{initials}</p>
             </div>
             <Button text="What's on your mind?" onClick={showModal} />

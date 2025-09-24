@@ -4,37 +4,40 @@ import './style.css';
 import Button from '../button';
 import useAuth from '../../hooks/useAuth';
 import { post } from '../../service/apiClient';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
 const CreatePostModal = () => {
   // Use the useModal hook to get the closeModal function so we can close the modal on user interaction
   const { closeModal } = useModal();
 
   const { loggedInUser } = useAuth();
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(null);
+  const [text, setText] = useState('');
+  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
   const onChange = (e) => {
     setMessage(e.target.value);
   };
 
-  const onSubmit = async () => {
-    console.log(message);
-    const postRequest = {
-      author_id: loggedInUser.id,
-      body: message,
-      created_at: '2025-09-18T13:36:06.242Z'
+    const onSubmit = async () => {
+        console.log(message);
+        const postRequest = {
+            author_id: loggedInUser.id,
+            body: message,
+            created_at: '2025-09-18T13:36:06.242Z'
+        };
+
+        const createdPost = await post('posts/', postRequest, true);
+        const data = createdPost.data;
+        // const data = createdPost.json();
+        console.log(data);
+
+        closeModal();
+        // setTimeout(() => {
+        //   setMessage(null);
+        //   closeModal();
+        // }, 2000);
     };
-
-    const createdPost = await post('posts/', postRequest, true);
-    const data = createdPost.data;
-    // const data = createdPost.json();
-    console.log(data);
-
-    closeModal();
-    // setTimeout(() => {
-    //   setMessage(null);
-    //   closeModal();
-    // }, 2000);
-  };
 
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
@@ -43,7 +46,7 @@ const CreatePostModal = () => {
   return (
     <>
       <section className="create-post-user-details">
-        <div className="profile-icon">
+        <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
           <p>{loggedInUserInitials}</p>
         </div>
         <div className="post-user-name">
