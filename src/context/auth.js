@@ -101,8 +101,7 @@ const AuthProvider = ({ children }) => {
       navigate('/welcome');
     } else {
       console.log('Login: profile complete, navigating to home');
-      AuthContext
-        .navigate(location.state?.from?.pathname || '/');
+      navigate(location.state?.from?.pathname || '/');
     }
   };
 
