@@ -23,7 +23,7 @@ const Navigation = () => {
         </li>
         <li className={location.pathname === '/profile' ? 'active-link' : ''}>
           <NavLink to="/profile">
-            <ProfileIcon isActive={location.pathname === '/profile'} />
+            <ProfileIcon colour={location.pathname === '/profile' ? '#000046' : '#64648c'}/>
             <p>Profile</p>
           </NavLink>
         </li>
