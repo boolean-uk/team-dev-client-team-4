@@ -1,10 +1,11 @@
+import React from 'react';
 import Button from '../button';
 import './style.css';
 import { patch } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function UpdatePostConfirm({ postId, text, refreshPosts }) {
+function UpdateCommentConfirm({ commentId, text, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -17,16 +18,16 @@ function UpdatePostConfirm({ postId, text, refreshPosts }) {
     closeDialog();
   };
 
-  const updatePost = async () => {
+  const updateComment = async () => {
     try {
-      const res = await patch('posts/' + postId, { body: text }, true);
+      const res = await patch('comments/' + commentId, { body: text }, true);
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Post Updated', 4000);
+      showActionSuccessPopup('Edited', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
-      console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
+      console.log('ERROR EDIT POSTID:' + commentId + ', ' + err);
     }
 
     setTimeout(() => {
@@ -38,8 +39,8 @@ function UpdatePostConfirm({ postId, text, refreshPosts }) {
   };
 
   return (
-    <div className="updatePostConfirm">
-      <section className="updatePostConfirmButtons">
+    <div className="updateCommentConfirm">
+      <section className="updateCommentConfirmButtons">
         <Button
           onClick={dontSave}
           text="Don't save"
@@ -48,7 +49,7 @@ function UpdatePostConfirm({ postId, text, refreshPosts }) {
         />
         <Button onClick={cancel} text="Cancel" className="dialogButton" classes="button offwhite" />
         <Button
-          onClick={updatePost}
+          onClick={updateComment}
           text="Save & update"
           className="dialogButton"
           classes="button offwhite"
@@ -58,4 +59,4 @@ function UpdatePostConfirm({ postId, text, refreshPosts }) {
   );
 }
 
-export default UpdatePostConfirm;
+export default UpdateCommentConfirm;

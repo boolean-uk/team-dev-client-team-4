@@ -7,13 +7,14 @@ import './style.css';
 import { get, post } from '../../service/apiClient';
 import useAuth from '../../hooks/useAuth';
 import PostOptionsMenu from '../postOptionsMenu/postOptionsMenu';
+import CommentOptionsMenu from '../commentOptionsMenu/commentOptionsMenu';
 import { FiHeart } from 'react-icons/fi';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded, listIndex }) => {
+const Post = ({ id, authorId, name, date, edited, content, comments = [], likes = 0, refreshPosts, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -115,7 +116,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
       console.log('Comment sent:', response);
       setCommentContent('');
 
-      onCommentAdded();
+      refreshPosts();
     } catch (error) {
       console.error('Error while sending comment:', error);
     }
@@ -150,12 +151,19 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
               <small>{formatDateTime(date)}</small>
             </div>
 
+            <div className="edit-tag">
+              <p>
+                {edited && 'Edited'}
+              </p>
+            </div>
+
             <div className="edit-icon">
               <PostOptionsMenu
                 uniqueKey={`postOptionsMenu-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
                 postId={id}
                 content={content}
                 author={user}
+                refreshPosts={refreshPosts}
               />
             </div>
           </section>
@@ -213,6 +221,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                   const lastName = comment.lastName ?? comment.lastname ?? comment.user?.lastName ?? '';
                   const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
                   const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
+                  const editedComment = comment.updatedAt && comment.updatedAt !== comment.createdAt;
                   return (
                     <div className="comment-detail" key={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}>
                       <ProfileCircle
@@ -222,8 +231,17 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                         userId={userIdFromComment}
                       />
                       <div className="comment-container">
-                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
+                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} editedComment={editedComment} />
                       </div>
+                        <div className="edit-icon menu-comment">
+                          <CommentOptionsMenu
+                            uniqueKey={'commentOptionsMenu' + comment.id}
+                            commentId={comment.id}
+                            content={comment.body}
+                            author={{ id: comment.userId, firstName: comment.firstName, lastName: comment.lastName }}
+                            refreshPosts={refreshPosts}
+                          />
+                        </div>
                     </div>
                   );
                 })}

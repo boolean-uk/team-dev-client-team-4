@@ -5,7 +5,7 @@ import { deleteRequest } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function DeletePostConfirm({ postId, refreshPosts }) {
+function DeleteCommentConfirm({ commentId, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -14,13 +14,13 @@ function DeletePostConfirm({ postId, refreshPosts }) {
     closeDialog();
   };
 
-  const deletePost = async () => {
+  const deleteComment = async () => {
     try {
-      const res = await deleteRequest('posts/' + postId, true);
+      const res = await deleteRequest('comments/' + commentId, true);
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Post deleted', 4000);
+      showActionSuccessPopup('Deleted', 4000);
     } catch (err) {
       console.log('ERROR ' + err);
     }
@@ -33,12 +33,12 @@ function DeletePostConfirm({ postId, refreshPosts }) {
   };
 
   return (
-    <div className="deletePostConfirm">
-      <section className="deletePostConfirmButtons">
+    <div className="deleteCommentConfirm">
+      <section className="deleteCommentConfirmButtons">
         <Button onClick={cancel} text="Cancel" className="dialogButton" classes="button offwhite" />
         <Button
-          onClick={deletePost}
-          text="Delete Post"
+          onClick={deleteComment}
+          text="Delete Comment"
           className="dialogButton"
           classes="button offwhite"
         />
@@ -47,4 +47,4 @@ function DeletePostConfirm({ postId, refreshPosts }) {
   );
 }
 
-export default DeletePostConfirm;
+export default DeleteCommentConfirm;
