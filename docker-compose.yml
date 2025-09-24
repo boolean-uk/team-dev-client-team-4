@@ -2,27 +2,27 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      - POSTGRES_USER=appuser
-      - POSTGRES_PASSWORD=apppassword
-      - POSTGRES_DB=appdb
+      - POSTGRES_USER=${POSTGRES_USER:-appuser}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-apppassword}
+      - POSTGRES_DB=${POSTGRES_DB:-appdb}
     ports:
-      - "5434:5432"
+      - "${DB_PORT:-5434}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   api:
     build:
-      context: ../csharp-team-dev-server-team-4/exercise.wwwapi
-      dockerfile: Dockerfile
-    image: team-dev-api
+      context: ${API_BUILD_CONTEXT:-../csharp-team-dev-server-team-4/exercise.wwwapi}
+      dockerfile: ${API_DOCKERFILE:-Dockerfile}
+    image: ${API_IMAGE_NAME:-team-dev-api}
     environment:
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=appdb;Username=appuser;Password=apppassword;SSL Mode=Disable
-      - Token="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/"
-      - JWT__SigningKey=dev-super-secret-signing-key
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB:-appdb};Username=${POSTGRES_USER:-appuser};Password=${POSTGRES_PASSWORD:-apppassword};SSL Mode=Disable
+      - Token=${API_TOKEN:-dev-token-please-change}
+      - JWT__SigningKey=${JWT_SIGNING_KEY:-dev-super-secret-signing-key}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Development}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS:-http://+:8080}
     ports:
-      - "3001:8080"
+      - "${API_PORT:-3001}:8080"
     depends_on:
       - db
 
@@ -31,10 +31,10 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        REACT_APP_API_URL: "http://localhost:3001"
-    image: team-dev-client:web
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:${API_PORT:-3001}}
+    image: ${WEB_IMAGE_NAME:-team-dev-client:web}
     ports:
-      - "3000:80"
+      - "${WEB_PORT:-3000}:80"
     depends_on:
       - api
 

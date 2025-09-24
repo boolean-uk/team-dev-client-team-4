@@ -8,6 +8,8 @@ Client repository for team dev project.
 2. Make sure the `REACT_APP_API_URL` environment variable in the `.env` file contains the URL of the server app on your machine
 3. `npm ci` to install dependencies
 4. `npm start` to run the app. The server must also be running on your machine
+5. `docker compose up --build` to start up the docker containers for use
+6. `docker compose down` to stop running docker
 
 ### Project Management
 
