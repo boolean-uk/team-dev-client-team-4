@@ -76,7 +76,7 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/">
+                  <NavLink to="#nogo">
                     <CogIcon /> <p>Settings &amp; Privacy</p>
                   </NavLink>
                 </li>
