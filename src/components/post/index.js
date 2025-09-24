@@ -61,6 +61,15 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
     }
   }, [showComments, allComments, comments]);
 
+  const fetchUser = async () => {
+    try {
+      const updatedUser = await get(`users/${authorId}`).then(res => res.data);
+      setUser(updatedUser);
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  };
+
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
 
@@ -130,6 +139,9 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
               initials={userInitials}
               uniqueKey={`post-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
               role={user.role.toLowerCase()}
+              name={name}
+              user={user}
+              onUserUpdate={fetchUser}
               userId={authorId}
             />
 

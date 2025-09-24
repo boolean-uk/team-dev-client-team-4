@@ -21,7 +21,8 @@
 .menu li {
   position: relative;
 }
-.menu li a {
+.menu li a, 
+.menu li button {
   display: grid;
   grid-template-columns: 30px auto;
   gap: 28px;
@@ -29,18 +30,29 @@
   padding: 16px 28px;
   text-decoration: none;
 }
-.menu li a svg {
+.menu li a svg,
+.menu li button svg {
   justify-self: center;
 }
 .menu li a p {
   color: var(--color-blue1);
   font-size: 18px;
   line-height: 24px;
+  text-align: left;
 }
-.menu li a svg path {
+.menu li button p {
+  color: var(--color-blue1);
+  font-size: 18px;
+  line-height: 24px;
+  white-space: nowrap;
+  text-align: left;
+}
+.menu li a svg path,
+.menu li button svg path {
   fill: var(--color-blue1);
 }
-.menu li a svg:nth-of-type(2) {
+.menu li a svg:nth-of-type(2),
+.menu li button svg:nth-of-type(2) {
   position: absolute;
   right: 26px;
   fill: var(--color-blue);
@@ -51,13 +63,16 @@
 .menu li:hover {
   background: var(--color-blue7);
 }
-.menu li:hover > a > p {
+.menu li:hover > a > p
+.menu li:hover > button > p {
   color: var(--color-blue);
 }
-.menu li:hover > a > svg {
+.menu li:hover > a > svg,
+.menu li:hover > button > svg {
   fill: var(--color-blue);
 }
-.menu li:hover > a > svg path {
+.menu li:hover > a > svg path,
+.menu li:hover > button > svg path {
   fill: var(--color-blue);
 }
 .menu li:hover > ul {
