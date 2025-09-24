@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, edited, content, comments = [], likes = 0, refreshPosts, listIndex }) => {
+const Post = ({ id, authorId, name, date, edited, content, comments = [], likes, refreshPosts, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -62,6 +62,13 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes 
     }
   }, [showComments, allComments, comments]);
 
+  useEffect(() => {
+    if (loggedInUser && Array.isArray(likes)) {
+      const hasLiked = likes.some((like) => like.userId === loggedInUser.id);
+      setLiked(hasLiked);
+    }
+  }, [likes, loggedInUser]);
+
   const fetchUser = async () => {
     try {
       const updatedUser = await get(`users/${authorId}`).then(res => res.data);
@@ -96,8 +103,15 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes 
     return `${day} ${month} at ${hours}:${minutes}`;
   };
 
-  const handleClick = () => {
-    setLiked(!liked);
+  const handleClick = async () => {
+    try {
+      const response = await post(`likes/${id}`, {});
+      console.log('Like toggled:', response);
+
+      refreshPosts();
+    } catch (error) {
+      console.error('Error while sending like:', error);
+    }
   };
 
   const viewComments = () => {
