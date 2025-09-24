@@ -5,7 +5,7 @@ function mapSpecialism(specialism) {
   if (specialism === 1) {
     return 'Backend';
   }
-  if (specialism === 2) { 
+  if (specialism === 2) {
     return 'Fullstack';
   }
   return undefined;
