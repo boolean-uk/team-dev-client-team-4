@@ -1,0 +1,12 @@
+.deleteCommentConfirmButtons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 12px;
+  flex-wrap: nowrap;
+  padding: 0;
+}
+
+.dialogButton {
+  white-space: nowrap;
+  padding: 8px 16px;
+}
