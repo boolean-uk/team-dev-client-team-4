@@ -13,6 +13,7 @@ import { CascadingMenuProvider } from './context/cascadingMenuContext';
 import Welcome from './pages/welcome';
 import Searching from './pages/searching';
 import ActionSuccess from './components/actionSuccess';
+import CohortPage from './pages/cohort';
 
 const App = () => {
   return (
@@ -63,6 +64,14 @@ const App = () => {
                   element={
                     <ProtectedRoute disabledNav={true}>
                       <Profile />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="cohort"
+                  element={
+                    <ProtectedRoute disabledNav={true}>
+                      <CohortPage />
                     </ProtectedRoute>
                   }
                 />
