@@ -51,18 +51,18 @@ function MyCohortCard() {
   return (
     <>
         <div>
-          {cohortName ?? <p>`${mapSpecialism(specialism)}, ${cohortName}`</p>}
+          {cohortName && <p>{mapSpecialism(specialism)}, {cohortName}</p>}
         </div>
         <hr/>
         <ul className="users_list">
           {cohortId && usersInCohort.map((user) => (
               <li key={user.id} className="user-list-item">
               <ProfileCircle
-                initials={`${user.firstName?.[0] ?? ''}`.toUpperCase()}
+                initials={`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
                 userId={user.id}
               />
               <div className="user-info">
-                  {user.firstName}
+                  {user.firstName} {user.lastName}
               </div>
               <div className="edit-icon">
                 <p>...</p>
