@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 import { API_URL } from '../../service/constants';
 import StudentCohortTeachersList from '../../components/StudentCohortTeachersList';
+import MyCohortCard from '../../components/myCohortPage';
+import MyExercises from '../../components/MyExercises';
 import Card from '../../components/card';
 import './style.css';
 
@@ -42,9 +44,7 @@ const CohortPage = () => {
           <Card>
             <h3>My Cohort</h3>
             <hr />
-            <p>User ID: {userId}</p>
-            <p>User Role: {userRole}</p>
-            <p>Cohort ID: {loadingCohort ? 'Loading...' : cohortId}</p>
+            <MyCohortCard />
           </Card>
         </main>
       )}
@@ -60,7 +60,7 @@ const CohortPage = () => {
         <Card>
           <h4>My Exercises</h4>
           <hr />
-          <p>Add component here</p>
+          <MyExercises />
         </Card>
       </aside>
       )}
