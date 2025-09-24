@@ -20,34 +20,26 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   const ref = useRef(null);
   const profileIconColor = ProfileIconColor(userId);
   const { loggedInUser } = useAuth();
+  const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
 
   const toggleMenu = (e) => {
     e.stopPropagation();
-    setCascadingMenuVisibleId((prev) => (prev === uniqueKey ? null : uniqueKey));
+    setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
 
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setCascadingMenuVisibleId(null);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [setCascadingMenuVisibleId]);
-
   return (
-    <div className="profile-circle" onClick={toggleMenu}>
-      {uniqueKey === cascadingMenuVisibleId && (
-        <CascadingMenu
-            role={role}
-            id={userId}
-            name={name}
+    <div
+      className="profile-circle"
+      onClick={toggleMenu}
+      ref={ref}
+      data-uid={safeKey}
+      aria-haspopup="menu"
+      aria-expanded={safeKey === cascadingMenuVisibleId}
+    >
+      {safeKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} name={name}
             currentCohortId={user?.cohortId}
             onUserUpdate={onUserUpdate}
-            loggedInUser={loggedInUser}
-        />
-      )}
+            loggedInUser={loggedInUser}/>}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
         <p>{initials}</p>
@@ -104,10 +96,10 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
   const isSelf = loggedInUser?.id === id;
 
   return (
-      <Menu className="profile-circle-menu">
+      <Menu className="profile-circle-menu" data-menu-root="true">
         <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
 
-      {isLoggedInTeacher && !isSelf && (
+      {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>
           <MenuItem icon={<AddIcon />} text="Add note" />
           <MenuItem icon={<CohortIcon />} text="Move to cohort">

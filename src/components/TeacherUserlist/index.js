@@ -1,10 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
-import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import mapSpecialism from '../../userUtils/mapSpecialism';
 import { get } from '../../service/apiClient';
 
@@ -12,7 +11,6 @@ const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
 
   useEffect(() => {
     setLoading(true);
@@ -57,15 +55,15 @@ const TeacherUserlist = ({ title, role, userId }) => {
           users
             .filter((user) => user.id !== Number(userId))
             .slice(0, 10)
-            .map((user) => (
-              <li key={user.id} className="user-list-item">
+            .map((user, idx) => {
+              const uid = user.id ?? user.userId ?? user.user_id ?? idx;
+              return (
+                <li key={uid} className="user-list-item">
                 <ProfileCircle
-                  cascadingMenuVisibleId={cascadingMenuVisibleId}
-                  setCascadingMenuVisibleId={setCascadingMenuVisibleId}
-                  uniqueKey={'student' + user.id}
-                  role={user.role.toLowerCase()}
+                  uniqueKey={`teacherlist-${uid}`}
+                  role={(user.role || '').toLowerCase()}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                  userId={user.id}
+                  userId={uid}
                   name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
                   user={user}
                   onUserUpdate={fetchUser}
@@ -79,7 +77,8 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   </div>
                 </div>
               </li>
-            ))}
+              );
+            })}
       </ul>
       {users.length > 10 && (
         <>
