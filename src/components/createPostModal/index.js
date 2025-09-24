@@ -6,9 +6,10 @@ import useAuth from '../../hooks/useAuth';
 import {post} from '../../service/apiClient';
 import {ProfileIconColor} from '../../userUtils/profileIconColor';
 
-const CreatePostModal = () => {
+const CreatePostModal = (props) => {
     const {closeModal} = useModal();
     const {loggedInUser} = useAuth();
+    const {refreshPosts} = props;
 
     const [message, setMessage] = useState('');
     const [showError, setShowError] = useState(false);
@@ -33,6 +34,7 @@ const CreatePostModal = () => {
             if (createdPost.status !== 'success') {
                 setShowError(true);
             } else {
+                refreshPosts();
                 closeModal();
             }
         } catch (error) {
