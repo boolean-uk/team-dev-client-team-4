@@ -6,6 +6,7 @@ import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
 import mapSpecialism from '../../userUtils/mapSpecialism';
 import Button from '../button';
+import { API_URL } from '../../service/constants';
 
 const SearchResults = () => {
   const [searchVal, setSearchVal] = useState('');
@@ -18,7 +19,7 @@ const SearchResults = () => {
     if (searchVal.trim().length >= 3) {
       setLoading(true);
       const timer = setTimeout(() => {
-        fetch(`https://localhost:7233/users?searchTerm=${encodeURIComponent(searchVal)}`)
+        fetch(`${API_URL}/users?searchTerm=${encodeURIComponent(searchVal)}`)
           .then((res) => res.json())
           .then((data) => {
             const sortedUsers = data.data.users.sort((a, b) => {
@@ -49,6 +50,7 @@ const SearchResults = () => {
 
   const editSearch = () => {
     inputRef.current?.focus();
+    inputRef.current.setSelectionRange(0, inputRef.current.value.length);
   };
 
   const allResults = () => {
@@ -79,12 +81,15 @@ const SearchResults = () => {
               ? (
               <>
                 <ul className="cohort-list">
-                  {searchResults.slice(0, 10).map((user) => (
-                    <li key={user.id} className="cohort-list-item">
+                  {searchResults.slice(0, 10).map((user, idx) => {
+                    const uid = user.id ?? user.userId ?? user.user_id ?? idx;
+                    return (
+                    <li key={uid} className="cohort-list-item">
                       <ProfileCircle
                         initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                        userId={user.id}
-                        role={user.role.toLowerCase()}
+                        uniqueKey={`search-${uid}`}
+                        userId={uid}
+                        role={(user.role || '').toLowerCase()}
                       />
                       <div className="user-info">
                       <strong>
@@ -95,7 +100,8 @@ const SearchResults = () => {
                       </div>
                     </div>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
 
                 {searchResults.length >= 10 && (

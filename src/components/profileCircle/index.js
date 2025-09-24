@@ -16,25 +16,23 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const ref = useRef(null);
   const profileIconColor = ProfileIconColor(userId);
+  const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
 
   const toggleMenu = (e) => {
     e.stopPropagation();
-    setCascadingMenuVisibleId((prev) => (prev === uniqueKey ? null : uniqueKey));
+    setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
 
-  useEffect(() => {
-    function handleClickOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setCascadingMenuVisibleId(null);
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [setCascadingMenuVisibleId]);
-
   return (
-    <div className="profile-circle" onClick={toggleMenu}>
-      {uniqueKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} />}
+    <div
+      className="profile-circle"
+      onClick={toggleMenu}
+      ref={ref}
+      data-uid={safeKey}
+      aria-haspopup="menu"
+      aria-expanded={safeKey === cascadingMenuVisibleId}
+    >
+      {safeKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} />}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
         <p>{initials}</p>
@@ -46,14 +44,14 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId }) => {
 const CascadingMenu = ({ role, id }) => {
   if (role === 'teacher') {
     return (
-      <Menu className="profile-circle-menu">
+      <Menu className="profile-circle-menu" data-menu-root="true">
         <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
       </Menu>
     );
   }
 
   return (
-    <Menu className="profile-circle-menu">
+    <Menu className="profile-circle-menu" data-menu-root="true">
       <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
       <MenuItem icon={<AddIcon />} text="Add note" />
 

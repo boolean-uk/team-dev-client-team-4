@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
-import { PiDotsThree } from 'react-icons/pi';
 import './style.css';
-import { cohort } from '../../service/mockData';
+import { API_URL } from '../../service/constants';
+import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const CohortList = ({ cohortId, userId }) => {
   const [users, setUsers] = useState([]);
@@ -11,10 +11,11 @@ const CohortList = ({ cohortId, userId }) => {
   useEffect(() => {
     setLoading(true);
     if (cohortId) {
-      fetch(`https://localhost:7233/users/by_cohort/${cohortId}`)
+      fetch(`${API_URL}/users/by_cohort/${cohortId}`)
         .then((res) => res.json())
         .then((data) => {
-          setUsers(data.data.users);
+          const list = data?.data?.users ?? [];
+          setUsers(list);
           console.log(data);
 
           setLoading(false);
@@ -33,7 +34,7 @@ const CohortList = ({ cohortId, userId }) => {
   if (loading) {
     description = 'Loading...';
   } else if (cohortId && users.length > 0) {
-    description = cohort.name;
+    description = `${mapSpecialism(users[0]?.specialism)}, Cohort ${users[0]?.cohortId}`;
   } else {
     description = 'You have not been assigned to a cohort yet';
   }
@@ -49,24 +50,24 @@ const CohortList = ({ cohortId, userId }) => {
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
-            .map((user) => (
-              <li key={user.id} className="cohort-list-item">
+            .map((user, idx) => {
+              const uid = user.id ?? user.userId ?? user.user_id ?? idx;
+              return (
+                <li key={uid} className="cohort-list-item">
                 <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                   <ProfileCircle
                     initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
-                    userId={user.id}
-                    role={user.role}
-                    uniqueKey={'cohortlist' + user.id}
+                    userId={uid}
+                    role={(user.role || '').toLowerCase()}
+                    uniqueKey={`cohortlist-${uid}`}
                   />
                   <strong style={{ marginLeft: '8px' }}>
                     {user?.firstName} {user?.lastName}
                   </strong>
-                  <div className="dots-icon">
-                    <PiDotsThree />
-                  </div>
                 </div>
               </li>
-            ))}
+              );
+            })}
       </ul>
     </>
   );

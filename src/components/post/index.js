@@ -13,7 +13,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded }) => {
+const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onCommentAdded, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -22,14 +22,32 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
   const [commentContent, setCommentContent] = useState('');
   const { loggedInUser } = useAuth();
   const commentsContainerRef = useRef(null);
+  const likeCount =
+    typeof likes === 'number'
+      ? likes
+      : Array.isArray(likes)
+        ? likes.length
+        : (likes?.count ?? likes?.likeCount ?? 0);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
-      setUser(fetchedUser);
+      if (authorId) {
+        try {
+          const fetchedUser = await get(`users/${authorId}`).then((result) => result.data);
+          setUser(fetchedUser);
+          return;
+        } catch (e) {
+        }
+      }
+      if (!authorId && name) {
+        const parts = String(name).split(' ');
+        const firstName = parts[0] ?? '';
+        const lastName = parts.slice(1).join(' ') ?? '';
+        setUser({ id: 0, firstName, lastName, role: 'student' });
+      }
     };
     fetchUser();
-  }, []);
+  }, [authorId, name]);
 
   useEffect(() => {
     if (!user) return;
@@ -110,9 +128,9 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
           <section className="post-details">
             <ProfileCircle
               initials={userInitials}
-              uniqueKey={'post' + id}
+              uniqueKey={`post-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
               role={user.role.toLowerCase()}
-              userId={user.id}
+              userId={authorId}
             />
 
             <div className="post-user-name">
@@ -122,7 +140,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
 
             <div className="edit-icon">
               <PostOptionsMenu
-                uniqueKey={'postOptionsMenu' + id}
+                uniqueKey={`postOptionsMenu-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
                 postId={id}
                 content={content}
                 author={user}
@@ -148,7 +166,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                   <FiHeart className='icon not-liked' />
                     )}
               </Button>
-                <div className='interaction-text'>Like ({likes})</div>
+                <div className='interaction-text'>Like ({likeCount})</div>
               </div>
               <div className='interaction'>
                 <Button onClick={viewComments} classes={`iconbutton ${showComments ? 'active' : ''}`}>
@@ -165,7 +183,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
             </div>
             <div className="interaction">
               <p className="interaction-text">
-                {!likes && 'Be the first to like this'}
+                {!likeCount && 'Be the first to like this'}
               </p>
             </div>
           </section>
@@ -178,21 +196,25 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
                 </div>
               }
               <div className="post-comments" ref={commentsContainerRef}>
-                {(allComments ? comments : comments.slice(-3)).map((comment, index) => (
-                  <>
-                    <div className="comment-detail" key={comment.id}>
+                {(allComments ? comments : comments.slice(-3)).map((comment, index) => {
+                  const firstName = comment.firstName ?? comment.firstname ?? comment.user?.firstName ?? '';
+                  const lastName = comment.lastName ?? comment.lastname ?? comment.user?.lastName ?? '';
+                  const role = (comment.role ?? comment.user?.role ?? 'student').toLowerCase();
+                  const userIdFromComment = comment.userId ?? comment.user_id ?? comment.user?.id;
+                  return (
+                    <div className="comment-detail" key={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}>
                       <ProfileCircle
-                        initials={`${user.firstName.charAt(0)}${user.lastName.charAt(0)}`}
-                        uniqueKey={'comment' + comment.id + index}
-                        role={comment.role}
-                        userId={comment.userId}
+                        initials={`${firstName.charAt(0)}${lastName.charAt(0)}`}
+                        uniqueKey={`comment-${comment.id ?? `${userIdFromComment ?? 'na'}-${index}`}`}
+                        role={role}
+                        userId={userIdFromComment}
                       />
                       <div className="comment-container">
-                        <Comment key={comment.id} name={`${comment.firstName} ${comment.lastName}`} content={comment.body} />
+                        <Comment name={`${firstName} ${lastName}`} content={comment.body ?? comment.content} />
                       </div>
                     </div>
-                  </>
-                ))}
+                  );
+                })}
               </div>
             </section>
           )}
@@ -200,7 +222,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
           <section className="create-a-comment">
             <ProfileCircle
               initials={loggedInUserInitials}
-              uniqueKey={'comment' + id + 'owninput'}
+              uniqueKey={`comment-${id ?? listIndex}-owninput`}
               role={loggedInUser.role.toLowerCase()}
               userId={loggedInUser.id}
             />
