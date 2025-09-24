@@ -130,7 +130,7 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, onC
               initials={userInitials}
               uniqueKey={`post-${id ?? `${authorId ?? 'na'}-${date ?? 'na'}-${listIndex}`}`}
               role={user.role.toLowerCase()}
-              userId={user.id}
+              userId={authorId}
             />
 
             <div className="post-user-name">

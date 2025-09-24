@@ -50,6 +50,7 @@ const SearchResults = () => {
 
   const editSearch = () => {
     inputRef.current?.focus();
+    inputRef.current.setSelectionRange(0, inputRef.current.value.length);
   };
 
   const allResults = () => {
