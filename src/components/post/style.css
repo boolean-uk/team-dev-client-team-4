@@ -157,7 +157,7 @@
 .edit-tag {
   display: flex;
   align-items: top;
-  padding-top: 10px;
+  padding-top: 10px !important;
 }
 
 .edit-tag p {
