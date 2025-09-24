@@ -15,21 +15,21 @@ const Navigation = () => {
   return (
     <nav>
       <ul>
-        <li>
+        <li className={location.pathname === '/' ? 'active-link' : ''}>
           <NavLink to="/">
-            <HomeIcon colour="#000046" />
+            <HomeIcon isActive={ location.pathname === '/'} />
             <p>Home</p>
           </NavLink>
         </li>
-        <li>
+        <li className={location.pathname === '/profile' ? 'active-link' : ''}>
           <NavLink to="/profile">
-            <ProfileIcon />
+            <ProfileIcon isActive={location.pathname === '/profile'} />
             <p>Profile</p>
           </NavLink>
         </li>
-        <li>
+        <li className={location.pathname === '/cohort' ? 'active-link' : ''}>
           <NavLink to="/cohort">
-            <CohortIcon />
+            <CohortIcon colour={location.pathname === '/cohort' ? '#000046' : '#64648c'} />
             <p>Cohort</p>
           </NavLink>
         </li>
