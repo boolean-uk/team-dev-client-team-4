@@ -7,13 +7,14 @@ import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import DeleteUserConfirm from '../deleteUserConfirm';
 import useAuth from '../../hooks/useAuth';
+import DropdownPortal from '../dropdownPortal/dropdownPortal';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
@@ -21,9 +22,12 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   const profileIconColor = ProfileIconColor(userId);
   const { loggedInUser } = useAuth();
   const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   const toggleMenu = (e) => {
     e.stopPropagation();
+    const rect = ref.current.getBoundingClientRect();
+    setMenuPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX + 60 });
     setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
 
@@ -36,10 +40,18 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
       aria-haspopup="menu"
       aria-expanded={safeKey === cascadingMenuVisibleId}
     >
-      {safeKey === cascadingMenuVisibleId && <CascadingMenu role={role} id={userId} name={name}
+      {safeKey === cascadingMenuVisibleId && (
+        <DropdownPortal position={menuPosition}>
+          <CascadingMenu
+            role={role}
+            id={userId}
+            name={name}
             currentCohortId={user?.cohortId}
             onUserUpdate={onUserUpdate}
-            loggedInUser={loggedInUser}/>}
+            loggedInUser={loggedInUser}
+          />
+        </DropdownPortal>
+      )}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
         <p>{initials}</p>
