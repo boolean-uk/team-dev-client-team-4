@@ -8,3 +8,20 @@
     max-width: fit-content !important;
     background-color: var(--color-blue5);
 }
+
+.comment-details {
+  display: grid;
+  grid-template-columns: auto 44px;
+  column-gap: 20px;
+}
+
+.comment-details.single-column {
+  grid-template-columns: auto;
+}
+
+.edit-tag-comment {
+  color: var(--color-blue2);
+  font-size: 14px;
+  padding-top: 0px !important;
+  font-weight: normal;
+}

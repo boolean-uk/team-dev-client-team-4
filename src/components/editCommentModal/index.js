@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import useDialog from '../../hooks/useDialog';
 import Button from '../button';
-import UpdatePostConfirm from '../updatePostConfirm';
+import UpdateCommentConfirm from '../updateCommentConfirm';
 import './style.css';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
-const EditPostModal = ({ author, postContent, postId, refreshPosts }) => {
+const EditCommentModal = ({ author, commentContent, commentId, refreshPosts }) => {
   const { setDialog, openDialog } = useDialog();
   const [message, setMessage] = useState(null);
-  const [text, setText] = useState(postContent || '');
+  const [text, setText] = useState(commentContent || '');
   const profileIconColor = ProfileIconColor(author?.id || 0);
 
-  const postAuthor = author ? `${author.firstName} ${author.lastName}` : '';
-  const postAuthorInitials = author
+  const commentAuthor = author ? `${author.firstName} ${author.lastName}` : '';
+  const commentAuthorInitials = author
     ? `${author.firstName.charAt(0)}${author.lastName.charAt(0)}`
     : '';
 
@@ -22,21 +22,21 @@ const EditPostModal = ({ author, postContent, postId, refreshPosts }) => {
 
   const showUpdateDialog = () => {
     setDialog(
-      'Save and update your post?',
-      <UpdatePostConfirm postId={postId} text={text} refreshPosts={refreshPosts}/>,
-      'Do you want to save the updates to your post?'
+      'Save and update your comment?',
+      <UpdateCommentConfirm commentId={commentId} text={text} refreshPosts={refreshPosts}/>,
+      'Do you want to save the updates to your comment?'
     );
     openDialog();
   };
 
   return (
     <>
-      <section className="edit-post-user-details">
+      <section className="edit-comment-user-details">
         <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
-          <p>{postAuthorInitials}</p>
+          <p>{commentAuthorInitials}</p>
         </div>
-        <div className="post-user-name">
-          <p>{postAuthor}</p>
+        <div className="comment-user-name">
+          <p>{commentAuthor}</p>
         </div>
       </section>
 
@@ -44,14 +44,14 @@ const EditPostModal = ({ author, postContent, postId, refreshPosts }) => {
         <textarea
           onChange={onChange}
           value={text}
-          placeholder={postContent || "What's on your mind?"}
+          placeholder={commentContent || "What's on your mind?"}
         ></textarea>
       </section>
 
-      <section className="edit-post-actions">
+      <section className="edit-comment-actions">
         <Button
           onClick={showUpdateDialog}
-          text="Update Post"
+          text="Update Comment"
           classes={`${text.length ? 'blue' : 'offwhite'} width-full`}
           disabled={!text.length}
         />
@@ -62,4 +62,4 @@ const EditPostModal = ({ author, postContent, postId, refreshPosts }) => {
   );
 };
 
-export default EditPostModal;
+export default EditCommentModal;

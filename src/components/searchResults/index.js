@@ -90,6 +90,7 @@ const SearchResults = () => {
                         uniqueKey={`search-${uid}`}
                         userId={uid}
                         role={(user.role || '').toLowerCase()}
+                        name={user?.firstName + ' ' + user?.lastName}
                       />
                       <div className="user-info">
                       <strong>

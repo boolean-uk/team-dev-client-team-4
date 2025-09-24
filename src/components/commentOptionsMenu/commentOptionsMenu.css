@@ -1,0 +1,61 @@
+.comment-options-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.comment-options-dropdown {
+  margin-left: 50px;
+  min-width: 220px;   
+  max-width: 350px;
+}
+
+.comment-options-dropdown ul {
+  width: 110%;       
+}
+
+.comment-options-dropdown li button {
+  display: flex;          
+  align-items: center;     
+  gap: 8px;                
+  padding: 8px 12px;       
+  cursor: pointer;
+  width: 100%;
+}
+
+.comment-options-dropdown li button svg {
+  fill: var(--color-blue1);
+}
+
+.comment-options-dropdown li:hover button svg {
+  fill: var(--color-blue);
+}
+
+.comment-options-dropdown li:hover svg polygon{
+  stroke: var(--color-blue);
+}
+
+.comment-options-dropdown li:hover svg rect{
+  fill: var(--color-blue);
+}
+
+.comment-options-dropdown li button p{
+  font-size: 1rem;
+  color: var(--color-blue1);
+}
+
+.comment-options-dropdown li:hover button p{
+  color: var(--color-blue);
+}
+
+.comment-options-dropdown li a {
+ gap: 20px;
+}
+
+.comment-options-dropdown li a p {
+  font-size: 1rem;
+  text-align: left;
+}
+
+.comment-options-dropdown li button {
+  max-width: 300px !important;
+}
