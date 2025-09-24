@@ -14,7 +14,7 @@ import { MdOutlineInsertComment, MdInsertComment } from 'react-icons/md';
 import TextInput from '../form/textInput';
 import SendIcon from '../../assets/icons/sendIcon';
 
-const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, refreshPosts, listIndex }) => {
+const Post = ({ id, authorId, name, date, edited, content, comments = [], likes = 0, refreshPosts, listIndex }) => {
   const [user, setUser] = useState(null);
   const [userInitials, setUserInitials] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -137,6 +137,12 @@ const Post = ({ id, authorId, name, date, content, comments = [], likes = 0, ref
             <div className="post-user-name">
               <p>{name}</p>
               <small>{formatDateTime(date)}</small>
+            </div>
+
+             <div className="edit-tag">
+              <p>
+                {edited && 'Edited'}
+              </p>
             </div>
 
             <div className="edit-icon">

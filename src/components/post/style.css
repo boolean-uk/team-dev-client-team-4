@@ -13,7 +13,7 @@
 
 .post-details {
   display: grid;
-  grid-template-columns: 56px auto 48px;
+  grid-template-columns: 56px auto 44px 48px;
   column-gap: 20px;
 }
 
@@ -152,4 +152,15 @@
 .menu-comment {
   min-height: 40px;
   min-width: 40px;
+}
+
+.edit-tag {
+  display: flex;
+  align-items: top;
+  padding-top: 10px;
+}
+
+.edit-tag p {
+  color: var(--color-blue2);
+  font-size: 14px;
 }

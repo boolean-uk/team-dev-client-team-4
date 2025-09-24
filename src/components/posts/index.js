@@ -12,6 +12,7 @@ const Posts = () => {
           // normalise naming to what Post component expects
           ...p,
           createdAt: p.createdAt ?? p.created_at ?? p.dateCreated,
+          updatedAt: p.updatedAt ?? p.updated_at ?? p.dateUpdated,
           body: p.body ?? p.content,
           authorId: p.authorId ?? p.author_id ?? p.author?.id,
           firstname: p.firstname ?? p.firstName ?? p.author?.firstName ?? '',
@@ -42,6 +43,7 @@ const Posts = () => {
             authorId={post.authorId}
             id={post.id}
             date={post.createdAt}
+            edited={post.updatedAt && post.updatedAt !== post.createdAt}
             content={post.body}
             comments={sortedComments}
             likes={post.likes}
