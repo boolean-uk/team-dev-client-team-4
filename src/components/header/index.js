@@ -10,6 +10,7 @@ import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import mapSpecialism from '../../userUtils/mapSpecialism';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 
 const Header = () => {
   const { token, onLogout, loggedInUser } = useAuth();
@@ -72,7 +73,7 @@ const Header = () => {
                     to="/profile"
                     onClick={() => setCascadingMenuVisibleId(null)}
                   >
-                    <ProfileIcon /> <p>Profile</p>
+                    <ProfileIconFilled /> <p>Profile</p>
                   </NavLink>
                 </li>
                 <li>
