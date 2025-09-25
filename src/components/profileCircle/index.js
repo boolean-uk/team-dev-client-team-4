@@ -15,14 +15,20 @@ import DeleteUserConfirm from '../deleteUserConfirm';
 import useAuth from '../../hooks/useAuth';
 import DropdownPortal from '../dropdownPortal/dropdownPortal';
 import ProfileIconFilled from '../../assets/icons/profileIconFilled';
+import { PiFileRsThin } from 'react-icons/pi';
+import { get, post } from '../../service/apiClient';
+import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
-  const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
+  const { cascadingMenuVisibleId, setCascadingMenuVisibleId, cohortCourses } =
+    useContext(CascadingMenuContext);
   const ref = useRef(null);
   const profileIconColor = ProfileIconColor(userId);
   const { loggedInUser } = useAuth();
   const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+
+  const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -30,6 +36,11 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
     setMenuPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX + 60 });
     setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
+
+  // TODO
+  // get all cohorts with cohort courses inside
+  // display them
+  // move API NOT IMPLEMENTED
 
   return (
     <div
@@ -49,6 +60,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
             currentCohortId={user?.cohortId}
             onUserUpdate={onUserUpdate}
             loggedInUser={loggedInUser}
+            cohorts={cohortCourses}
           />
         </DropdownPortal>
       )}
@@ -60,7 +72,15 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   );
 };
 
-const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedInUser }) => {
+const CascadingMenu = ({
+  role,
+  id,
+  name,
+  currentCohortId,
+  onUserUpdate,
+  loggedInUser,
+  cohorts
+}) => {
   const { setDialog, openDialog } = useDialog();
 
   const showDeleteDialog = () => {
@@ -80,7 +100,11 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
   const showMoveToCohortDialog = (course, cohort, newCohortId) => {
     setDialog(
       `Move ${name} to new cohort?`,
-      <MoveToCohortConfirm userToMoveId={id} newCohortId={newCohortId} onUserUpdate={onUserUpdate}/>,
+      <MoveToCohortConfirm
+        userToMoveId={id}
+        newCohortId={newCohortId}
+        onUserUpdate={onUserUpdate}
+      />,
       <div className="dialog-texts">
         <div>
           Are you sure you want to move this user to <br />
@@ -91,7 +115,8 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
     openDialog();
   };
 
-  const cohorts = {
+  // TODO REMOVE, use state instead
+  const cohorts2 = {
     'Software Development': [
       { name: 'Cohort 1', id: 1 },
       { name: 'Cohort 2', id: 2 },
@@ -102,7 +127,10 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
       { name: 'Cohort 2', id: 2 },
       { name: 'Cohort 3', id: 3 }
     ]
-  }
+  };
+
+  console.log('COHORT OLD OBJECT: ', cohorts2);
+  console.log('COHORT NEW JSON: ', cohorts);
 
   const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
   const isSelf = loggedInUser?.id === id;
@@ -122,20 +150,19 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {Object.entries(cohorts).map(([course, cohortList]) => (
-              <MenuItem key={course} icon={<SquareBracketsIcon />} text={course}>
-                {cohortList
-                  .filter(c => c.id !== currentCohortId)
-                  .map(c => (
+            {cohorts &&
+              Object.entries(cohorts).map(([cohortLabel, courses]) => (
+                <MenuItem key={cohortLabel} icon={<SquareBracketsIcon />} text={cohortLabel}>
+                  {courses.map((c) => (
                     <MenuItem
                       key={c.id}
-                      icon={<CohortIconFill />}
+                      icon={mapCourseToIcon(c.name)}
                       text={c.name}
-                      onClick={() => showMoveToCohortDialog(course, c.name, c.id)}
+                      onClick={() => showMoveToCohortDialog(cohortLabel, c.name, c.id)}
                     />
                   ))}
-              </MenuItem>
-            ))}
+                </MenuItem>
+              ))}
           </MenuItem>
           <MenuItem icon={<DeleteIcon />} text="Delete user" onClick={showDeleteDialog} />
         </>

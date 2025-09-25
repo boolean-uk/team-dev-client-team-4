@@ -1,0 +1,33 @@
+.completed-table {
+  width: 100%;
+  margin-bottom: 20px;
+  color: #b0b5b9;
+}
+
+.completed-table td {
+  padding: 8px 0;
+  color: #666;
+}
+
+.completed-table td:first-child {
+  width: 80px; 
+  padding-right: 16px;
+}
+
+.completed-table td:last-child {
+  text-align: left;
+}
+
+
+.see-exercises-button {
+  background: #eaf0f5;
+  color: rgb(104, 105, 109);
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.see-exercises-button:hover {
+  background: #d5dbe0;
+}

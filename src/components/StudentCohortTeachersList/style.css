@@ -17,6 +17,7 @@ hr {
   display: flex;
   flex-direction: column;
   margin-left: 8px;
+  gap: 6px;
 }
 
 .user-info strong {

@@ -1,7 +1,7 @@
-import Card from '../card';
 import { useEffect, useState } from 'react';
 import { get } from '../../service/apiClient';
 import jwtDecode from 'jwt-decode';
+import './style.css';
 
 const MyExercises = () => {
   const [exercises, setExercises] = useState([]);
@@ -43,7 +43,7 @@ const MyExercises = () => {
             <td> {exercises.filter(m => m === true).length} / {exercises.length} completed</td>
         </tr>
     </table>
-    <button>
+    <button className="see-exercises-button">
         See exercises
     </button>
     </>

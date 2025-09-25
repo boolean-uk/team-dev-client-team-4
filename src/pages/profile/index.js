@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
 import { useParams } from 'react-router-dom';
+import { PiLock } from "react-icons/pi";
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -99,15 +100,17 @@ const Profile = () => {
   return (
     <>
       <main>
+        <h3 style={{ marginLeft: '25px', marginBottom: '16px' }}>Profile</h3>
         <Card>
-          <h1>Profile Placeholder</h1>
+          <h4>Profile Placeholder</h4>
+          <hr />
           <Form className="profile-form" onSubmit={handleSave}>
             <div className="form-left-part">
               <div
                 className="form-basic-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Basic info</h3>
+                <h4>Basic info</h4>
                 <TextInput
                   onChange={onChange}
                   value={profile.firstName}
@@ -137,11 +140,12 @@ const Profile = () => {
                   disabled={!isEditing}
                 />
               </div>
+              <hr />
               <div
                 className="form-contact-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Contact info</h3>
+                <h4>Contact info</h4>
                 <TextInput
                   onChange={onChange}
                   value={profile.email}
@@ -172,41 +176,60 @@ const Profile = () => {
                 className="form-training-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Training info</h3>
+                <h4>Training info</h4>
                 <div className="disabled">
-                  <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.specialism}
-                    name="Specialism"
-                    label={'Specialism*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.cohortId}
-                    name="cohort"
-                    label={'Cohort*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.startDate}
-                    name="startDate"
-                    label={'Start Date*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.endDate}
-                    name="endDate"
-                    label={'End Date*'}
-                    disabled={true}
-                  />
+                  <div className="input-container">
+                    <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.specialism}
+                      name="Specialism"
+                      label={'Specialism*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.cohortId}
+                      name="cohort"
+                      label={'Cohort*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.startDate}
+                      name="startDate"
+                      label={'Start Date*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.endDate}
+                      name="endDate"
+                      label={'End Date*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
                 </div>
               </div>
+              <hr />
               <div className="form-bio" style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}>
-                <h3>Bio</h3>
+                <h4>Bio</h4>
                 <textarea
                   name="bio"
                   value={profile.bio}
