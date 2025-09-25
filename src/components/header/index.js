@@ -2,13 +2,13 @@ import FullLogo from '../../assets/fullLogo';
 import useAuth from '../../hooks/useAuth';
 import './style.css';
 import Card from '../card';
-import ProfileIcon from '../../assets/icons/profileIcon';
 import CogIcon from '../../assets/icons/cogIcon';
 import LogoutIcon from '../../assets/icons/logoutIcon';
 import { NavLink } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 
 const Header = () => {
   const { token, onLogout, loggedInUser } = useAuth();
@@ -71,11 +71,11 @@ const Header = () => {
                     to="/profile"
                     onClick={() => setCascadingMenuVisibleId(null)}
                   >
-                    <ProfileIcon /> <p>Profile</p>
+                    <ProfileIconFilled /> <p>Profile</p>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/">
+                  <NavLink to="#nogo">
                     <CogIcon /> <p>Settings &amp; Privacy</p>
                   </NavLink>
                 </li>

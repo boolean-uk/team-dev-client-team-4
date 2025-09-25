@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
+import mapSpecialism from '../../userUtils/mapSpecialism';
+import { get } from '../../service/apiClient';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
@@ -29,16 +31,29 @@ const TeacherUserlist = ({ title, role, userId }) => {
     navigate('/search');
   };
 
+  const fetchUser = async (userId) => {
+    try {
+      const updatedUser = await get(`users/${userId}`).then(res => res.data.user || res.data);
+
+      setUsers(prevUsers =>
+        prevUsers.map(user =>
+          user.id === userId ? updatedUser : user
+        )
+      );
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  };
+
   return (
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className="student-list">
+      <ul className={`student-list ${users.length >= 10 ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
-            .slice(0, 10)
             .map((user, idx) => {
               const uid = user.id ?? user.userId ?? user.user_id ?? idx;
               return (
@@ -48,6 +63,9 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   role={(user.role || '').toLowerCase()}
                   initials={`${user?.firstName?.[0] ?? ''}${user?.lastName?.[0] ?? ''}`.toUpperCase()}
                   userId={uid}
+                  name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
+                  user={user}
+                  onUserUpdate={fetchUser}
                 />
                 <div className="user-info">
                   <strong>

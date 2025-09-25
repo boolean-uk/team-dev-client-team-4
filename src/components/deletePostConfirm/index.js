@@ -5,7 +5,7 @@ import { deleteRequest } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function DeletePostConfirm({ postId }) {
+function DeletePostConfirm({ postId, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -20,7 +20,7 @@ function DeletePostConfirm({ postId }) {
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Deleted', 4000);
+      showActionSuccessPopup('Post deleted', 4000);
     } catch (err) {
       console.log('ERROR ' + err);
     }
@@ -28,6 +28,8 @@ function DeletePostConfirm({ postId }) {
     setTimeout(() => {
       closeDialog();
     }, 300);
+
+    refreshPosts();
   };
 
   return (

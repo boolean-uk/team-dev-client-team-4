@@ -22,3 +22,27 @@
   width: 100%;
 }
 
+.post-options-dropdown li button svg {
+  fill: var(--color-blue1);
+}
+
+.post-options-dropdown li:hover button svg {
+  fill: var(--color-blue);
+}
+
+.post-options-dropdown li:hover svg polygon{
+  stroke: var(--color-blue);
+}
+
+.post-options-dropdown li:hover svg rect{
+  fill: var(--color-blue);
+}
+
+.post-options-dropdown li button p{
+  font-size: 1rem;
+  color: var(--color-blue1);
+}
+
+.post-options-dropdown li:hover button p{
+  color: var(--color-blue);
+}

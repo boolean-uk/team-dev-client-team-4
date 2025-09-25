@@ -1,4 +1,12 @@
-const CohortIcon = ({ colour = '#64648C' }) => {
+import CohortIconFill from './cohortIcon-fill';
+
+const CohortIcon = ({ colour = '#64648C', filled = false }) => {
+  if (filled) {
+    return (<CohortIconFill colour={colour} />);
+  }
+
+  console.log('CohortIcon filled:', filled);
+
   return (
     <svg width="45" height="32" viewBox="0 0 45 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

@@ -1,8 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import CohortIcon from '../../assets/icons/cohortIcon';
+import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import HomeIcon from '../../assets/icons/homeIcon';
-import ProfileIcon from '../../assets/icons/profileIcon';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 import useAuth from '../../hooks/useAuth';
+import jwtDecode from 'jwt-decode';
 import './style.css';
 
 const Navigation = () => {
@@ -12,25 +14,35 @@ const Navigation = () => {
     return null;
   }
 
+  const decodedToken = jwtDecode(token);
+  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  const cohortLabel = userRole === 'Teacher' ? 'Cohorts' : 'Cohort';
+
   return (
     <nav>
       <ul>
-        <li>
+        <li className={location.pathname === '/' ? 'active-link' : ''}>
           <NavLink to="/">
-            <HomeIcon colour="#000046" />
+            <HomeIcon isActive={ location.pathname === '/'} />
             <p>Home</p>
           </NavLink>
         </li>
-        <li>
+        <li className={location.pathname === '/profile' ? 'active-link' : ''}>
           <NavLink to="/profile">
-            <ProfileIcon />
+            <ProfileIconFilled isActive={ location.pathname === '/profile'}/>
             <p>Profile</p>
           </NavLink>
         </li>
-        <li>
+        <li className={location.pathname === '/cohort' ? 'active-link' : ''}>
           <NavLink to="/cohort">
-            <CohortIcon />
-            <p>Cohort</p>
+          {location.pathname === '/cohort'
+            ? (
+                <CohortIconFill colour="#000046" />
+              )
+            : (
+                <CohortIcon colour="#64648c" />
+              )}
+            <p>{cohortLabel}</p>
           </NavLink>
         </li>
       </ul>

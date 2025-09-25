@@ -3,60 +3,85 @@ import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
 import useAuth from '../../hooks/useAuth';
+import { post } from '../../service/apiClient';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import useDialog from '../../hooks/useDialog';
 
-const CreatePostModal = () => {
-  // Use the useModal hook to get the closeModal function so we can close the modal on user interaction
+const CreatePostModal = (props) => {
   const { closeModal } = useModal();
-
   const { loggedInUser } = useAuth();
-  const [message, setMessage] = useState(null);
-  const [text, setText] = useState('');
+  const { refreshPosts } = props;
+  const { showActionSuccessPopup } = useDialog();
+
   const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
-  const onChange = (e) => {
-    setText(e.target.value);
-  };
-
-  const onSubmit = () => {
-    setMessage('Submit button was clicked! Closing modal in 2 seconds...');
-
-    setTimeout(() => {
-      setMessage(null);
-      closeModal();
-    }, 2000);
-  };
+  const [message, setMessage] = useState('');
+  const [showError, setShowError] = useState(false);
 
   const loggedInUserInitials = loggedInUser
     ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
     : '';
 
+  const onChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const onSubmit = async () => {
+    const postRequest = {
+      author_id: loggedInUser.id,
+      body: message,
+      created_at: new Date().toISOString()
+    };
+
+    try {
+      const createdPost = await post('posts', postRequest, true);
+      setShowError(createdPost.status !== 'success');
+
+      if (createdPost.status !== 'success') {
+        setShowError(true);
+      } else {
+        showActionSuccessPopup('Posted', 4000);
+        console.log(createdPost);
+        refreshPosts();
+        closeModal();
+      }
+    } catch (error) {
+      console.error(error);
+      setShowError(true);
+    }
+  };
+
   return (
-    <>
-      <section className="create-post-user-details">
-        <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
-          <p>{loggedInUserInitials}</p>
-        </div>
-        <div className="post-user-name">
-          <p>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</p>
-        </div>
-      </section>
+        <>
+            <section className="create-post-user-details">
+                <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
+                    <p>{loggedInUserInitials}</p>
+                </div>
+                <div className="post-user-name">
+                    <p>{`${loggedInUser.firstName} ${loggedInUser.lastName}`}</p>
+                </div>
+            </section>
 
-      <section>
-        <textarea onChange={onChange} value={text} placeholder="What's on your mind?"></textarea>
-      </section>
+            <section>
+                <textarea onChange={onChange} value={message} placeholder="What's on your mind?"></textarea>
+            </section>
+            {
+                showError && (
+                    <section>
+                        <text className="create-error"> Failed to create post! Please try again...</text>
+                    </section>
+                )
+            }
 
-      <section className="create-post-actions">
-        <Button
-          onClick={onSubmit}
-          text="Post"
-          classes={`${text.length ? 'blue' : 'offwhite'} width-full`}
-          disabled={!text.length}
-        />
-      </section>
-
-      {message && <p>{message}</p>}
-    </>
+            <section className="create-post-actions">
+                <Button
+                    onClick={onSubmit}
+                    text="Post"
+                    classes={`${message.length ? 'blue' : 'offwhite'} width-full`}
+                    disabled={!message.length}
+                />
+            </section>
+        </>
   );
 };
 

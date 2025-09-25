@@ -1,11 +1,10 @@
-import React from 'react';
 import Button from '../button';
 import './style.css';
 import { patch } from '../../service/apiClient';
 import useModal from '../../hooks/useModal';
 import useDialog from '../../hooks/useDialog';
 
-function UpdatePostConfirm({ postId, text }) {
+function UpdatePostConfirm({ postId, text, refreshPosts }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -24,7 +23,7 @@ function UpdatePostConfirm({ postId, text }) {
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Edited', 4000);
+      showActionSuccessPopup('Post updated', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);
@@ -34,6 +33,8 @@ function UpdatePostConfirm({ postId, text }) {
       closeDialog();
       closeModal();
     }, 300);
+
+    refreshPosts();
   };
 
   return (

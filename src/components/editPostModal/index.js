@@ -5,7 +5,7 @@ import UpdatePostConfirm from '../updatePostConfirm';
 import './style.css';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 
-const EditPostModal = ({ author, postContent, postId }) => {
+const EditPostModal = ({ author, postContent, postId, refreshPosts }) => {
   const { setDialog, openDialog } = useDialog();
   const [message, setMessage] = useState(null);
   const [text, setText] = useState(postContent || '');
@@ -23,7 +23,7 @@ const EditPostModal = ({ author, postContent, postId }) => {
   const showUpdateDialog = () => {
     setDialog(
       'Save and update your post?',
-      <UpdatePostConfirm postId={postId} text={text} />,
+      <UpdatePostConfirm postId={postId} text={text} refreshPosts={refreshPosts}/>,
       'Do you want to save the updates to your post?'
     );
     openDialog();
