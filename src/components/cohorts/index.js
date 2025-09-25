@@ -29,7 +29,7 @@ const Cohorts = () => {
     <>
     <h4>Cohorts</h4>
     <hr />
-    <ul className="cohort-course-list">
+    <ul className={`cohort-course-list ${cohortCourses.length >= 5 ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading && cohortCourses.length === 0 && <li>No cohort courses found</li>}
         {!loading &&
@@ -52,7 +52,7 @@ const Cohorts = () => {
             })}
     </ul>
     </>
-);
+  );
 }
 
 export default Cohorts;

@@ -2,6 +2,11 @@
   padding-left: 0;
 }
 
+.cohort-course-list.scrollable {
+  max-height: 200px;
+  overflow-y: auto;  
+}
+
 .cohort-course-item {
   list-style: none;
   margin-bottom: 15px;
