@@ -4,6 +4,7 @@ import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import HomeIcon from '../../assets/icons/homeIcon';
 import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 import useAuth from '../../hooks/useAuth';
+import jwtDecode from 'jwt-decode';
 import './style.css';
 
 const Navigation = () => {
@@ -12,6 +13,10 @@ const Navigation = () => {
   if (!token) {
     return null;
   }
+
+  const decodedToken = jwtDecode(token);
+  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  const cohortLabel = userRole === 'Teacher' ? 'Cohorts' : 'Cohort';
 
   return (
     <nav>
@@ -37,7 +42,7 @@ const Navigation = () => {
             : (
                 <CohortIcon colour="#64648c" />
               )}
-            <p>Cohort</p>
+            <p>{cohortLabel}</p>
           </NavLink>
         </li>
       </ul>
