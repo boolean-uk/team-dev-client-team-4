@@ -33,9 +33,12 @@ header .user-panel {
   line-height: 2.5;
 }
 
-.user-panel-options li:hover  {
+.user-panel-options li a p  {
+  color: #64648c;
+}
+
+.user-panel-options li:hover a p  {
   color: #000046;
-  
 }
 
 .user-panel-options li:hover a svg path{
