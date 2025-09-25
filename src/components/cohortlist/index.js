@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './style.css';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const CohortList = ({ cohortId, userId }) => {
   const [users, setUsers] = useState([]);
@@ -34,7 +33,7 @@ const CohortList = ({ cohortId, userId }) => {
   if (loading) {
     description = 'Loading...';
   } else if (cohortId && users.length > 0) {
-    description = `${mapSpecialism(users[0]?.specialism)}, Cohort ${users[0]?.cohortId}`;
+    description = `${(users[0]?.specialism)}, Cohort ${users[0]?.cohortId}`;
   } else {
     description = 'You have not been assigned to a cohort yet';
   }

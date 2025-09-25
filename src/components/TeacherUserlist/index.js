@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
@@ -55,7 +54,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                     {user?.firstName} {user?.lastName}
                   </strong>
                   <div className="user-specialism">
-                    {mapSpecialism(user?.specialism) || 'No specialism'}
+                    {user?.specialism || 'No specialism'}
                   </div>
                 </div>
               </li>
