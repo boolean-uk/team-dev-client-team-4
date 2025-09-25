@@ -1,7 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import CohortIcon from '../../assets/icons/cohortIcon';
+import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import HomeIcon from '../../assets/icons/homeIcon';
-import ProfileIcon from '../../assets/icons/profileIcon';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 import useAuth from '../../hooks/useAuth';
 import './style.css';
 
@@ -23,13 +24,19 @@ const Navigation = () => {
         </li>
         <li className={location.pathname === '/profile' ? 'active-link' : ''}>
           <NavLink to="/profile">
-            <ProfileIcon colour={location.pathname === '/profile' ? '#000046' : '#64648c'}/>
+            <ProfileIconFilled isActive={ location.pathname === '/profile'}/>
             <p>Profile</p>
           </NavLink>
         </li>
         <li className={location.pathname === '/cohort' ? 'active-link' : ''}>
           <NavLink to="/cohort">
-            <CohortIcon colour={location.pathname === '/cohort' ? '#000046' : '#64648c'} />
+          {location.pathname === '/cohort'
+            ? (
+                <CohortIconFill colour="#000046" />
+              )
+            : (
+                <CohortIcon colour="#64648c" />
+              )}
             <p>Cohort</p>
           </NavLink>
         </li>
