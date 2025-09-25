@@ -39,12 +39,12 @@ const Cohorts = () => {
                         <div className="profile-icon" style={{ background: '#1dc262ff' }}>
                             <BicodeIcon />
                         </div>
-                          <div className="cohort-info">
-                          <strong>
-                            Cohort {cohortcourse.cohortId}
-                          </strong>
                           <div className="course-name">
+                          <strong>
                             {cohortcourse.courseName}
+                          </strong>
+                          <div className="cohort-id">
+                            Cohort {cohortcourse.cohortId}
                           </div>
                       </div>
                   </li>

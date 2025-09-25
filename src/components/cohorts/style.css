@@ -24,17 +24,17 @@
   fill: #ffffff !important;
 }
 
-.cohort-info {
+.course-name {
   display: flex;
   flex-direction: column;
   margin-left: 8px;
 }
 
-.cohort-info strong {
+.course-name strong {
   font-size: 1rem;
 }
 
-.course-name {
+.cohort-id {
   font-size: 0.85rem;
   color: #666;
 }
