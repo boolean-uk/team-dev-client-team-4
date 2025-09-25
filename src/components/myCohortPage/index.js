@@ -4,6 +4,7 @@ import ProfileCircle from '../profileCircle';
 // eslint-disable-next-line quotes
 import jwtDecode from "jwt-decode";
 import mapSpecialism from '../../userUtils/mapSpecialism';
+import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 
 function MyCohortCard() {
   const storedToken = localStorage.getItem('token');
@@ -48,15 +49,43 @@ function MyCohortCard() {
       .catch(() => setCohortId(null))
   }, [cohortId]);
 
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${month} ${year}`;
+  };
   return (
     <>
-        <div>
-          {cohortName && <p>{mapSpecialism(specialism)}, {cohortName}</p>}
+        <div className='cohort-info'>
+          <div className="cohort-icon" style={{ backgroundColor: "#28C846", alignContent: "center" }}>
+            <SquareBracketsIcon />
+          </div>
+          <div className='cohort-text'>
+            {cohortName && <h4>{mapSpecialism(specialism)}, {cohortName}</h4>}
+            {cohortInfo && <b3>{formatDateTime(cohortInfo.startDate)} - {formatDateTime(cohortInfo.endDate)}</b3>}
+          </div>
         </div>
         <hr/>
         <ul className="users_list">
           {cohortId && usersInCohort.map((user) => (
-              <li key={user.id} className="user-list-item">
+            <li key={user.id} className="user-list-item">
               <ProfileCircle
                 initials={`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
                 userId={user.id}

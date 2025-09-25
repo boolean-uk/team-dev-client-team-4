@@ -31,3 +31,32 @@
   cursor: pointer;
   margin: 0 2rem 0 auto;
 }
+
+.profile-circle {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile-circle-menu {
+  margin-left: 65px;
+}
+
+.cohort-icon {
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  text-align: center;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.cohort-info{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cohort-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
