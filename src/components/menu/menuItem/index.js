@@ -6,13 +6,15 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick }) => {
   const itemRef = useRef(null);
   const [openLeft, setOpenLeft] = useState(false);
 
-  const breakPxLimit = 200; // change this to decide how fast the cascading menu changes to other side
+  const breakPxLimit = 392; // change this to decide how fast the cascading menu changes to other side
 
   useEffect(() => {
     if (children && itemRef.current) {
       const rect = itemRef.current.getBoundingClientRect();
       const submenuWidth = breakPxLimit;
       const spaceRight = window.innerWidth - rect.right;
+
+      // console.log('SPACE RIGHT', text, spaceRight);
 
       if (spaceRight < submenuWidth) {
         setOpenLeft(true);
