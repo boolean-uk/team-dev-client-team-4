@@ -5,11 +5,13 @@ import Button from '../button';
 import useAuth from '../../hooks/useAuth';
 import { post } from '../../service/apiClient';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import useDialog from '../../hooks/useDialog';
 
 const CreatePostModal = (props) => {
   const { closeModal } = useModal();
   const { loggedInUser } = useAuth();
   const { refreshPosts } = props;
+  const { showActionSuccessPopup } = useDialog();
 
   const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
@@ -38,6 +40,7 @@ const CreatePostModal = (props) => {
       if (createdPost.status !== 'success') {
         setShowError(true);
       } else {
+        showActionSuccessPopup('Posted', 4000);
         console.log(createdPost);
         refreshPosts();
         closeModal();
