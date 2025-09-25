@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import { get } from '../../service/apiClient';
 
 const TeacherUserlist = ({ title, role, userId }) => {
