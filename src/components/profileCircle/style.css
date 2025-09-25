@@ -26,3 +26,7 @@
 .profile-icon-body {
   fill: transparent !important;
 }
+
+.profile-icon-body-active{
+  fill: #000046 !important;
+}

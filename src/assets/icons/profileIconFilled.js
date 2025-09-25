@@ -18,7 +18,7 @@ const ProfileIconFilled = ({ isActive = false }) => {
     >
       <circle cx="20.5" cy="14.65" r="3.85" fill={fillColour} />
 
-      <path className="profile-icon-body"
+      <path className={isActive ? 'profile-icon-body-active' : 'profile-icon-body'}
         d="M9.95 33.4C11.65 34.7333 13.375 35.6667 15.125 36.2C16.875 36.7333 18.6667 37 20.5 37C22.3333 37 24.125 36.7333 25.875 36.2C27.625 35.6667 29.35 34.7333 31.05 33.4C29.35 32.2 27.6167 31.2833 25.85 30.65C24.0833 30.0167 22.3 29.7 20.5 29.7C18.7 29.7 16.9167 30.0167 15.15 30.65C13.3833 31.2833 11.65 32.2 9.95 33.4Z"
         fill={fillColour}
       />
