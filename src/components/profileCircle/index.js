@@ -16,6 +16,7 @@ import DeleteUserConfirm from '../deleteUserConfirm';
 import useAuth from '../../hooks/useAuth';
 import { PiFileRsThin } from 'react-icons/pi';
 import { get, post } from '../../service/apiClient';
+import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId, cohortCourses } =
@@ -142,7 +143,7 @@ const CascadingMenu = ({
                   {courses.map((c) => (
                     <MenuItem
                       key={c.id}
-                      icon={<CohortIconFill />}
+                      icon={mapCourseToIcon(c.name)}
                       text={c.name}
                       onClick={() => showMoveToCohortDialog(cohortLabel, c.name, c.id)}
                     />
