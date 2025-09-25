@@ -2,7 +2,6 @@ import FullLogo from '../../assets/fullLogo';
 import useAuth from '../../hooks/useAuth';
 import './style.css';
 import Card from '../card';
-import ProfileIcon from '../../assets/icons/profileIcon';
 import CogIcon from '../../assets/icons/cogIcon';
 import LogoutIcon from '../../assets/icons/logoutIcon';
 import { NavLink } from 'react-router-dom';

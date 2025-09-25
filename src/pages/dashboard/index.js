@@ -12,6 +12,7 @@ import TeacherUserlist from '../../components/TeacherUserlist';
 import useAuth from '../../hooks/useAuth';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import { getPosts } from '../../service/apiClient';
+import ProfileCircle from '../../components/profileCircle';
 
 const Dashboard = () => {
   const { loggedInUser } = useAuth();
@@ -73,10 +74,13 @@ const Dashboard = () => {
             <main>
                 <Card>
                     <div className="create-post-input">
-                        <div className="profile-icon" style={ { backgroundColor: profileIconColor } }>
-                            <p>{initials}</p>
-                        </div>
-                        <Button text="What's on your mind?" onClick={showModal}/>
+                      <ProfileCircle
+                        initials={initials}
+                        uniqueKey={`post-${userId}-owninput`}
+                        role={loggedInUser.role.toLowerCase()}
+                        userId={loggedInUser.id}
+                      />
+                      <Button text="What's on your mind?" onClick={showModal}/>
                     </div>
                 </Card>
 

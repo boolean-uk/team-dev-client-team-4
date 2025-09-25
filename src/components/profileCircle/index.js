@@ -2,7 +2,6 @@ import AddIcon from '../../assets/icons/addIcon';
 import CohortIcon from '../../assets/icons/cohortIcon';
 import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import DeleteIcon from '../../assets/icons/deleteIcon';
-import ProfileIcon from '../../assets/icons/profileIcon';
 import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
@@ -15,6 +14,7 @@ import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import DeleteUserConfirm from '../deleteUserConfirm';
 import useAuth from '../../hooks/useAuth';
 import DropdownPortal from '../dropdownPortal/dropdownPortal';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 
 const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
@@ -109,7 +109,7 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
 
   return (
       <Menu className="profile-circle-menu" data-menu-root="true">
-        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
+        <MenuItem icon={<ProfileIconFilled />} text="Profile" linkTo={'profile/' + id} />
 
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>
