@@ -1,8 +1,8 @@
-.cohorts-list {
+.cohort-course-list {
   padding-left: 0;
 }
 
-.cohorts-list-item {
+.cohort-course-item {
   list-style: none;
   margin-bottom: 15px;
   display: flex;
@@ -18,3 +18,19 @@
 .profile-icon svg {
   fill: #ffffff !important;
 }
+
+.cohort-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.cohort-info strong {
+  font-size: 1rem;
+}
+
+.course-name {
+  font-size: 0.85rem;
+  color: #666;
+}
+

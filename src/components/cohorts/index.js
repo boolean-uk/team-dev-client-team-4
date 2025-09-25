@@ -4,40 +4,50 @@ import { API_URL } from '../../service/constants';
 import BicodeIcon from '../../assets/icons/bicodeIcon';
 
 const Cohorts = () => {
-  const [cohorts, setCohorts] = useState([]);
+  const [cohortCourses, setCohortCourses] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // TODO: switch to new endpoint when available
   useEffect(() => {
-    setLoading(true);
-    fetch(`${API_URL}/cohorts`)
-      .then((res) => res.json())
-      .then((data) => {
-        const list = data?.data ?? [];
-        setCohorts(list);
+    const fetchCohortCourses = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_URL}/cohortcourses`);
+        const data = await res.json();
+        console.log('Fetched cohort courses:', data);
+        setCohortCourses(data);
+      } catch (err) {
+        console.error('Failed to fetch cohort courses:', err);
+        setCohortCourses([]);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => {
-        setCohorts([]);
-        setLoading(false);
-      });
+      }
+    };
+    fetchCohortCourses();
   }, []);
 
   return (
     <>
     <h4>Cohorts</h4>
     <hr />
-    <ul className="cohorts-list">
+    <ul className="cohort-course-list">
         {loading && <li>Loading...</li>}
-        {!loading && cohorts.length === 0 && <li>No cohorts found</li>}
+        {!loading && cohortCourses.length === 0 && <li>No cohort courses found</li>}
         {!loading &&
-            cohorts.map((cohort) => {
+            cohortCourses.map((cohortcourse) => {
               return (
-                    <li key={cohort.id} className="cohorts-list-item">
-                        <div className="profile-icon" style={{ background: '#1fd76cff' }}>
+                    <li key={cohortcourse.id} className="cohort-course-item">
+                        <div className="profile-icon" style={{ background: '#1dc262ff' }}>
                             <BicodeIcon />
                         </div>
-                    </li>
+                          <div className="cohort-info">
+                          <strong>
+                            Cohort {cohortcourse.cohortId}
+                          </strong>
+                          <div className="course-name">
+                            {cohortcourse.courseName}
+                          </div>
+                      </div>
+                  </li>
               );
             })}
     </ul>
