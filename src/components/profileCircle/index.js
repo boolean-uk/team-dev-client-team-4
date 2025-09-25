@@ -109,7 +109,7 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
 
   return (
       <Menu className="profile-circle-menu" data-menu-root="true">
-        <MenuItem icon={<ProfileIconFilled />} text="Profile" linkTo={'profile/' + id} />
+        <MenuItem className="profile-icon-filled" icon={<ProfileIconFilled/>} text="Profile" linkTo={'profile/' + id}/>
 
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>

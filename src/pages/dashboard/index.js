@@ -10,7 +10,6 @@ import jwtDecode from 'jwt-decode';
 import SearchResults from '../../components/searchResults';
 import TeacherUserlist from '../../components/TeacherUserlist';
 import useAuth from '../../hooks/useAuth';
-import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import { getPosts } from '../../service/apiClient';
 import ProfileCircle from '../../components/profileCircle';
 
@@ -22,7 +21,6 @@ const Dashboard = () => {
   const decodedToken = jwtDecode(storedToken);
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
   const [cohortId, setCohortId] = useState(null);
   const [posts, setPosts] = useState([]);
@@ -76,9 +74,11 @@ const Dashboard = () => {
                     <div className="create-post-input">
                       <ProfileCircle
                         initials={initials}
-                        uniqueKey={`post-${userId}-owninput`}
-                        role={loggedInUser.role.toLowerCase()}
-                        userId={loggedInUser.id}
+                        uniqueKey={`create-post-profile-circle-${userId}`}
+                        role={userRole}
+                        userId={loggedInUser?.id}
+                        name={`${loggedInUser?.firstName} ${loggedInUser?.lastName}`}
+                        user={loggedInUser}
                       />
                       <Button text="What's on your mind?" onClick={showModal}/>
                     </div>

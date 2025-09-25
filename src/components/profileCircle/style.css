@@ -14,3 +14,15 @@
 .profile-circle-menu li:hover a svg circle{
   fill: #000046 !important;
 }
+
+.profile-circle-menu li a p  {
+  color: #64648c;
+}
+
+.profile-circle-menu li:hover a p  {
+  color: #000046;
+}
+
+.profile-icon-body {
+  fill: transparent !important;
+}
