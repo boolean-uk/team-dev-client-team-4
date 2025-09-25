@@ -35,3 +35,30 @@ hr {
   border-top: 1px solid #e4e4e4;
   margin-bottom: 15px;
 }
+
+.cohort-teacher-main {
+  flex: none;
+  width: 90vw;
+  padding: 30px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  min-width: 0;
+}
+
+.cohort-list-section {
+  flex: 1;
+  min-width: 250px;
+  border-right: 1px solid #e4e4e4; 
+  padding-right: 20px; 
+}
+
+.cohort-teacher-layout {
+  display: flex;
+  gap: 0;
+  height: 100%;
+}
+
+.students-section {
+  flex: 2;
+  padding-left: 20px;
+}
