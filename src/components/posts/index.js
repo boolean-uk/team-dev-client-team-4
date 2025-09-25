@@ -1,16 +1,16 @@
 import Post from '../post';
 
 const Posts = (props) => {
-    const {posts, refreshPosts} = props;
+  const { posts, refreshPosts } = props;
 
-    return (
+  return (
         <>
             {posts.map((post, i) => {
-                const sortedComments = [...post.comments].sort(
-                    (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-                );
+              const sortedComments = [...post.comments].sort(
+                (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+              );
 
-                return (
+              return (
                     <Post
                         key={`post-${post.id ?? `${post.authorId ?? 'na'}-${post.createdAt}-${i}`}`}
                         listIndex={i}
@@ -24,10 +24,10 @@ const Posts = (props) => {
                         likes={post.likes}
                         refreshPosts={refreshPosts}
                     />
-                );
+              );
             })}
         </>
-    );
+  );
 };
 
 export default Posts;

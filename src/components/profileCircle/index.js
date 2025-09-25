@@ -2,18 +2,19 @@ import AddIcon from '../../assets/icons/addIcon';
 import CohortIcon from '../../assets/icons/cohortIcon';
 import CohortIconFill from '../../assets/icons/cohortIcon-fill';
 import DeleteIcon from '../../assets/icons/deleteIcon';
-import ProfileIcon from '../../assets/icons/profileIcon';
 import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import DeleteUserConfirm from '../deleteUserConfirm';
 import useAuth from '../../hooks/useAuth';
+import DropdownPortal from '../dropdownPortal/dropdownPortal';
+import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 import { PiFileRsThin } from 'react-icons/pi';
 import { get, post } from '../../service/apiClient';
 import mapCourseToIcon from '../../userUtils/mapCourseIcon';
@@ -25,11 +26,14 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   const profileIconColor = ProfileIconColor(userId);
   const { loggedInUser } = useAuth();
   const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
+  const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
   const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
 
   const toggleMenu = (e) => {
     e.stopPropagation();
+    const rect = ref.current.getBoundingClientRect();
+    setMenuPosition({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX + 60 });
     setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
 
@@ -48,15 +52,17 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
       aria-expanded={safeKey === cascadingMenuVisibleId}
     >
       {safeKey === cascadingMenuVisibleId && (
-        <CascadingMenu
-          role={role}
-          id={userId}
-          name={name}
-          currentCohortId={user?.cohortId}
-          onUserUpdate={onUserUpdate}
-          loggedInUser={loggedInUser}
-          cohorts={cohortCourses}
-        />
+        <DropdownPortal position={menuPosition}>
+          <CascadingMenu
+            role={role}
+            id={userId}
+            name={name}
+            currentCohortId={user?.cohortId}
+            onUserUpdate={onUserUpdate}
+            loggedInUser={loggedInUser}
+            cohorts={cohortCourses}
+          />
+        </DropdownPortal>
       )}
 
       <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
@@ -129,14 +135,21 @@ const CascadingMenu = ({
   const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
   const isSelf = loggedInUser?.id === id;
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Menu className="profile-circle-menu" data-menu-root="true">
-      <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
+      <Menu className="profile-circle-menu" data-menu-root="true">
+        <MenuItem className="profile-icon-filled" icon={<ProfileIconFilled/>} text="Profile" linkTo={'profile/' + id}/>
 
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>
           <MenuItem icon={<AddIcon />} text="Add note" />
-          <MenuItem icon={<CohortIcon />} text="Move to cohort">
+          <MenuItem
+            icon={<CohortIcon filled={isHovered} />}
+            text="Move to cohort"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             {cohorts &&
               Object.entries(cohorts).map(([cohortLabel, courses]) => (
                 <MenuItem key={cohortLabel} icon={<SquareBracketsIcon />} text={cohortLabel}>

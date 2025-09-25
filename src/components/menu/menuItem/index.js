@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import ArrowRightIcon from '../../../assets/icons/arrowRightIcon';
 import { useEffect, useRef, useState } from 'react';
 
-const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick }) => {
+const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick, onMouseEnter, onMouseLeave, ...rest }) => {
   const itemRef = useRef(null);
   const [openLeft, setOpenLeft] = useState(false);
   const [hasMeasured, setHasMeasured] = useState(false);
@@ -48,23 +48,27 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick }) => {
   };
 
   return (
-    <li ref={itemRef} className={openLeft ? 'open-left' : ''} onMouseEnter={handleMouseEnter}>
-      {linkTo === '#nogo' && onClick != null ? (
+    <li ref={itemRef} className={openLeft ? 'open-left' : ''} onMouseEnter={(e) => { handleMouseEnter(e); onMouseEnter?.(e); }} onMouseLeave={onMouseLeave} {...rest}>
+      {linkTo === '#nogo' && onClick != null
+        ? (
         <button onClick={onClick}>
           {icon}
           <p>{text}</p>
           {children && <ArrowRightIcon />}
         </button>
-      ) : (
+          )
+        : (
         <NavLink to={linkTo}>
           {icon}
           <p>{text}</p>
           {children && <ArrowRightIcon />}
         </NavLink>
-      )}
+          )}
       {hasMeasured && children && <ul>{children}</ul>}
     </li>
   );
 };
 
 export default MenuItem;
+
+MenuItem.displayName = 'MenuItem';
