@@ -6,7 +6,7 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick }) => {
   const itemRef = useRef(null);
   const [openLeft, setOpenLeft] = useState(false);
 
-  const breakPxLimit = 392; // change this to decide how fast the cascading menu changes to other side
+  const breakPxLimit = 300; // change this to decide how fast the cascading menu changes to other side
 
   useEffect(() => {
     if (children && itemRef.current) {
@@ -16,7 +16,7 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick }) => {
 
       // console.log('SPACE RIGHT', text, spaceRight);
 
-      if (spaceRight < submenuWidth) {
+      if (spaceRight < submenuWidth || spaceRight < 0) {
         setOpenLeft(true);
       }
     }
