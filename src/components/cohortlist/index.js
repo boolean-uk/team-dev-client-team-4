@@ -3,37 +3,43 @@ import ProfileCircle from '../profileCircle';
 import './style.css';
 import { API_URL } from '../../service/constants';
 
-const CohortList = ({ cohortId, userId }) => {
+const CohortList = ({ cohortCourseId, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [cohortCourse, setCohortCourse] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    if (cohortId) {
-      fetch(`${API_URL}/users/by_cohort/${cohortId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const list = data?.data?.users ?? [];
-          setUsers(list);
-          console.log(data);
+    const fetchCohortUsers = async () => {
+      setLoading(true);
 
-          setLoading(false);
-        })
-        .catch(() => {
-          setUsers([]);
-          setLoading(false);
-        });
-    } else {
-      setUsers([]);
-      setLoading(false);
-    }
-  }, [cohortId]);
+      if (!cohortCourseId) {
+        setUsers([]);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/cohortcourses/${cohortCourseId}`);
+        const data = await res.json();
+        const userList = data?.users ?? [];
+        setUsers(userList);
+        setCohortCourse(data ?? null);
+      } catch (error) {
+        console.error(error);
+        setUsers([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCohortUsers();
+  }, [cohortCourseId]);
 
   let description;
   if (loading) {
     description = 'Loading...';
-  } else if (cohortId && users.length > 0) {
-    description = `${(users[0]?.specialism)}, Cohort ${users[0]?.cohortId}`;
+  } else if (cohortCourse) {
+    description = `${cohortCourse?.courseName}, Cohort ${cohortCourse?.cohortId}`;
   } else {
     description = 'You have not been assigned to a cohort yet';
   }

@@ -14,7 +14,7 @@ import { ProfileIconColor } from '../../userUtils/profileIconColor';
 import Cohorts from '../../components/cohorts';
 
 const Dashboard = () => {
-  const [cohortId, setCohortId] = useState(null);
+  const [cohortCourseId, setCohortCourseId] = useState(null);
   const storedToken = localStorage.getItem('token');
   const decodedToken = jwtDecode(storedToken);
   const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
@@ -28,11 +28,11 @@ const Dashboard = () => {
       .then((res) => res.json())
       .then((data) => {
         const u = data?.data ?? {};
-        const direct = u.cohortId ?? u.cohort_id;
-        const viaMembership = u?.userCCs?.[0]?.cc?.cohortId ?? u?.userCCs?.[0]?.cc?.cohort?.id;
-        setCohortId(direct ?? viaMembership ?? null);
+        const direct = u.cohortCourseId;
+        const viaMembership = u?.userCCs?.[0]?.cc?.cohortCourseId ?? u?.userCCs?.[0]?.cc?.id;
+        setCohortCourseId(direct ?? viaMembership ?? null);
       })
-      .catch(() => setCohortId(null));
+      .catch(() => setCohortCourseId(null));
   }, [userId]);
 
   // Use the useModal hook to get the openModal and setModal functions
@@ -78,7 +78,7 @@ const Dashboard = () => {
         )}
 
         <Card>
-          {userRole !== 'Teacher' && <CohortList cohortId={cohortId} userId={userId} />}
+          {userRole !== 'Teacher' && <CohortList cohortCourseId={cohortCourseId} userId={userId} />}
           {userRole === 'Teacher' && (
             <TeacherUserlist title={'Students'} userId={userId} role={'Student'} />
           )}
