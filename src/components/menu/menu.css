@@ -3,6 +3,7 @@
   top: 0;
   left: 0;
   z-index: 2;
+  margin: 0;
 }
 .menu ul {
   width: 392px;
@@ -15,13 +16,12 @@
   padding: 8px 0;
 }
 .menu ul ul {
-  position: static;
   top: -8px;
 }
 .menu li {
   position: relative;
 }
-.menu li a, 
+.menu li a,
 .menu li button {
   display: grid;
   grid-template-columns: 30px auto;
@@ -58,13 +58,22 @@
   fill: var(--color-blue);
 }
 .menu li > ul {
+  position: absolute;
+  top: 0;
+  left: 100%;
   display: none;
+  z-index: 3;
 }
+
+.menu li.open-left > ul {
+  left: auto;
+  right: 100%;
+}
+
 .menu li:hover {
   background: var(--color-blue7);
 }
-.menu li:hover > a > p
-.menu li:hover > button > p {
+.menu li:hover > a > p .menu li:hover > button > p {
   color: var(--color-blue);
 }
 .menu li:hover > a > svg,
