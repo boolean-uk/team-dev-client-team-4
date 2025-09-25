@@ -107,6 +107,8 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
   const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
   const isSelf = loggedInUser?.id === id;
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
       <Menu className="profile-circle-menu" data-menu-root="true">
         <MenuItem className="profile-icon-filled" icon={<ProfileIconFilled/>} text="Profile" linkTo={'profile/' + id}/>
@@ -114,7 +116,12 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>
           <MenuItem icon={<AddIcon />} text="Add note" />
-          <MenuItem icon={<CohortIcon />} text="Move to cohort">
+          <MenuItem
+            icon={<CohortIcon filled={isHovered} />}
+            text="Move to cohort"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             {Object.entries(cohorts).map(([course, cohortList]) => (
               <MenuItem key={course} icon={<SquareBracketsIcon />} text={course}>
                 {cohortList
