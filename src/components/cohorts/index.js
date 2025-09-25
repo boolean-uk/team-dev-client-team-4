@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './style.css';
 import { API_URL } from '../../service/constants';
-import BicodeIcon from '../../assets/icons/bicodeIcon';
+import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 
 const Cohorts = () => {
   const [cohortCourses, setCohortCourses] = useState([]);
@@ -37,7 +37,7 @@ const Cohorts = () => {
               return (
                     <li key={cohortcourse.id} className="cohort-course-item">
                         <div className="profile-icon" style={{ background: '#1dc262ff' }}>
-                            <BicodeIcon />
+                            <SquareBracketsIcon />
                         </div>
                           <div className="course-name">
                           <strong>
