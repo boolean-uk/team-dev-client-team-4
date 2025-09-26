@@ -1,53 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import ProfileCircle from '../profileCircle';
 import './style.css';
-import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
+import { myCohortCourseContext } from '../../context/myCohortCourseContext';
 
-const CohortList = ({ cohortId, userId }) => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+const CohortList = ({ userId }) => {
+  const { cohort } = useContext(myCohortCourseContext);
 
-  useEffect(() => {
-    setLoading(true);
-    if (cohortId) {
-      fetch(`${API_URL}/users/by_cohort/${cohortId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const list = data?.data?.users ?? [];
-          setUsers(list);
-          console.log(data);
+  if (cohort === null) { return "loading cohortlist" }
+  if (userId === null) { return "waiting for user" }
 
-          setLoading(false);
-        })
-        .catch(() => {
-          setUsers([]);
-          setLoading(false);
-        });
-    } else {
-      setUsers([]);
-      setLoading(false);
-    }
-  }, [cohortId]);
-
+  const users = cohort.users;
   let description;
-  if (loading) {
-    description = 'Loading...';
-  } else if (cohortId && users.length > 0) {
-    description = `${mapSpecialism(users[0]?.specialism)}, Cohort ${users[0]?.cohortId}`;
+
+  if (users.length > 0) {
+    description = `${cohort.courseName}, Cohort ${cohort.cohortName}`;
   } else {
     description = 'You have not been assigned to a cohort yet';
   }
-
   return (
     <>
       <h4>My Cohort</h4>
       <p className="cohort-list-description">{description}</p>
       <hr />
       <ul className="cohort-list">
-        {loading && <li>Loading...</li>}
-        {!loading && users.length === 0 && <li>No users found</li>}
-        {!loading &&
+        {users.length === 0 && <li>No users found</li>}
+        {
           users
             .filter((user) => user.id !== Number(userId))
             .map((user, idx) => {

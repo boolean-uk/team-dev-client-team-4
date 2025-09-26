@@ -61,7 +61,7 @@ const Header = () => {
                 <p>
                   {loggedInUser?.firstName} {loggedInUser?.lastName}
                 </p>
-                <small>{mapSpecialism(loggedInUser?.specialism)}, Cohort {loggedInUser?.cohortId}</small>
+                <small>{loggedInUser?.specialism}, Cohort {loggedInUser?.cohortId}</small>
               </div>
             </section>
 

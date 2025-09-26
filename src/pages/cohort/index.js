@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import jwtDecode from 'jwt-decode';
-import { API_URL } from '../../service/constants';
 import StudentCohortTeachersList from '../../components/StudentCohortTeachersList';
 import MyCohortCard from '../../components/myCohortPage';
 import MyExercises from '../../components/MyExercises';
 import Card from '../../components/card';
 import './style.css';
+import { myCohortCourseContext } from '../../context/myCohortCourseContext';
+import { userContext } from '../../context/userContext';
 
 const CohortPage = () => {
-  const [cohortId, setCohortId] = useState(null);
-  const [loadingCohort, setLoadingCohort] = useState(true);
+  const { user } = useContext(userContext);
+  const { cohort } = useContext(myCohortCourseContext);
   const navigate = useNavigate();
 
   const storedToken = localStorage.getItem('token');
@@ -19,23 +19,11 @@ const CohortPage = () => {
     return null;
   }
 
-  const decodedToken = jwtDecode(storedToken);
-  const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
-  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-
-  useEffect(() => {
-    setLoadingCohort(true);
-    fetch(`${API_URL}/users/${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCohortId(data.data.cohortId);
-        setLoadingCohort(false);
-      })
-      .catch(() => {
-        setCohortId(null);
-        setLoadingCohort(false);
-      });
-  }, [userId]);
+  if (user === null) { return "loading user" };
+  if (cohort === null) { return "loading cohort" };
+  const userRole = user.role;
+  const userId = user.id;
+  const cohortId = cohort.cohortId;
 
   return (
     <>

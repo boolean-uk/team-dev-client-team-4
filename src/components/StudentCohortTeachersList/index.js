@@ -1,32 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import './style.css';
+import { myCohortCourseContext } from '../../context/myCohortCourseContext';
 
 const StudentCohortTeachers = ({ cohortId, userId }) => {
+  const { cohort } = useContext(myCohortCourseContext);
   const [teachers, setTeachers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (cohortId) {
-      setLoading(true);
-      fetch(`${API_URL}/users/by_cohort/${cohortId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          const teachersOnly = data.data.users.filter(user => user.role === 'Teacher');
-          setTeachers(teachersOnly);
-          setLoading(false);
-        })
-        .catch(() => {
-          setTeachers([]);
-          setLoading(false);
-        });
-    } else {
-      setTeachers([]);
-      setLoading(false);
-    }
-  }, [cohortId]);
+    setLoading(true);
+    const teachersOnly = cohort.users.filter(user => user.role === 'Teacher');
+    setTeachers(teachersOnly);
+    setLoading(false);
+  }, [cohort])
+  if (cohort === null) { return "loading teachers" };
 
   return (
     <>
@@ -49,7 +38,7 @@ const StudentCohortTeachers = ({ cohortId, userId }) => {
                     {teacher?.firstName} {teacher?.lastName}
                   </strong>
                   <div className="user-specialism">
-                    {mapSpecialism(teacher?.specialism) || 'No specialism'}
+                    {teacher?.specialism || 'No specialism'}
                   </div>
                 </div>
               </li>

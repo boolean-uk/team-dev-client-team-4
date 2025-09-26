@@ -2,14 +2,15 @@ import Card from '../../components/card';
 import './profile.css';
 import jwtDecode from 'jwt-decode';
 import { get, patch } from '../../service/apiClient';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
 import { useParams } from 'react-router-dom';
 import { PiLock } from "react-icons/pi";
+import { userContext } from '../../context/userContext';
 
 const Profile = () => {
-  const [user, setUser] = useState();
+  const { user } = useContext(userContext);
   const [profile, setProfile] = useState({
     firstName: '',
     lastName: '',
@@ -38,21 +39,10 @@ const Profile = () => {
     });
   };
 
-  const { id } = useParams();
-
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const decoded = jwtDecode(storedToken);
-    let thisId = decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
-
-    if (id != null) {
-      thisId = id;
-    }
-
     const fetchUser = async () => {
-      const tempUser = await get(`users/${thisId}`).then((result) => result.data);
-      setProfile(tempUser);
-      setOriginalProfile(tempUser);
+      setProfile(user);
+      setOriginalProfile(user);
     };
     fetchUser();
   }, []);

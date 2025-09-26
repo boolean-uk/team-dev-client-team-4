@@ -1,53 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
 import './style.css'
 import ProfileCircle from '../profileCircle';
-// eslint-disable-next-line quotes
-import jwtDecode from "jwt-decode";
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
+import { myCohortCourseContext } from '../../context/myCohortCourseContext';
+import { userContext } from '../../context/userContext';
 
 function MyCohortCard() {
-  const storedToken = localStorage.getItem('token');
-  const decodedToken = jwtDecode(storedToken);
-  const userId = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid'];
-  const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+  const { user } = useContext(userContext);
+  const { cohort } = useContext(myCohortCourseContext)
 
-  const [user, setUser] = useState();
-  const [cohortId, setCohortId] = useState();
-  const [specialism, setSpecialism] = useState();
-  const [cohortInfo, setCohortInfo] = useState([]);
-  const [cohortName, setCohortName] = useState();
-  const [usersInCohort, setUsersInCohort] = useState([]);
+  if (user === null) { return "loading user" };
+  if (cohort === null) { return "loading cohort" };
 
-  useEffect(() => {
-    userId !== null && fetch(`${process.env.REACT_APP_API_URL}/users/${userId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data.data)
-        setCohortId(data.data.cohortId)
-        setSpecialism(data.data.specialism)
-      })
-      .catch(() => setUser(null), setCohortId(null))
-  }, [userId]);
-
-  useEffect(() => {
-    cohortId && fetch(`${process.env.REACT_APP_API_URL}/cohorts/${cohortId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setCohortInfo(data.data)
-        setCohortName(data.data.cohortName)
-      })
-      .catch(() => setCohortInfo(null))
-  }, [cohortId]);
-
-  useEffect(() => {
-    cohortId !== null && fetch(`${process.env.REACT_APP_API_URL}/users/by_cohort/${cohortId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUsersInCohort(data.data.users)
-      })
-      .catch(() => setCohortId(null))
-  }, [cohortId]);
+  const cohortName = cohort.cohortName;
+  const specialism = cohort.courseName;
+  const startDate = cohort.startDate;
+  const endDate = cohort.endDate;
+  const usersInCohort = cohort.users;
 
   const formatDateTime = (dateString) => {
     const date = new Date(dateString);
@@ -78,13 +47,15 @@ function MyCohortCard() {
             <SquareBracketsIcon />
           </div>
           <div className='cohort-text'>
-            {cohortName && <h4>{mapSpecialism(specialism)}, {cohortName}</h4>}
-            {cohortInfo && <b3>{formatDateTime(cohortInfo.startDate)} - {formatDateTime(cohortInfo.endDate)}</b3>}
+            <h4>{specialism}, {cohortName}</h4>
+            <p>{formatDateTime(startDate)} - {formatDateTime(endDate)}</p>
           </div>
         </div>
         <hr/>
         <ul className="users_list">
-          {cohortId && usersInCohort.map((user) => (
+          {usersInCohort
+            .filter(user => user.role === "Student")
+            .map((user) => (
             <li key={user.id} className="user-list-item">
               <ProfileCircle
                 initials={`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
@@ -97,7 +68,7 @@ function MyCohortCard() {
                 <p>...</p>
               </div>
             </li>
-          ))}
+            ))}
         </ul>
     </>
   )
