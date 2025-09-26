@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button';
 import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
@@ -10,7 +9,7 @@ import { get } from '../../service/apiClient';
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -27,9 +26,11 @@ const TeacherUserlist = ({ title, role, userId }) => {
       });
   }, [role]);
 
-  const handleClick = () => {
-    navigate('/search');
+  const toggleTeacherUsersList = () => {
+    setExpanded((prev) => !prev);
   };
+
+  const visibleUsers = expanded ? users : users.slice(0, 10);
 
   const fetchUser = async (userId) => {
     try {
@@ -52,9 +53,8 @@ const TeacherUserlist = ({ title, role, userId }) => {
       <ul className="student-list">
         {loading && <li>Loading...</li>}
         {!loading &&
-          users
+          visibleUsers
             .filter((user) => user.id !== Number(userId))
-            .slice(0, 10)
             .map((user, idx) => {
               const uid = user.id ?? user.userId ?? user.user_id ?? idx;
               return (
@@ -84,8 +84,8 @@ const TeacherUserlist = ({ title, role, userId }) => {
         <>
           <hr />
           <Button
-            text={`All ${title.toLowerCase()}`}
-            onClick={handleClick}
+            text={expanded ? 'Show less' : `All ${title.toLowerCase()}`}
+            onClick={toggleTeacherUsersList}
             classes="button offwhite"
           />
         </>
