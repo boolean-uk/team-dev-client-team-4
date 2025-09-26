@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
 import { useParams } from 'react-router-dom';
+import { PiLock } from 'react-icons/pi';
+import ProfileCircle from '../../components/profileCircle';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -13,15 +15,15 @@ const Profile = () => {
     firstName: '',
     lastName: '',
     username: '',
-    githubUsername: '',
+    github: '',
     bio: '',
     email: '',
-    phone: '',
+    mobile: '',
     password: '',
     id: '',
     cohortId: '',
-    startDate: '',
-    endDate: '',
+    currentStartdate: '',
+    currentEnddate: '',
     specialism: ''
   });
 
@@ -52,6 +54,7 @@ const Profile = () => {
       const tempUser = await get(`users/${thisId}`).then((result) => result.data);
       setProfile(tempUser);
       setOriginalProfile(tempUser);
+      console.log('USER OBJECT IN PROFILE: ', tempUser);
     };
     fetchUser();
   }, []);
@@ -67,9 +70,9 @@ const Profile = () => {
       firstName: profile.firstName,
       lastName: profile.lastName,
       bio: profile.bio,
-      github: profile.githubUsername,
+      github: profile.github,
       username: profile.username,
-      phone: profile.phone
+      phone: profile.mobile
     };
     try {
       const result = await patch(`users/${thisId}`, body);
@@ -99,15 +102,31 @@ const Profile = () => {
   return (
     <>
       <main>
+        <h3 style={{ marginLeft: '25px', marginBottom: '16px' }}>Profile</h3>
         <Card>
-          <h1>Profile Placeholder</h1>
+          <div className="profile-header">
+            <ProfileCircle
+              uniqueKey={`profile-${profile.id}`}
+              role="user"
+              initials={`${profile.firstName?.[0] ?? ''}${profile.lastName?.[0] ?? ''}`.toUpperCase()}
+              userId={profile.id}
+              name={`${profile.firstName} ${profile.lastName}`}
+            />
+            <div className="profile-header-info">
+              <h4>
+                {profile.firstName} {profile.lastName}
+              </h4>
+              <p className="profile-specialism">{profile.specialism}</p>
+            </div>
+          </div>
+          <hr />
           <Form className="profile-form" onSubmit={handleSave}>
             <div className="form-left-part">
               <div
                 className="form-basic-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Basic info</h3>
+                <h4>Basic info</h4>
                 <TextInput
                   onChange={onChange}
                   value={profile.firstName}
@@ -131,17 +150,18 @@ const Profile = () => {
                 />
                 <TextInput
                   onChange={onChange}
-                  value={profile.githubUsername}
+                  value={profile.github}
                   name="githubUsername"
                   label={'Github Username*'}
                   disabled={!isEditing}
                 />
               </div>
+              <hr />
               <div
                 className="form-contact-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Contact info</h3>
+                <h4>Contact info</h4>
                 <TextInput
                   onChange={onChange}
                   value={profile.email}
@@ -151,7 +171,7 @@ const Profile = () => {
                 />
                 <TextInput
                   onChange={onChange}
-                  value={profile.phone}
+                  value={profile.mobile}
                   name="phone"
                   label={'Phone*'}
                   disabled={!isEditing}
@@ -172,41 +192,80 @@ const Profile = () => {
                 className="form-training-info"
                 style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}
               >
-                <h3>Training info</h3>
+                <h4>Training info</h4>
                 <div className="disabled">
-                  <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.specialism}
-                    name="Specialism"
-                    label={'Specialism*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.cohortId}
-                    name="cohort"
-                    label={'Cohort*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.startDate}
-                    name="startDate"
-                    label={'Start Date*'}
-                    disabled={true}
-                  />
-                  <TextInput
-                    onChange={onChange}
-                    value={profile.endDate}
-                    name="endDate"
-                    label={'End Date*'}
-                    disabled={true}
-                  />
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.role}
+                      name="Role"
+                      label={'Role*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.specialism}
+                      name="Specialism"
+                      label={'Specialism*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={profile.cohortId}
+                      name="cohort"
+                      label={'Cohort*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={
+                        profile.currentStartdate &&
+                        new Date(profile.currentStartdate).toLocaleDateString('en-GB', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })
+                      }
+                      name="startDate"
+                      label={'Start Date*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
+                  <div className="input-container">
+                    <TextInput
+                      onChange={onChange}
+                      value={
+                        profile.currentEnddate &&
+                        new Date(profile.currentEnddate).toLocaleDateString('en-GB', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })
+                      }
+                      name="endDate"
+                      label={'End Date*'}
+                      disabled={true}
+                    />
+                    <PiLock className="input-lock-icon" />
+                  </div>
                 </div>
               </div>
+              <hr />
               <div className="form-bio" style={{ filter: isEditing ? 'none' : 'grayscale(100%)' }}>
-                <h3>Bio</h3>
+                <h4>Bio</h4>
                 <textarea
                   name="bio"
                   value={profile.bio}
@@ -215,16 +274,28 @@ const Profile = () => {
                   disabled={!isEditing}
                 ></textarea>
                 <div className="buttonRow">
-                  <button type="button" className="edit-btn" onClick={handleEditToggle}>
-                    {isEditing ? 'Cancel' : 'Edit'}
-                  </button>
-                  <button
-                    type="submit"
-                    className={isEditing ? 'save-btn save-btn--active' : 'save-btn'}
-                    disabled={!isEditing}
-                  >
-                    Save
-                  </button>
+                  {isEditing ? (
+                    <>
+                      <button type="button" className="cancel-btn" onClick={handleEditToggle}>
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="save-btn save-btn--active"
+                        disabled={!isEditing}
+                      >
+                        Save
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      className="save-btn save-btn--active"
+                      onClick={handleEditToggle}
+                    >
+                      Edit
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

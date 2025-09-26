@@ -1,0 +1,47 @@
+.cross-icon {
+  margin: 6px;
+}
+
+.change-text-searchResults {
+  color: var(--color-blue1);
+  margin-top: 0px;
+}
+
+.change-text-error {
+  color: var(--color-blue1);
+  margin-bottom: 10px;
+}
+
+.options-text-container {
+  margin-right: auto;
+  margin-left: 30px;
+  display: flex; 
+  gap: 60px;
+}
+
+.profile-text,
+.add-note-text,
+.move-cohort-text {
+  color: var(--color-blue1) !important;
+  white-space: nowrap;
+}
+
+.profile-text:hover,
+.add-note-text:hover,
+.move-cohort-text:hover {
+  color: var(--color-blue) !important;
+  cursor: pointer;
+}
+
+.profile-text.student {
+  margin-left: 250px;
+}
+
+.move-cohort-text {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-info {
+    white-space: nowrap;
+}

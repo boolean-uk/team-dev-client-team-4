@@ -4,6 +4,7 @@ import TextInput from '../../components/form/textInput';
 import useAuth from '../../hooks/useAuth';
 import CredentialsCard from '../../components/credentials';
 import Validator from './validator';
+import './register.css';
 
 const Register = () => {
   const { onRegister } = useAuth();
@@ -87,7 +88,7 @@ const Register = () => {
               type="password"
               errors={errors.password}
             />
-            <Button text="Sign up" type="submit" classes="green width-full" />
+            <Button text="Sign up" type="submit" classes="green width-full margin-top"/>
           </form>
         </div>
       </CredentialsCard>

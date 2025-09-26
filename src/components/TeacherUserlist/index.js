@@ -1,16 +1,14 @@
-import { useNavigate } from 'react-router-dom';
 import Button from '../../components/button';
 import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import { get } from '../../service/apiClient';
 
 const TeacherUserlist = ({ title, role, userId }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -27,9 +25,11 @@ const TeacherUserlist = ({ title, role, userId }) => {
       });
   }, [role]);
 
-  const handleClick = () => {
-    navigate('/search');
+  const toggleTeacherUsersList = () => {
+    setExpanded((prev) => !prev);
   };
+
+  const visibleUsers = expanded ? users : users.slice(0, 10);
 
   const fetchUser = async (userId) => {
     try {
@@ -45,16 +45,26 @@ const TeacherUserlist = ({ title, role, userId }) => {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const updatedUsers = await get('users').then(res => res.data);
+
+      setUsers(updatedUsers.users || updatedUsers
+      );
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  }
+
   return (
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className="student-list">
+      <ul className={`student-list ${expanded ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
-          users
+          visibleUsers
             .filter((user) => user.id !== Number(userId))
-            .slice(0, 10)
             .map((user, idx) => {
               const uid = user.id ?? user.userId ?? user.user_id ?? idx;
               return (
@@ -67,13 +77,14 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
                   user={user}
                   onUserUpdate={fetchUser}
+                  onUserDelete={fetchUsers}
                 />
                 <div className="user-info">
                   <strong>
                     {user?.firstName} {user?.lastName}
                   </strong>
                   <div className="user-specialism">
-                    {mapSpecialism(user?.specialism) || 'No specialism'}
+                    {user?.specialism || 'No specialism'}
                   </div>
                 </div>
               </li>
@@ -84,8 +95,8 @@ const TeacherUserlist = ({ title, role, userId }) => {
         <>
           <hr />
           <Button
-            text={`All ${title.toLowerCase()}`}
-            onClick={handleClick}
+            text={expanded ? 'Show less' : `All ${title.toLowerCase()}`}
+            onClick={toggleTeacherUsersList}
             classes="button offwhite"
           />
         </>

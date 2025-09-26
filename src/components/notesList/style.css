@@ -1,0 +1,78 @@
+/* Loading text */
+.loading {
+  color: #555;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+/* Unordered list styling */
+.notes-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: -8px;
+}
+.main-border {
+  border: none;
+  border-top: 1px solid #c5c5c5;; /* Same as .note-item border */
+}
+
+/* Smaller, less bold title */
+.note-title {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+}
+
+/* Row for metadata (updatedat and content) */
+.note-meta {
+  display: flex;
+  gap: 1rem;
+  color: #555;
+}
+
+/* updatedat text */
+.note-updated {
+  color: #3b3b3b;
+  white-space: nowrap;
+}
+
+
+/* Loading message */
+.loading {
+  color: #555;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.note-content {
+  flex: 1;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+  margin-bottom: 10px;
+}
+
+/* Hvis NotesList har 16px padding: */
+.notes-container hr {
+  margin-left: -20px;
+  margin-right: -20px;
+  border: none;
+  border-top: 1px solid #e4e4e4;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+

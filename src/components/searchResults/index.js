@@ -4,11 +4,10 @@ import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import Button from '../button';
 import { API_URL } from '../../service/constants';
 
-const SearchResults = () => {
+const SearchResults = (overlay = false) => {
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -54,11 +53,11 @@ const SearchResults = () => {
   };
 
   const allResults = () => {
-    navigate('/search');
+    navigate('/search', { state: { searchVal } });
   };
 
   return (
-    <div>
+    <div style={overlay && { position: 'relative' }}>
       <form onSubmit={(e) => e.preventDefault()}>
         <TextInput
           icon={<SearchIcon />}
@@ -70,7 +69,7 @@ const SearchResults = () => {
         />
       </form>
       {searchVal.trim().length >= 3 && (
-        <div className="search-modal">
+        <div className="search-modal overlay">
           <p className="change-text">People</p>
           <hr />
           {loading
@@ -97,7 +96,7 @@ const SearchResults = () => {
                         {user?.firstName} {user?.lastName}
                       </strong>
                       <div className="user-specialism">
-                        {mapSpecialism(user?.specialism) || 'No specialism'}
+                        {user?.specialism || 'No specialism'}
                       </div>
                     </div>
                     </li>

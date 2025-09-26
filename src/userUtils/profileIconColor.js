@@ -1,4 +1,4 @@
-const COLORS = ['#5abedc', '#bec0c9ff', '#1796a6ff', '#2ecc71', '#1873ebff'];
+const COLORS = ['#28c846', '#A0E6AA', '#46DCD2', '#82E6E6', '#5ABEDC', '#46C8FA', '#46A0FA', '#C8D2E6', '#96a0be'];
 
 export const ProfileIconColor = (userId) => {
   try {

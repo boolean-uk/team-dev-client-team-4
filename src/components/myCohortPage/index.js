@@ -3,7 +3,6 @@ import './style.css'
 import ProfileCircle from '../profileCircle';
 // eslint-disable-next-line quotes
 import jwtDecode from "jwt-decode";
-import mapSpecialism from '../../userUtils/mapSpecialism';
 
 function MyCohortCard() {
   const storedToken = localStorage.getItem('token');
@@ -51,7 +50,7 @@ function MyCohortCard() {
   return (
     <>
         <div>
-          {cohortName && <p>{mapSpecialism(specialism)}, {cohortName}</p>}
+          {cohortName && <p>{(specialism)}, {cohortName}</p>}
         </div>
         <hr/>
         <ul className="users_list">
