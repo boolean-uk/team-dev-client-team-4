@@ -40,3 +40,11 @@ nav p {
 .active-link p {
   color: inherit;
 }
+
+.inactive-nav {
+  pointer-events: none; /* hindrer klikk */
+  opacity: 0.5; /* gjør navbaren visuelt "grået ut" */
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}

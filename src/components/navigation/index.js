@@ -17,9 +17,10 @@ const Navigation = () => {
   const decodedToken = jwtDecode(token);
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const cohortLabel = userRole === 'Teacher' ? 'Cohorts' : 'Cohort';
+  const isWelcomePage = location.pathname === '/welcome';
 
   return (
-    <nav>
+    <nav className={isWelcomePage ? 'inactive-nav' : ''}>
       <ul>
         <li className={location.pathname === '/' ? 'active-link' : ''}>
           <NavLink to="/">
