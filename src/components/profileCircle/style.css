@@ -3,6 +3,30 @@
   cursor: pointer;
 }
 
-.profile-circle-menu {
-  margin-left: 65px;
+.profile-circle-menu li:hover a svg path{
+  fill: #64648c !important;
+}
+
+.profile-circle-menu li:hover a svg path{
+  fill: #000046 !important;
+}
+
+.profile-circle-menu li:hover a svg circle{
+  fill: #000046 !important;
+}
+
+.profile-circle-menu li a p  {
+  color: #64648c;
+}
+
+.profile-circle-menu li:hover a p  {
+  color: #000046;
+}
+
+.profile-icon-body {
+  fill: transparent !important;
+}
+
+.profile-icon-body-active{
+  fill: #000046 !important;
 }

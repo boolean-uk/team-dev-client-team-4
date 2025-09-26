@@ -4,7 +4,6 @@ import TextInput from '../form/textInput';
 import ProfileCircle from '../profileCircle';
 import SearchIcon from '../../assets/icons/searchIcon';
 import './style.css';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import Button from '../button';
 import { API_URL } from '../../service/constants';
 
@@ -97,7 +96,7 @@ const SearchResults = () => {
                         {user?.firstName} {user?.lastName}
                       </strong>
                       <div className="user-specialism">
-                        {mapSpecialism(user?.specialism) || 'No specialism'}
+                        {user?.specialism || 'No specialism'}
                       </div>
                     </div>
                     </li>

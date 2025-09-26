@@ -1,57 +1,60 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import useModal from '../../hooks/useModal';
 import './style.css';
 import Button from '../button';
 import useAuth from '../../hooks/useAuth';
-import {post} from '../../service/apiClient';
-import {ProfileIconColor} from '../../userUtils/profileIconColor';
+import { post } from '../../service/apiClient';
+import { ProfileIconColor } from '../../userUtils/profileIconColor';
+import useDialog from '../../hooks/useDialog';
 
 const CreatePostModal = (props) => {
-    const {closeModal} = useModal();
-    const {loggedInUser} = useAuth();
-    const {refreshPosts} = props;
+  const { closeModal } = useModal();
+  const { loggedInUser } = useAuth();
+  const { refreshPosts } = props;
+  const { showActionSuccessPopup } = useDialog();
 
-    const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
+  const profileIconColor = ProfileIconColor(loggedInUser?.id || 0);
 
-    const [message, setMessage] = useState('');
-    const [showError, setShowError] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showError, setShowError] = useState(false);
 
-    const loggedInUserInitials = loggedInUser
-        ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
-        : '';
-    
-    const onChange = (e) => {
-        setMessage(e.target.value);
+  const loggedInUserInitials = loggedInUser
+    ? `${loggedInUser.firstName.charAt(0)}${loggedInUser.lastName.charAt(0)}`
+    : '';
+
+  const onChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const onSubmit = async () => {
+    const postRequest = {
+      author_id: loggedInUser.id,
+      body: message,
+      created_at: new Date().toISOString()
     };
 
-    const onSubmit = async () => {
-        const postRequest = {
-            author_id: loggedInUser.id,
-            body: message,
-            created_at: new Date().toISOString()
-        };
+    try {
+      const createdPost = await post('posts', postRequest, true);
+      setShowError(createdPost.status !== 'success');
 
-        try {
-            const createdPost = await post('posts', postRequest, true);
-            setShowError(createdPost.status !== 'success');
+      if (createdPost.status !== 'success') {
+        setShowError(true);
+      } else {
+        showActionSuccessPopup('Posted', 4000);
+        console.log(createdPost);
+        refreshPosts();
+        closeModal();
+      }
+    } catch (error) {
+      console.error(error);
+      setShowError(true);
+    }
+  };
 
-            if (createdPost.status !== 'success') {
-                setShowError(true);
-            } else {
-                console.log(createdPost);
-                refreshPosts();
-                closeModal();
-            }
-        } catch (error) {
-            console.error(error);
-            setShowError(true);
-        }
-    };
-    
-    return (
+  return (
         <>
             <section className="create-post-user-details">
-                <div className="profile-icon" style={{backgroundColor: profileIconColor}}>
+                <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
                     <p>{loggedInUserInitials}</p>
                 </div>
                 <div className="post-user-name">
@@ -79,7 +82,7 @@ const CreatePostModal = (props) => {
                 />
             </section>
         </>
-    );
+  );
 };
 
 export default CreatePostModal;

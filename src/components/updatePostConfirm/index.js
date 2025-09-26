@@ -23,7 +23,7 @@ function UpdatePostConfirm({ postId, text, refreshPosts }) {
       if (!res.status === 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
-      showActionSuccessPopup('Post Updated', 4000);
+      showActionSuccessPopup('Post updated', 4000);
       console.log('EDIT POST RESPONSE: ' + res);
     } catch (err) {
       console.log('ERROR EDIT POSTID:' + postId + ', ' + err);

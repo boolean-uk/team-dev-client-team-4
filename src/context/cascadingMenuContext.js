@@ -1,8 +1,14 @@
 import { createContext, useState, useEffect } from 'react';
+import { get, post } from '../service/apiClient';
+import useAuth from '../hooks/useAuth';
+
 const CascadingMenuContext = createContext();
 
 const CascadingMenuProvider = ({ children }) => {
   const [cascadingMenuVisibleId, setCascadingMenuVisibleId] = useState(null);
+  const [cohorts, setCohorts] = useState(null);
+  const [cohortCourses, setcohortCourses] = useState(null);
+  const { loggedInUser } = useAuth();
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -22,8 +28,39 @@ const CascadingMenuProvider = ({ children }) => {
     return () => document.removeEventListener('click', handleClick);
   }, []);
 
+  useEffect(() => {
+    const fetchCohorts = async () => {
+      const fetchedCohorts = await get('cohorts').then((result) => {
+        result.data;
+        setCohorts(result.data);
+        mapCohortCourses(result.data);
+      });
+      // setCohorts(fetchedCohorts);
+      // console.log('FETCHED COHORTS: ', fetchedCohorts);
+      // mapCohortCourses();
+    };
+
+    if (loggedInUser?.role.toLowerCase() !== 'teacher') {
+      return;
+    }
+
+    fetchCohorts();
+  }, [loggedInUser]);
+
+  const mapCohortCourses = (data) => {
+    const mappedCohortCourses = data.reduce((acc, cohort) => {
+      acc[`Cohort ${cohort.id}`] = cohort.courses;
+      return acc;
+    }, {});
+
+    // console.log('MAPPED COHORT COURSES: ', mappedCohortCourses);
+    setcohortCourses(mappedCohortCourses);
+  };
+
   return (
-    <CascadingMenuContext.Provider value={{ cascadingMenuVisibleId, setCascadingMenuVisibleId }}>
+    <CascadingMenuContext.Provider
+      value={{ cascadingMenuVisibleId, setCascadingMenuVisibleId, cohorts, cohortCourses }}
+    >
       {children}
     </CascadingMenuContext.Provider>
   );

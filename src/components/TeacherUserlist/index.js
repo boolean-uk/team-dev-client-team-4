@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import ProfileCircle from '../profileCircle';
 import './index.css';
 import { API_URL } from '../../service/constants';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import { get } from '../../service/apiClient';
 
 const TeacherUserlist = ({ title, role, userId }) => {
@@ -50,7 +49,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className="student-list">
+      <ul className={`student-list ${users.length >= 10 ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
           visibleUsers
@@ -73,7 +72,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                     {user?.firstName} {user?.lastName}
                   </strong>
                   <div className="user-specialism">
-                    {mapSpecialism(user?.specialism) || 'No specialism'}
+                    {user?.specialism || 'No specialism'}
                   </div>
                 </div>
               </li>
