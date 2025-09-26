@@ -37,7 +37,7 @@ function NoteSearch({ allNotes, setVisibleNotes }) {
           value={searchVal}
           name="Search"
           onChange={onChange}
-          placeholder="Search for notes"
+          placeholder="Search notes"
           ref={inputRef}
         />
       </div>

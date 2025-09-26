@@ -28,13 +28,13 @@ function NotesList({ user }) {
 
   return (
     <div className="notes-container">
-      <h3>Notes</h3> <></>
+      <h4>Notes</h4>
       <hr className="main-border"></hr>
       <ProfileCard user={user}></ProfileCard>
-
+      <br />
       <NoteSearch allNotes={allNotes} setVisibleNotes={setVisibleNotes} />
-
-      <hr className="main-border"></hr>
+      <br />
+      <hr />
       {!isLoaded && <p className="loading">Loading notes...</p>}
         <ul className="notes-list">
         {visibleNotes.map(note => (
