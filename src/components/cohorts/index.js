@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import './style.css';
 import { API_URL } from '../../service/constants';
-import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
+import mapCourseToIcon from '../../userUtils/mapCourseIcon';
+import mapIconBackgroundColor from '../../userUtils/mapIconBackgroundColor';
 
 const Cohorts = () => {
   const [cohortCourses, setCohortCourses] = useState([]);
@@ -36,8 +37,8 @@ const Cohorts = () => {
             cohortCourses.map((cohortcourse) => {
               return (
                     <li key={cohortcourse.id} className="cohort-course-item">
-                        <div className="profile-icon" style={{ background: '#1dc262ff' }}>
-                            <SquareBracketsIcon />
+                        <div className="profile-icon" style={mapIconBackgroundColor(cohortcourse.courseName)}>
+                            {mapCourseToIcon(cohortcourse.courseName)}
                         </div>
                           <div className="course-name">
                           <strong>

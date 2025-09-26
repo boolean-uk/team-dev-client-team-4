@@ -6,7 +6,7 @@ import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
@@ -124,14 +124,8 @@ const CascadingMenu = ({
   // console.log('COHORT NEW JSON: ', cohorts);
 
   return (
-    <Menu className="profile-circle-menu" data-menu-root="true">
-      <MenuItem
-        className="profile-icon-filled"
-        icon={<ProfileIconFilled />}
-        text="Profile"
-        linkTo={'profile/' + id}
-      />
-
+      <Menu className="profile-circle-menu" data-menu-root="true">
+        <MenuItem className="profile-icon-filled" icon={<ProfileIconFilled/>} text="Profile" linkTo={`/profile/${id}`} />
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>
           <MenuItem icon={<AddIcon />} text="Add note" />

@@ -1,0 +1,27 @@
+.cross-icon {
+  margin: 6px;
+}
+
+.change-text-searchResults {
+  color: var(--color-blue1);
+  margin-top: 0px;
+}
+
+.change-text-error {
+  color: var(--color-blue1);
+  margin-bottom: 10px;
+}
+
+.options-text-container {
+  margin-left: auto;
+  margin-right: 30px;
+}
+
+.profile-text {
+  color: var(--color-blue1) !important;
+}
+
+.profile-text:hover {
+  color: var(--color-blue) !important;
+  cursor: pointer;
+}
