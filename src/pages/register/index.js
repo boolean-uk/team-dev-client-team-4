@@ -88,7 +88,7 @@ const Register = () => {
               type="password"
               errors={errors.password}
             />
-            <Button text="Sign up" type="submit" classes="green width-full" />
+            <Button text="Sign up" type="submit" classes="green width-full margin-top"/>
           </form>
         </div>
       </CredentialsCard>
