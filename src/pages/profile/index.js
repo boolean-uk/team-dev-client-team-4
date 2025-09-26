@@ -192,7 +192,13 @@ const Profile = () => {
                 <h4>Training info</h4>
                 <div className="disabled">
                   <div className="input-container">
-                    <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
+                    <TextInput
+                      onChange={onChange}
+                      value={''}
+                      name="Role"
+                      label={'Role*'}
+                      disabled={true}
+                    />
                     <PiLock className="input-lock-icon" />
                   </div>
 

@@ -2,7 +2,16 @@ import { NavLink } from 'react-router-dom';
 import ArrowRightIcon from '../../../assets/icons/arrowRightIcon';
 import { useEffect, useRef, useState } from 'react';
 
-const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick, onMouseEnter, onMouseLeave, ...rest }) => {
+const MenuItem = ({
+  icon,
+  text,
+  children,
+  linkTo = '#nogo',
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+  ...rest
+}) => {
   const itemRef = useRef(null);
   const [openLeft, setOpenLeft] = useState(false);
   const [hasMeasured, setHasMeasured] = useState(false);
@@ -15,16 +24,6 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick, onMouseEnte
         const rect = itemRef.current.getBoundingClientRect();
         const submenuWidth = breakPxLimit;
         const spaceRight = window.innerWidth - rect.right;
-
-        console.log(
-          'SPACE RIGHT',
-          text,
-          spaceRight,
-          'rect',
-          rect.right,
-          'window',
-          window.innerWidth
-        );
 
         if (spaceRight < submenuWidth || spaceRight < 0 || rect.right === 0) {
           setOpenLeft(true);
@@ -48,22 +47,29 @@ const MenuItem = ({ icon, text, children, linkTo = '#nogo', onClick, onMouseEnte
   };
 
   return (
-    <li ref={itemRef} className={openLeft ? 'open-left' : ''} onMouseEnter={(e) => { handleMouseEnter(e); onMouseEnter?.(e); }} onMouseLeave={onMouseLeave} {...rest}>
-      {linkTo === '#nogo' && onClick != null
-        ? (
+    <li
+      ref={itemRef}
+      className={openLeft ? 'open-left' : ''}
+      onMouseEnter={(e) => {
+        handleMouseEnter(e);
+        onMouseEnter?.(e);
+      }}
+      onMouseLeave={onMouseLeave}
+      {...rest}
+    >
+      {linkTo === '#nogo' && onClick != null ? (
         <button onClick={onClick}>
           {icon}
           <p>{text}</p>
           {children && <ArrowRightIcon />}
         </button>
-          )
-        : (
+      ) : (
         <NavLink to={linkTo}>
           {icon}
           <p>{text}</p>
           {children && <ArrowRightIcon />}
         </NavLink>
-          )}
+      )}
       {hasMeasured && children && <ul>{children}</ul>}
     </li>
   );
