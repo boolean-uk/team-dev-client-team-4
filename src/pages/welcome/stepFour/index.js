@@ -1,15 +1,17 @@
 import Form from '../../../components/form';
 
 const StepFour = ({ data, setData }) => {
+  const bioInfo = 'Tell us about yourself, your professional and educational highlights to date...';
+
   return (
     <>
       <div className="welcome-formheader">
         <h3>Bio</h3>
       </div>
       <Form className="welcome-form">
-        <div className="welcome-form-inputs">
-          <textarea name="bio" value={data.bio} onChange={setData}></textarea>
-          <p className="text-blue1">*Required</p>
+        <div className="welcome-form-inputs no-gap">
+          <textarea name="bio" value={data.bio} onChange={setData} placeholder={bioInfo} maxLength={300}></textarea>
+          <p className="bio-count">{(data.bio || '').length}/300</p>
         </div>
       </Form>
     </>

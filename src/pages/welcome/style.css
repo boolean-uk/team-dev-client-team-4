@@ -42,3 +42,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
+
+.no-gap {
+  gap: 8px !important;
+}
+
+.bio-count {
+  color: var(--color-blue1);
+  margin-top: 0px;
+}
