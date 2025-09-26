@@ -1,6 +1,6 @@
 function mapIconBackgroundColor(courseName) {
   if (courseName === 'Java Development') {
-    return ({ background: '#6f4e37' });
+    return ({ background: '#ED8B00' });
   }
   if (courseName === '.NET Development') {
     return ({ background: '#512bd4' });
