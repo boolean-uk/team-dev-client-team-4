@@ -19,7 +19,8 @@ function MoveToCohortConfirm({ userToMoveId, newCohortId, newCourseId, onUserUpd
         { cohortId: newCohortId, courseId: newCourseId },
         true
       );
-      if (res !== 'success') {
+      console.log('MOVE USER CC RESPONSE ', res);
+      if (res !== 'User moved successfully') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
       if (onUserUpdate) onUserUpdate(userToMoveId); // refresh user data when cohort is updated
