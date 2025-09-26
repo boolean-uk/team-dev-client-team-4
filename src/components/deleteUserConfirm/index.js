@@ -4,7 +4,7 @@ import './style.css';
 import useModal from '../../hooks/useModal';
 import { deleteRequest } from '../../service/apiClient';
 
-function DeleteUserConfirm({ userToDeleteId }) {
+function DeleteUserConfirm({ userToDeleteId, onUserDelete }) {
   const { closeModal } = useModal();
   const { closeDialog, showActionSuccessPopup } = useDialog();
 
@@ -15,13 +15,14 @@ function DeleteUserConfirm({ userToDeleteId }) {
   const deleteUser = async () => {
     try {
       const res = await deleteRequest('users/' + userToDeleteId);
-      if (res !== 'success') {
+      if (res.status !== 'success') {
         throw new Error(`HTTP error, status: ${res.status}`);
       }
+      if (onUserDelete) onUserDelete(); // refresh user data when user is deleted
       showActionSuccessPopup('User deleted', 4000);
       console.log('DELETE USER RESPONSE: ' + res);
     } catch (err) {
-      console.log('ERROR DELETE USER ID:' + userToDeleteId + ', ' + err);
+      console.log('ERROR DELETE USER ID:' + userToDeleteId + ', ' + err );
     }
     setTimeout(() => {
       closeDialog();

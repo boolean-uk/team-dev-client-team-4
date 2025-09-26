@@ -19,7 +19,7 @@ import { PiFileRsThin } from 'react-icons/pi';
 import { get, post } from '../../service/apiClient';
 import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 
-const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate }) => {
+const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate, onUserDelete }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId, cohortCourses } =
     useContext(CascadingMenuContext);
   const ref = useRef(null);
@@ -59,6 +59,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
             name={name}
             currentCohortId={user?.cohortId}
             onUserUpdate={onUserUpdate}
+            onUserDelete={onUserDelete}
             loggedInUser={loggedInUser}
             cohorts={cohortCourses}
           />
@@ -78,6 +79,7 @@ const CascadingMenu = ({
   name,
   currentCohortId,
   onUserUpdate,
+  onUserDelete,
   loggedInUser,
   cohorts
 }) => {
@@ -86,7 +88,7 @@ const CascadingMenu = ({
   const showDeleteDialog = () => {
     setDialog(
       `Delete ${name}?`,
-      <DeleteUserConfirm userToDeleteId={id} />,
+      <DeleteUserConfirm userToDeleteId={id} onUserDelete={onUserDelete}/>,
       <div className="dialog-texts">
         <div>
           Are you sure you want to delete this user? <br />
