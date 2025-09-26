@@ -48,12 +48,11 @@ const TeacherUserlist = ({ title, role, userId }) => {
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className="student-list">
+      <ul className={`student-list ${users.length >= 10 ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
           users
             .filter((user) => user.id !== Number(userId))
-            .slice(0, 10)
             .map((user, idx) => {
               const uid = user.id ?? user.userId ?? user.user_id ?? idx;
               return (

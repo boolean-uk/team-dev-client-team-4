@@ -152,6 +152,7 @@
 .menu-comment {
   min-height: 40px;
   min-width: 40px;
+  margin: 0px !important;
 }
 
 .edit-tag {

@@ -26,4 +26,17 @@ nav svg {
 
 nav p {
   line-height: 24px;
+  color: var(--color-blue1)
+}
+
+.active-link {
+  background-color: var(--color-blue5);
+}
+
+.active-link a {
+  color: var(--color-blue)
+}
+
+.active-link p {
+  color: inherit;
 }

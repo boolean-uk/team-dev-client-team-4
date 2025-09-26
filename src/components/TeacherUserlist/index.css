@@ -7,6 +7,11 @@ hr {
   padding: 0;
 }
 
+.student-list.scrollable {
+  overflow-y: auto;
+  max-height: 700px;
+}
+
 .user-list-item {
   display: flex;
   align-items: center;

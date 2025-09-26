@@ -64,10 +64,15 @@ const Dashboard = () => {
             <main>
                 <Card>
                     <div className="create-post-input">
-                        <div className="profile-icon" style={{backgroundColor: profileIconColor}}>
-                            <p>{initials}</p>
-                        </div>
-                        <Button text="What's on your mind?" onClick={showModal}/>
+                      <ProfileCircle
+                        initials={initials}
+                        uniqueKey={`create-post-profile-circle-${userId}`}
+                        role={userRole}
+                        userId={loggedInUser?.id}
+                        name={`${loggedInUser?.firstName} ${loggedInUser?.lastName}`}
+                        user={loggedInUser}
+                      />
+                      <Button text="What's on your mind?" onClick={showModal}/>
                     </div>
                 </Card>
 
@@ -93,7 +98,7 @@ const Dashboard = () => {
                 )}
             </aside>
         </>
-    );
+  );
 };
 
 export default Dashboard;
