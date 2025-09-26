@@ -13,16 +13,17 @@
 }
 
 .options-text-container {
-  margin-left: auto;
-  margin-right: 30px;
+  margin-right: auto;
+  margin-left: 30px;
   display: flex; 
-  gap: 40px;
+  gap: 60px;
 }
 
 .profile-text,
 .add-note-text,
 .move-cohort-text {
   color: var(--color-blue1) !important;
+  white-space: nowrap;
 }
 
 .profile-text:hover,
@@ -35,4 +36,8 @@
 .move-cohort-text {
   position: relative;
   cursor: pointer;
+}
+
+.user-info {
+    white-space: nowrap;
 }

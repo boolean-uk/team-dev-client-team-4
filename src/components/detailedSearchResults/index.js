@@ -158,9 +158,9 @@ const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
                             <strong>
                               {user?.firstName} {user?.lastName}
                             </strong>
-                            <div className="user-specialism">
-                              {(user?.specialism) || 'No specialism'}
-                            </div>
+                            {cohortCourses && (<div className="user-specialism">
+                              {(user?.specialism) || 'No specialism'}, {user.cohortId ? (cohortCourses.find(c => c.id === user.cohortId)?.name || 'No cohort') : 'No cohort'}
+                            </div>)}
                           </div>
                           <div className="options-text-container">
                             <p className="profile-text" onClick={() => goToProfilePage(uid)}>Profile</p>
@@ -221,7 +221,7 @@ const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
 const SearchCascadingMenu = ({
   id,
   onUserUpdate,
-  userMenuOpen,
+  role,
   cohorts,
   name
 }) => {
