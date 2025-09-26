@@ -37,10 +37,6 @@ const CascadingMenuProvider = ({ children }) => {
       });
     };
 
-    if (loggedInUser?.role.toLowerCase() !== 'teacher') {
-      return;
-    }
-
     fetchCohorts();
   }, [loggedInUser]);
 
