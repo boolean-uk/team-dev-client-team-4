@@ -18,12 +18,12 @@ const Profile = () => {
     githubUsername: '',
     bio: '',
     email: '',
-    phone: '',
+    mobile: '',
     password: '',
     id: '',
     cohortId: '',
-    startDate: '',
-    endDate: '',
+    currentStartdate: '',
+    currentEnddate: '',
     specialism: ''
   });
 
@@ -54,6 +54,7 @@ const Profile = () => {
       const tempUser = await get(`users/${thisId}`).then((result) => result.data);
       setProfile(tempUser);
       setOriginalProfile(tempUser);
+      console.log('USER OBJECT IN PROFILE: ', tempUser);
     };
     fetchUser();
   }, []);
@@ -71,7 +72,7 @@ const Profile = () => {
       bio: profile.bio,
       github: profile.githubUsername,
       username: profile.username,
-      phone: profile.phone
+      phone: profile.mobile
     };
     try {
       const result = await patch(`users/${thisId}`, body);
@@ -112,7 +113,9 @@ const Profile = () => {
               name={`${profile.firstName} ${profile.lastName}`}
             />
             <div className="profile-header-info">
-              <h4>{profile.firstName} {profile.lastName}</h4>
+              <h4>
+                {profile.firstName} {profile.lastName}
+              </h4>
               <p className="profile-specialism">{profile.specialism}</p>
             </div>
           </div>
@@ -168,7 +171,7 @@ const Profile = () => {
                 />
                 <TextInput
                   onChange={onChange}
-                  value={profile.phone}
+                  value={profile.mobile}
                   name="phone"
                   label={'Phone*'}
                   disabled={!isEditing}
@@ -194,7 +197,7 @@ const Profile = () => {
                   <div className="input-container">
                     <TextInput
                       onChange={onChange}
-                      value={''}
+                      value={profile.role}
                       name="Role"
                       label={'Role*'}
                       disabled={true}
@@ -227,7 +230,14 @@ const Profile = () => {
                   <div className="input-container">
                     <TextInput
                       onChange={onChange}
-                      value={profile.startDate}
+                      value={
+                        profile.currentStartdate &&
+                        new Date(profile.currentStartdate).toLocaleDateString('en-GB', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })
+                      }
                       name="startDate"
                       label={'Start Date*'}
                       disabled={true}
@@ -237,7 +247,14 @@ const Profile = () => {
                   <div className="input-container">
                     <TextInput
                       onChange={onChange}
-                      value={profile.endDate}
+                      value={
+                        profile.currentEnddate &&
+                        new Date(profile.currentEnddate).toLocaleDateString('en-GB', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })
+                      }
                       name="endDate"
                       label={'End Date*'}
                       disabled={true}
@@ -257,8 +274,7 @@ const Profile = () => {
                   disabled={!isEditing}
                 ></textarea>
                 <div className="buttonRow">
-                  {isEditing
-                    ? (
+                  {isEditing ? (
                     <>
                       <button type="button" className="cancel-btn" onClick={handleEditToggle}>
                         Cancel
@@ -271,12 +287,15 @@ const Profile = () => {
                         Save
                       </button>
                     </>
-                      )
-                    : (
-                    <button type="button" className="save-btn save-btn--active" onClick={handleEditToggle}>
+                  ) : (
+                    <button
+                      type="button"
+                      className="save-btn save-btn--active"
+                      onClick={handleEditToggle}
+                    >
                       Edit
                     </button>
-                      )}
+                  )}
                 </div>
               </div>
             </div>
