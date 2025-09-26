@@ -1,11 +1,13 @@
 import Card from '../../components/card';
-import SearchResults from '../../components/searchResults';
+import SearchInput from '../../components/searchInput';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const Searching = () => {
   const navigate = useNavigate();
+  const [searchVal, setSearchVal] = useState('');
 
   const goBack = () => {
     navigate(-1);
@@ -18,7 +20,7 @@ const Searching = () => {
         <h3>Search Results</h3>
       </div>
       <Card>
-        <SearchResults />
+        <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
       </Card>
     </main>
   );
