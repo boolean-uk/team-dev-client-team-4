@@ -121,7 +121,7 @@ const CascadingMenu = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
-  console.log('COHORT NEW JSON: ', cohorts);
+  // console.log('COHORT NEW JSON: ', cohorts);
 
   return (
     <Menu className="profile-circle-menu" data-menu-root="true">
