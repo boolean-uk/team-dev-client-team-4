@@ -163,7 +163,15 @@ const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
                             </div>)}
                           </div>
                           <div className="options-text-container">
-                            <p className="profile-text" onClick={() => goToProfilePage(uid)}>Profile</p>
+                            <p
+  className={`profile-text ${
+    loggedInUser.role?.toLowerCase() === 'student' ? 'student' : ''
+  }`}
+  onClick={() => loggedInUser.role?.toLowerCase() !== 'student' && goToProfilePage(uid)}
+>
+  Profile
+</p>
+
                             {loggedInUser.role?.toLowerCase() === 'teacher' && user.role?.toLowerCase() === 'student' && (
                               <>
                               <p className="add-note-text">Add Note</p>
