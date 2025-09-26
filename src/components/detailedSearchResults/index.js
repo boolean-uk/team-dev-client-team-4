@@ -7,7 +7,6 @@ import Card from '../card';
 import Button from '../button';
 import { API_URL } from '../../service/constants';
 import ProfileCircle from '../profileCircle';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import { useNavigate } from 'react-router-dom';
 
 const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
@@ -119,7 +118,7 @@ const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
                               {user?.firstName} {user?.lastName}
                             </strong>
                             <div className="user-specialism">
-                              {mapSpecialism(user?.specialism) || 'No specialism'}
+                              {(user?.specialism) || 'No specialism'}
                             </div>
                           </div>
                           <div className="options-text-container">
