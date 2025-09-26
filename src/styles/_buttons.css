@@ -72,3 +72,8 @@ button.blue:focus,
   background-color: var(--color-offwhite);
   color: var(--color-blue1);
 }
+
+button.margin-top,
+.button.margin-top {
+  margin-top: 16px;
+}

@@ -45,11 +45,22 @@ const TeacherUserlist = ({ title, role, userId }) => {
     }
   };
 
+  const fetchUsers = async () => {
+    try {
+      const updatedUsers = await get('users').then(res => res.data);
+
+      setUsers(updatedUsers.users || updatedUsers
+      );
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  }
+
   return (
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className={`student-list ${users.length >= 10 ? 'scrollable' : ''}`}>
+      <ul className={`student-list ${expanded ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
           visibleUsers
@@ -66,6 +77,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
                   name ={`${user?.firstName ?? ''} ${user?.lastName ?? ''}`}
                   user={user}
                   onUserUpdate={fetchUser}
+                  onUserDelete={fetchUsers}
                 />
                 <div className="user-info">
                   <strong>

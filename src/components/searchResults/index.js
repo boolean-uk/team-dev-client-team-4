@@ -7,7 +7,7 @@ import './style.css';
 import Button from '../button';
 import { API_URL } from '../../service/constants';
 
-const SearchResults = () => {
+const SearchResults = (overlay = false) => {
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ const SearchResults = () => {
   };
 
   return (
-    <div>
+    <div style={overlay && { position: 'relative' }}>
       <form onSubmit={(e) => e.preventDefault()}>
         <TextInput
           icon={<SearchIcon />}
@@ -69,7 +69,7 @@ const SearchResults = () => {
         />
       </form>
       {searchVal.trim().length >= 3 && (
-        <div className="search-modal">
+        <div className="search-modal overlay">
           <p className="change-text">People</p>
           <hr />
           {loading

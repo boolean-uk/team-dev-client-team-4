@@ -91,7 +91,7 @@ const Dashboard = () => {
 
             <aside>
                 <Card>
-                    <SearchResults/>
+                    <SearchResults overlay={true}/>
                 </Card>
 
         {userRole === 'Teacher' && (

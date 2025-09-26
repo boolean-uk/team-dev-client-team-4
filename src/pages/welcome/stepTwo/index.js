@@ -5,7 +5,7 @@ const StepTwo = ({ data, setData }) => {
   return (
     <>
       <div className="welcome-formheader">
-        <h3>Give us ur mobile pls</h3>
+        <h3>Contact info</h3>
       </div>
       <Form className="welcome-form">
         <div className="welcome-form-inputs">
