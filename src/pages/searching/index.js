@@ -1,4 +1,3 @@
-import Card from '../../components/card';
 import SearchInput from '../../components/searchInput';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
@@ -27,9 +26,7 @@ const Searching = () => {
         <ArrowBackIcon className="back-icon" onClick={goBack} />
         <h3>Search Results</h3>
       </div>
-      <Card>
-        <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
-      </Card>
+      <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
     </main>
   );
 };
