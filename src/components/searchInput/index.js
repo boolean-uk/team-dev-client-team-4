@@ -109,13 +109,16 @@ const SearchInput = ({ searchVal, setSearchVal }) => {
                             name={user?.firstName + ' ' + user?.lastName}
                           />
                           <div className="user-info">
-                          <strong>
-                            {user?.firstName} {user?.lastName}
-                          </strong>
-                          <div className="user-specialism">
-                            {mapSpecialism(user?.specialism) || 'No specialism'}
+                            <strong>
+                              {user?.firstName} {user?.lastName}
+                            </strong>
+                            <div className="user-specialism">
+                              {mapSpecialism(user?.specialism) || 'No specialism'}
+                            </div>
                           </div>
-                        </div>
+                          <div className="options-text-container">
+                            <p className="profile-text">Profile</p>
+                          </div>
                         </li>
                         );
                       })}
