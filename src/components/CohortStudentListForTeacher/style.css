@@ -139,6 +139,30 @@
   gap: 0.5rem 3rem;
 }
 
+.students-grid {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 0px;
+}
+
+.students-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.students-grid::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.students-grid::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.students-grid::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 .student-card {
   display: flex;
   align-items: center;
@@ -209,6 +233,30 @@
 .students-header .icon svg {
   width: 16px !important;
   height: 16px !important;
+}
+
+.course-list {
+  max-height: 500px; 
+  overflow-y: auto;
+  padding-right: 0px; 
+}
+
+.course-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.course-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.course-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.course-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 @media (max-width: 768px) {

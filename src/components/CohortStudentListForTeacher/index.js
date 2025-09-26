@@ -5,8 +5,8 @@ import { API_URL } from '../../service/constants';
 import './style.css';
 import { PiDotsThree } from 'react-icons/pi';
 import SearchResults from '../searchResults';
-import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
-import MonitorIcon from '../../assets/icons/monitorIcon';
+import mapCourseToIcon from '../../userUtils/mapCourseIcon';
+import mapIconBackgroundColor from '../../userUtils/mapIconBackgroundColor';
 
 const CohortStudentListForTeacher = ({ userId }) => {
   const [cohortCourses, setCohortCourses] = useState([]);
@@ -63,25 +63,6 @@ const CohortStudentListForTeacher = ({ userId }) => {
     }
   };
 
-  const getCourseIcon = (courseName) => {
-    const iconComponents = [
-      { component: MonitorIcon, className: 'monitor-icon' },
-      { component: SquareBracketsIcon, className: 'brackets-icon' }
-    ];
-
-    let hash = 0;
-    for (let i = 0; i < courseName.length; i++) {
-      const char = courseName.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-
-    const iconIndex = Math.abs(hash) % iconComponents.length;
-    const { component: IconComponent, className } = iconComponents[iconIndex];
-
-    return <IconComponent className={className} />;
-  };
-
   return (
     <Card>
       <div className="cohort-teacher-layout">
@@ -110,8 +91,11 @@ const CohortStudentListForTeacher = ({ userId }) => {
                       className={`cohort-card ${selectedCohortCourseId === cohortCourse.id ? 'active' : ''}`}
                       onClick={() => handleCohortSelect(cohortCourse.id)}
                     >
-                      <div className={`course-icon ${getCourseIcon(cohortCourse.courseName).props.className}`}>
-                        {getCourseIcon(cohortCourse.courseName)}
+                      <div 
+                        className="course-icon" 
+                        style={mapIconBackgroundColor(cohortCourse.courseName)}
+                      >
+                        {mapCourseToIcon(cohortCourse.courseName)}
                       </div>
                       <div className="cohort-info">
                         <div className="cohort-name">{cohortCourse.courseName}</div>
@@ -138,8 +122,11 @@ const CohortStudentListForTeacher = ({ userId }) => {
                     return selected
                       ? (
                       <div className="selected-course-content">
-                        <div className={`course-icon ${getCourseIcon(selected.courseName).props.className}`}>
-                          {getCourseIcon(selected.courseName)}
+                        <div 
+                          className="course-icon" 
+                          style={mapIconBackgroundColor(selected.courseName)}
+                        >
+                          {mapCourseToIcon(selected.courseName)}
                         </div>
                         <div>
                           <strong>{selected?.courseName}, {selected?.cohortName}</strong>
@@ -173,6 +160,7 @@ const CohortStudentListForTeacher = ({ userId }) => {
                         role="student"
                         initials={`${student.firstName?.[0] ?? ''}${student.lastName?.[0] ?? ''}`.toUpperCase()}
                         userId={student.id}
+                        name={`${student.firstName} ${student.lastName}`}
                       />
                       <div className="student-info">
                         <div>{student.firstName} {student.lastName}</div>

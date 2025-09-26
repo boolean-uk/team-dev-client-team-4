@@ -1,6 +1,6 @@
-import ProfileCircle from "../profileCircle";
-import { useState } from "react";
-import { get } from "../../service/apiClient";
+import ProfileCircle from '../profileCircle';
+import { useState } from 'react';
+import { get } from '../../service/apiClient';
 
 function ProfileCard({ user }) {
   const [selectedUser, setSelectedUser] = useState(user);
@@ -17,9 +17,10 @@ function ProfileCard({ user }) {
   return (
     <div className="profile-card">
       <ProfileCircle
-        role={(selectedUser.role || '').toLowerCase()}
+        uniqueKey={`notelist-${selectedUser?.id}`}
+        role={(selectedUser?.role || '').toLowerCase()}
         initials={`${selectedUser?.firstName?.[0] ?? ''}${selectedUser?.lastName?.[0] ?? ''}`.toUpperCase()}
-        userId={selectedUser.id}
+        userId={selectedUser?.id}
         name={`${selectedUser?.firstName ?? ''} ${selectedUser?.lastName ?? ''}`}
         user={selectedUser}
         onUserUpdate={fetchUser}
@@ -36,4 +37,4 @@ function ProfileCard({ user }) {
   );
 }
 
-export default ProfileCard
+export default ProfileCard;
