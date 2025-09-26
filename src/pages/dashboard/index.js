@@ -13,6 +13,7 @@ import {ProfileIconColor} from '../../userUtils/profileIconColor';
 import {getPosts} from "../../service/apiClient";
 import { userContext } from '../../context/userContext';
 import { myCohortCourseContext } from '../../context/myCohortCourseContext';
+import ProfileCircle from '../../components/profileCircle';
 
 const Dashboard = () => {
     const { user } = useContext(userContext);
@@ -84,11 +85,11 @@ const Dashboard = () => {
                     <SearchResults/>
                 </Card>
 
-        {userRole === 'Teacher' && (
-          <Card>
-            <Cohorts />
-          </Card>
-        )}
+        {/* {userRole === 'Teacher' && (
+        //   <Card>
+        //     <Cohort />
+        //   </Card>
+        )} */}
 
         <Card>
                     {userRole !== 'Teacher' && <CohortList userId={userId}/>}
