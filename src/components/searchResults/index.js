@@ -54,7 +54,7 @@ const SearchResults = () => {
   };
 
   const allResults = () => {
-    navigate('/search');
+    navigate('/search', { state: { searchVal } });
   };
 
   return (

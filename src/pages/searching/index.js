@@ -2,12 +2,19 @@ import Card from '../../components/card';
 import SearchInput from '../../components/searchInput';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useEffect } from 'react-router-dom';
 import { useState } from 'react';
 
 const Searching = () => {
   const navigate = useNavigate();
-  const [searchVal, setSearchVal] = useState('');
+  const initialSearch = location.state?.searchTerm || '';
+  const [searchVal, setSearchVal] = useState(initialSearch);
+
+  useEffect(() => {
+    if (location.state?.searchTerm) {
+      setSearchVal(location.state.searchTerm);
+    }
+  }, [location.state]);
 
   const goBack = () => {
     navigate(-1);
