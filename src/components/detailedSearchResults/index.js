@@ -17,8 +17,9 @@ import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
 import Menu from '../menu';
 import DropdownPortal from '../dropdownPortal/dropdownPortal';
+import { get } from '../../service/apiClient';
 
-const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
+const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
@@ -86,6 +87,20 @@ const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
   const goToProfilePage = (uid) => {
     navigate(`/profile/${uid}`, { replace: false });
   }
+
+  const fetchUsers = async (userId) => {
+    try {
+      const updatedUser = await get(`users/${userId}`).then(res => res.data.user || res.data);
+
+      setSearchResults(prevUsers =>
+        prevUsers.map(user =>
+          user.id === userId ? updatedUser : user
+        )
+      );
+    } catch (err) {
+      console.error('Failed to fetch user:', err);
+    }
+  };
 
   return (
     <div>
@@ -166,7 +181,7 @@ const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
                                     id={uid}
                                     name={user?.firstName + ' ' + user?.lastName}
                                     currentCohortId={user?.cohortId}
-                                    onUserUpdate={onUserUpdate}
+                                    onUserUpdate={fetchUsers}
                                     loggedInUser={loggedInUser}
                                     cohorts={cohortCourses}
                                   />
