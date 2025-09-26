@@ -15,13 +15,24 @@
 .options-text-container {
   margin-left: auto;
   margin-right: 30px;
+  display: flex; 
+  gap: 40px;
 }
 
-.profile-text {
+.profile-text,
+.add-note-text,
+.move-cohort-text {
   color: var(--color-blue1) !important;
 }
 
-.profile-text:hover {
+.profile-text:hover,
+.add-note-text:hover,
+.move-cohort-text:hover {
   color: var(--color-blue) !important;
+  cursor: pointer;
+}
+
+.move-cohort-text {
+  position: relative;
   cursor: pointer;
 }

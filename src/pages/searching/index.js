@@ -1,8 +1,8 @@
-import SearchInput from '../../components/detailedSearchResults';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import DetailedSearchResults from '../../components/detailedSearchResults';
 
 const Searching = () => {
   const navigate = useNavigate();
@@ -16,6 +16,11 @@ const Searching = () => {
     }
   }, [location.state]);
 
+  const onUserUpdate = (updatedUser) => {
+    // Update the user in search results if they exist
+    setSearchVal((prev) => prev); // Trigger re-render
+  };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -26,7 +31,7 @@ const Searching = () => {
         <ArrowBackIcon className="back-icon" onClick={goBack} />
         <h3>Search Results</h3>
       </div>
-      <SearchInput searchVal={searchVal} setSearchVal={setSearchVal} />
+      <DetailedSearchResults searchVal={searchVal} setSearchVal={setSearchVal} onUserUpdate={onUserUpdate} />
     </main>
   );
 };
