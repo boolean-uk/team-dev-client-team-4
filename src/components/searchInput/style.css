@@ -1,3 +1,13 @@
 .cross-icon {
   margin: 6px;
 }
+
+.change-text-searchResults {
+  color: var(--color-blue1);
+  margin-top: 0px;
+}
+
+.change-text-error {
+  color: var(--color-blue1);
+  margin-bottom: 10px;
+}
