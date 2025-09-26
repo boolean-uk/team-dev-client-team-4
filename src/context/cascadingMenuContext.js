@@ -35,9 +35,6 @@ const CascadingMenuProvider = ({ children }) => {
         setCohorts(result.data);
         mapCohortCourses(result.data);
       });
-      // setCohorts(fetchedCohorts);
-      // console.log('FETCHED COHORTS: ', fetchedCohorts);
-      // mapCohortCourses();
     };
 
     if (loggedInUser?.role.toLowerCase() !== 'teacher') {
@@ -48,12 +45,11 @@ const CascadingMenuProvider = ({ children }) => {
   }, [loggedInUser]);
 
   const mapCohortCourses = (data) => {
-    const mappedCohortCourses = data.reduce((acc, cohort) => {
-      acc[`Cohort ${cohort.id}`] = cohort.courses;
-      return acc;
-    }, {});
-
-    // console.log('MAPPED COHORT COURSES: ', mappedCohortCourses);
+    const mappedCohortCourses = data.map((cohort) => ({
+      id: cohort.id,
+      name: `Cohort ${cohort.id}`,
+      courses: cohort.courses
+    }));
     setcohortCourses(mappedCohortCourses);
   };
 
