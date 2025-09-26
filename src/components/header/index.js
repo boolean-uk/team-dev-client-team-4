@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 
 const Header = () => {

@@ -1,0 +1,222 @@
+.cohort-teacher-layout {
+  display: flex;
+  margin: -10px;
+  padding: 0;
+}
+
+.cohort-list-section {
+  flex: 1;
+  min-width: 250px;
+  padding-top: 8px;
+}
+
+.students-section {
+  flex: 2;
+}
+
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.students-header h4 {
+  margin: 0;
+}
+
+.cohort-button {
+  width: 100%;
+  background: #eaf0f5;
+  color: rgb(104, 105, 109);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-align: left;
+}
+
+.cohort-button:hover {
+  background: #d5dbe0;
+}
+
+.course-button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+  width: 100%;
+}
+
+.selected-course {
+  flex: 1;
+  margin-right: 16px;
+}
+
+.selected-course-content {
+  display: flex;
+  align-items: center;
+}
+
+.button-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.cohort-card {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cohort-card:hover {
+  background: #e9ecef;
+}
+
+.cohort-card.active {
+  background: #e7e8ee;
+}
+
+.cohort-info {
+  flex: 1;
+}
+
+.cohort-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.cohort-subtitle {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.cohort-dates {
+  text-transform: capitalize;
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.course-icon {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  justify-content: center;
+}
+
+.course-icon svg {
+  width: 25px;
+  height: 25px;
+  color: white !important;
+  fill: white !important;
+}
+
+.course-icon.monitor-icon {
+  background-color: #706edc;
+}
+
+.course-icon.brackets-icon {
+  background-color: #28c846;
+}
+
+.course-icon svg * {
+  color: white !important;
+  fill: white !important;
+  stroke: white !important;
+}
+
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 3rem;
+}
+
+.student-card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px;
+}
+
+.edit-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background: #f0f5fa;
+  cursor: pointer;
+  margin: 0 2rem 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-card .edit-icon {
+  margin-left: auto;
+  margin-right: 0px;
+}
+
+.dots-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  margin-left: auto;
+  color: #64648c;
+  background: #f0f5fa;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.dots-icon:hover {
+  background: #e2e8f0;
+}
+
+.students-header svg,
+.students-header .search-icon {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.students-header input[type="text"] {
+  height: 45px !important;
+  padding: 6px 12px 6px 36px !important;
+  font-size: 16px !important;
+}
+
+.students-header .input-container .icon {
+  width: 16px !important;
+  height: 16px !important;
+  left: 12px !important;
+}
+
+.students-header .icon svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+@media (max-width: 768px) {
+  .cohort-teacher-layout {
+    flex-direction: column;
+  }
+  
+  .students-grid {
+    grid-template-columns: 1fr;
+  }
+}

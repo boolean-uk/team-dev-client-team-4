@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StudentCohortTeachersList from '../../components/StudentCohortTeachersList';
+import CohortStudentListForTeacher from '../../components/CohortStudentListForTeacher';
 import MyCohortCard from '../../components/myCohortPage';
 import MyExercises from '../../components/MyExercises';
 import Card from '../../components/card';
@@ -51,6 +52,12 @@ const CohortPage = () => {
           <MyExercises />
         </Card>
       </aside>
+      )}
+
+      {userRole === 'Teacher' && (
+        <main className="cohort-teacher-main">
+          <CohortStudentListForTeacher userId={userId} />
+        </main>
       )}
     </>
   );

@@ -84,13 +84,18 @@ const Dashboard = () => {
                     <SearchResults/>
                 </Card>
 
-                <Card>
+        {userRole === 'Teacher' && (
+          <Card>
+            <Cohorts />
+          </Card>
+        )}
+
+        <Card>
                     {userRole !== 'Teacher' && <CohortList userId={userId}/>}
                     {userRole === 'Teacher' && (
                         <TeacherUserlist title={'Students'} userId={userId} role={'Student'}/>
                     )}
                 </Card>
-
                 {userRole === 'Teacher' && (
                     <Card>
                         <TeacherUserlist title="Teachers" userId={userId} role="Teacher"/>
