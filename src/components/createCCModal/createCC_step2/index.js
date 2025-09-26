@@ -9,11 +9,10 @@ import useDialog from '../../../hooks/useDialog';
 import { API_URL } from '../../../service/constants';
 import ProfileCircle from '../../profileCircle';
 
-const CreateCohortCourseModal_step2 = (props) => {
-  const { closeModal } = useModal();
+const CreateCohortCourseModal_step2 = ({ createCC_data, closeModal }) => {
+
   const { loggedInUser } = useAuth();
   const { showActionSuccessPopup } = useDialog();
-  const { createCC_data } = props;
   const { token } = useAuth();
 
   const [studentList, setStudentList] = useState([]);
@@ -132,6 +131,7 @@ const CreateCohortCourseModal_step2 = (props) => {
       <section className="create-cohort-course-actions">
           <Button
             text="Cancel"
+            onClick={closeModal}
 
           />
 
@@ -143,6 +143,7 @@ const CreateCohortCourseModal_step2 = (props) => {
                 cohortId: createCC_data.cohortId,
                 courseId: createCC_data.courseId
               });
+              closeModal();
             }}
             />
       </section>

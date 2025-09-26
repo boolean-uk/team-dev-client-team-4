@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 import React, { useState, useEffect } from 'react';
 import Card from '../card';
 import ProfileCircle from '../profileCircle';
@@ -7,12 +10,14 @@ import { PiDotsThree } from 'react-icons/pi';
 import SearchResults from '../searchResults';
 import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import MonitorIcon from '../../assets/icons/monitorIcon';
+import CreateCohortCourseModal_step1 from '../createCCModal/createCC_step1';
 
 const CohortStudentListForTeacher = ({ userId }) => {
   const [cohortCourses, setCohortCourses] = useState([]);
   const [students, setStudents] = useState([]);
   const [selectedCohortCourseId, setSelectedCohortCourseId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showCreateCohortModal, setShowCreateCohortModal] = useState(false);
 
   useEffect(() => {
     const fetchCohortCourses = async () => {
@@ -91,7 +96,7 @@ const CohortStudentListForTeacher = ({ userId }) => {
           <div className="course-button-row">
             <button
               className="cohort-button"
-              onClick={() => {}}
+              onClick={() => setShowCreateCohortModal(true)}
             >
               Add cohort
             </button>
@@ -193,6 +198,9 @@ const CohortStudentListForTeacher = ({ userId }) => {
                 )}
         </div>
       </div>
+      {showCreateCohortModal && (
+        <CreateCohortCourseModal_step1 closeModal={() => setShowCreateCohortModal(false)} />
+      )}
     </Card>
   );
 };

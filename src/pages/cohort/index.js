@@ -71,8 +71,7 @@ const CohortPage = () => {
 
       {userRole === 'Teacher' && (
         <main className="cohort-teacher-main">
-          <CohortStudentListForTeacher userId={userId} />
-          <CreateCohortCourseModal_step1 />
+          <CohortStudentListForTeacher userId={userId} />          
         </main>
 
        
