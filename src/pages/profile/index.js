@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
 import { useParams } from 'react-router-dom';
-import { PiLock } from "react-icons/pi";
+import { PiLock } from 'react-icons/pi';
+import ProfileCircle from '../../components/profileCircle';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -102,7 +103,19 @@ const Profile = () => {
       <main>
         <h3 style={{ marginLeft: '25px', marginBottom: '16px' }}>Profile</h3>
         <Card>
-          <h4>Profile Placeholder</h4>
+          <div className="profile-header">
+            <ProfileCircle
+              uniqueKey={`profile-${profile.id}`}
+              role="user"
+              initials={`${profile.firstName?.[0] ?? ''}${profile.lastName?.[0] ?? ''}`.toUpperCase()}
+              userId={profile.id}
+              name={`${profile.firstName} ${profile.lastName}`}
+            />
+            <div className="profile-header-info">
+              <h4>{profile.firstName} {profile.lastName}</h4>
+              <p className="profile-specialism">{profile.specialism}</p>
+            </div>
+          </div>
           <hr />
           <Form className="profile-form" onSubmit={handleSave}>
             <div className="form-left-part">
@@ -238,16 +251,26 @@ const Profile = () => {
                   disabled={!isEditing}
                 ></textarea>
                 <div className="buttonRow">
-                  <button type="button" className="edit-btn" onClick={handleEditToggle}>
-                    {isEditing ? 'Cancel' : 'Edit'}
-                  </button>
-                  <button
-                    type="submit"
-                    className={isEditing ? 'save-btn save-btn--active' : 'save-btn'}
-                    disabled={!isEditing}
-                  >
-                    Save
-                  </button>
+                  {isEditing
+                    ? (
+                    <>
+                      <button type="button" className="cancel-btn" onClick={handleEditToggle}>
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="save-btn save-btn--active"
+                        disabled={!isEditing}
+                      >
+                        Save
+                      </button>
+                    </>
+                      )
+                    : (
+                    <button type="button" className="save-btn save-btn--active" onClick={handleEditToggle}>
+                      Edit
+                    </button>
+                      )}
                 </div>
               </div>
             </div>

@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 import { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import { ProfileIconColor } from '../../userUtils/profileIconColor';
-import mapSpecialism from '../../userUtils/mapSpecialism';
 import ProfileIconFilled from '../../assets/icons/profileIconFilled';
 
 const Header = () => {
@@ -61,7 +60,7 @@ const Header = () => {
                 <p>
                   {loggedInUser?.firstName} {loggedInUser?.lastName}
                 </p>
-                <small>{mapSpecialism(loggedInUser?.specialism)}, Cohort {loggedInUser?.cohortId}</small>
+                <small>{(loggedInUser?.specialism)}, Cohort {loggedInUser?.cohortId}</small>
               </div>
             </section>
 
