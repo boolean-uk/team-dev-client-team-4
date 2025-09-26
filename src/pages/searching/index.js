@@ -2,8 +2,8 @@ import Card from '../../components/card';
 import SearchInput from '../../components/searchInput';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
-import { useNavigate, useEffect } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const Searching = () => {
   const navigate = useNavigate();
