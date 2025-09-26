@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Form from '../../components/form';
 import TextInput from '../../components/form/textInput';
 import { useParams } from 'react-router-dom';
-import { PiLock } from "react-icons/pi";
+import { PiLock } from 'react-icons/pi';
 
 const Profile = () => {
   const [user, setUser] = useState();
@@ -179,7 +179,13 @@ const Profile = () => {
                 <h4>Training info</h4>
                 <div className="disabled">
                   <div className="input-container">
-                    <TextInput onChange={''} value={''} name="Role" label={'Role*'} disabled={true} />
+                    <TextInput
+                      onChange={onChange}
+                      value={''}
+                      name="Role"
+                      label={'Role*'}
+                      disabled={true}
+                    />
                     <PiLock className="input-lock-icon" />
                   </div>
 
