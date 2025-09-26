@@ -10,7 +10,8 @@ const StepFour = ({ data, setData }) => {
       </div>
       <Form className="welcome-form">
         <div className="welcome-form-inputs no-gap">
-          <textarea name="bio" value={data.bio} onChange={setData} placeholder={bioInfo} maxLength={300}></textarea>
+          <label htmlFor="bio">Bio</label>
+          <textarea name="bio" value={data.bio} onChange={setData} placeholder={bioInfo} maxLength={300}></textarea >
           <p className="bio-count">{(data.bio || '').length}/300</p>
         </div>
       </Form>
