@@ -49,7 +49,7 @@ const TeacherUserlist = ({ title, role, userId }) => {
     <>
       <h4>{title}</h4>
       <hr />
-      <ul className={`student-list ${users.length >= 10 ? 'scrollable' : ''}`}>
+      <ul className={`student-list ${expanded ? 'scrollable' : ''}`}>
         {loading && <li>Loading...</li>}
         {!loading &&
           visibleUsers
