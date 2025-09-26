@@ -7,7 +7,7 @@ import SquareBracketsIcon from '../../assets/icons/squareBracketsIcon';
 import Menu from '../menu';
 import MenuItem from '../menu/menuItem';
 import './style.css';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { CascadingMenuContext } from '../../context/cascadingMenuContext';
 import useDialog from '../../hooks/useDialog';
 import MoveToCohortConfirm from '../moveToCohortConfirm';
@@ -97,7 +97,7 @@ const CascadingMenu = ({ role, id, name, currentCohortId, onUserUpdate, loggedIn
 
   return (
       <Menu className="profile-circle-menu" data-menu-root="true">
-        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={'profile/' + id} />
+        <MenuItem icon={<ProfileIcon />} text="Profile" linkTo={`/profile/${id}`} />
 
       {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
         <>

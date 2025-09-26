@@ -8,11 +8,13 @@ import Button from '../button';
 import { API_URL } from '../../service/constants';
 import ProfileCircle from '../profileCircle';
 import mapSpecialism from '../../userUtils/mapSpecialism';
+import { useNavigate } from 'react-router-dom';
 
-const SearchInput = ({ searchVal, setSearchVal }) => {
+const DetailedSearchResults = ({ searchVal, setSearchVal }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (searchVal.trim().length >= 3) {
@@ -55,6 +57,10 @@ const SearchInput = ({ searchVal, setSearchVal }) => {
     inputRef.current?.focus();
     inputRef.current.setSelectionRange(0, inputRef.current.value.length);
   };
+
+  const goToProfilePage = (uid) => {
+    navigate(`/profile/${uid}`, { replace: false });
+  }
 
   return (
     <div>
@@ -117,7 +123,7 @@ const SearchInput = ({ searchVal, setSearchVal }) => {
                             </div>
                           </div>
                           <div className="options-text-container">
-                            <p className="profile-text">Profile</p>
+                            <p className="profile-text" onClick={() => goToProfilePage(uid)}>Profile</p>
                           </div>
                         </li>
                         );
@@ -146,4 +152,4 @@ const SearchInput = ({ searchVal, setSearchVal }) => {
   );
 };
 
-export default SearchInput;
+export default DetailedSearchResults;

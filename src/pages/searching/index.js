@@ -1,4 +1,4 @@
-import SearchInput from '../../components/searchInput';
+import SearchInput from '../../components/detailedSearchResults';
 import ArrowBackIcon from '../../assets/icons/arrowBackIcon';
 import './searching.css';
 import { useNavigate, useLocation } from 'react-router-dom';
