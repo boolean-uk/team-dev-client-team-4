@@ -27,7 +27,6 @@ const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
   const { loggedInUser } = useAuth();
   const { cohortCourses, cascadingMenuVisibleId, setCascadingMenuVisibleId } = useContext(CascadingMenuContext);
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
-  const [userMenuOpen, setUserMenuOpen] = useState({});
 
   const toggleMenu = (e, safeKey) => {
     e.stopPropagation();
@@ -158,7 +157,6 @@ const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
                                 ref={(el) => (userMenuRefs.current[uid] = el)}
                                 onClick={(e) => {
                                   toggleMenu(e, uid);
-                                  setUserMenuOpen((prev) => ({ ...prev, [uid]: !prev[uid] }));
                                 }}
                               >
                               Move to Cohort
@@ -171,7 +169,6 @@ const DetailedSearchResults = ({ searchVal, setSearchVal, onUserUpdate }) => {
                                     onUserUpdate={onUserUpdate}
                                     loggedInUser={loggedInUser}
                                     cohorts={cohortCourses}
-                                    userMenuOpen={userMenuOpen}
                                   />
                                 </DropdownPortal>
                                 )}
@@ -236,8 +233,7 @@ const SearchCascadingMenu = ({
 
   return (
     <Menu className="profile-circle-menu" data-menu-root="true">
-      {userMenuOpen[id] &&
-        cohorts &&
+      {cohorts &&
         cohorts.map((cohort) => (
           <MenuItem key={cohort.id} icon={<SquareBracketsIcon />} text={cohort.name}>
             {cohort.courses.map((c) => (
