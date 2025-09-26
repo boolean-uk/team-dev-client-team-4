@@ -15,7 +15,7 @@ const Profile = () => {
     firstName: '',
     lastName: '',
     username: '',
-    githubUsername: '',
+    github: '',
     bio: '',
     email: '',
     mobile: '',
@@ -70,7 +70,7 @@ const Profile = () => {
       firstName: profile.firstName,
       lastName: profile.lastName,
       bio: profile.bio,
-      github: profile.githubUsername,
+      github: profile.github,
       username: profile.username,
       phone: profile.mobile
     };
@@ -150,7 +150,7 @@ const Profile = () => {
                 />
                 <TextInput
                   onChange={onChange}
-                  value={profile.githubUsername}
+                  value={profile.github}
                   name="githubUsername"
                   label={'Github Username*'}
                   disabled={!isEditing}
