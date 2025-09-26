@@ -1,0 +1,87 @@
+
+/* Loading text */
+.loading {
+  color: #555;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+/* Container for the entire notes list */
+.notes-container {
+  max-width: 17rem;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+.profile-card {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Unordered list styling */
+.notes-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual note item */
+.note-item {
+  border-bottom: 1px solid #c5c5c5;
+  padding: 0.3rem 0;
+}
+
+.main-border {
+  border: none;
+  border-top: 1px solid #c5c5c5;; /* Same as .note-item border */
+  margin: 0.3rem 0 0.5rem 0;
+}
+
+/* Smaller, less bold title */
+.note-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+/* Row for metadata (updatedat and content) */
+.note-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* updatedat text */
+.note-updated {
+  color: #888;
+  white-space: nowrap;
+}
+
+
+/* Loading message */
+.loading {
+  color: #555;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.note-content {
+  flex: 1;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+  font-weight: 100;
+}
+
+/* Padding around the search bar */
+.note-search-wrapper {
+  padding: 0.5rem 1rem;
+}
+
+
