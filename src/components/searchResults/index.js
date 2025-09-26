@@ -105,7 +105,7 @@ const SearchResults = () => {
                   })}
                 </ul>
 
-                {searchResults.length >= 10 && (
+                {searchResults.length >= 3 && (
                   <>
                     <br />
                     <Button
