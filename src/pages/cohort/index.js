@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
@@ -8,6 +9,8 @@ import MyCohortCard from '../../components/myCohortPage';
 import MyExercises from '../../components/MyExercises';
 import Card from '../../components/card';
 import './style.css';
+import CreateCohortCourseModal_step1 from '../../components/createCCModal/createCC_step1';
+
 
 const CohortPage = () => {
   const [cohortId, setCohortId] = useState(null);
@@ -69,7 +72,10 @@ const CohortPage = () => {
       {userRole === 'Teacher' && (
         <main className="cohort-teacher-main">
           <CohortStudentListForTeacher userId={userId} />
+          <CreateCohortCourseModal_step1 />
         </main>
+
+       
       )}
     </>
   );
