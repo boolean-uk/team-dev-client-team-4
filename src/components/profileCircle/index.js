@@ -19,7 +19,7 @@ import { PiFileRsThin } from 'react-icons/pi';
 import { get, post } from '../../service/apiClient';
 import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 
-const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate, onUserDelete }) => {
+const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUpdate, onUserDelete, hideProfileMenu }) => {
   const { cascadingMenuVisibleId, setCascadingMenuVisibleId, cohortCourses } =
     useContext(CascadingMenuContext);
   const ref = useRef(null);
@@ -28,6 +28,9 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
   const safeKey = uniqueKey ?? `profile-${userId ?? 'na'}`;
   const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
 
+  if (role === null) {
+    role = 'teacher';
+  }
   const isLoggedInTeacher = loggedInUser?.role.toLowerCase() === 'teacher';
 
   const toggleMenu = (e) => {
@@ -37,10 +40,22 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
     setCascadingMenuVisibleId((prev) => (prev === safeKey ? null : safeKey));
   };
 
-  // TODO
-  // get all cohorts with cohort courses inside
-  // display them
-  // move API NOT IMPLEMENTED
+  // hide profile button if already in profile page
+  if ((loggedInUser?.role.toLowerCase() === 'student' && hideProfileMenu) ||
+      (loggedInUser?.role.toLowerCase() === 'teacher' && role.toLowerCase() === 'teacher' && hideProfileMenu)) {
+    return (
+    <div
+      className="profile-circle no-menu"
+      onClick={toggleMenu}
+      ref={ref}
+      data-uid={safeKey}
+    >
+      <div className="profile-icon" style={{ backgroundColor: profileIconColor }}>
+        <p>{initials}</p>
+      </div>
+    </div>
+    )
+  }
 
   return (
     <div
@@ -62,6 +77,7 @@ const ProfileCircle = ({ initials, uniqueKey, role, userId, name, user, onUserUp
             onUserDelete={onUserDelete}
             loggedInUser={loggedInUser}
             cohorts={cohortCourses}
+            hideProfileMenu={hideProfileMenu}
           />
         </DropdownPortal>
       )}
@@ -81,7 +97,8 @@ const CascadingMenu = ({
   onUserUpdate,
   onUserDelete,
   loggedInUser,
-  cohorts
+  cohorts,
+  hideProfileMenu
 }) => {
   const { setDialog, openDialog } = useDialog();
 
@@ -123,12 +140,13 @@ const CascadingMenu = ({
 
   const [isHovered, setIsHovered] = useState(false);
 
-  // console.log('COHORT NEW JSON: ', cohorts);
-
   return (
       <Menu className="profile-circle-menu" data-menu-root="true">
+      {!(hideProfileMenu) && (
         <MenuItem className="profile-icon-filled" icon={<ProfileIconFilled/>} text="Profile" linkTo={`/profile/${id}`} />
-      {isLoggedInTeacher && !isSelf && role !== 'teacher' && (
+      )}
+      {isLoggedInTeacher && !isSelf && role.toLowerCase() !== 'teacher' && (
+        console.log('logged in teacher', isLoggedInTeacher, ' ', 'is self', !isSelf, ' ', 'role', role),
         <>
           <MenuItem icon={<AddIcon />} text="Add note" />
           <MenuItem
