@@ -11,6 +11,7 @@ import { DeleteIcon2 } from '../../assets/icons/deleteIcon2';
 import DeletePostConfirm from '../deletePostConfirm';
 import useAuth from '../../hooks/useAuth';
 import ReportIcon from '../../assets/icons/reportIcon';
+import { PiDotsThree } from 'react-icons/pi';
 
 const PostOptionsMenu = ({ uniqueKey, content, author, postId, refreshPosts }) => {
   const { openModal, setModal } = useModal();
@@ -40,7 +41,7 @@ const PostOptionsMenu = ({ uniqueKey, content, author, postId, refreshPosts }) =
 
   return (
     <div className="post-options-wrapper" onClick={toggleMenu} ref={ref}>
-      <p>...</p>
+      <PiDotsThree className="dots-icon" />
       {uniqueKey === cascadingMenuVisibleId && (
         <PostOptionsCascadingMenu
           showEditModal={showEditModal}

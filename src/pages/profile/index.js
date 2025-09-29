@@ -57,7 +57,7 @@ const Profile = () => {
       console.log('USER OBJECT IN PROFILE: ', tempUser);
     };
     fetchUser();
-  }, []);
+  }, [id]);
 
   // Save handler
   const handleSave = async () => {
@@ -107,10 +107,11 @@ const Profile = () => {
           <div className="profile-header">
             <ProfileCircle
               uniqueKey={`profile-${profile.id}`}
-              role="user"
+              role={profile.role ? profile.role : 'teacher'}
               initials={`${profile.firstName?.[0] ?? ''}${profile.lastName?.[0] ?? ''}`.toUpperCase()}
               userId={profile.id}
               name={`${profile.firstName} ${profile.lastName}`}
+              hideProfileMenu={true}
             />
             <div className="profile-header-info">
               <h4>

@@ -3,6 +3,10 @@
   cursor: pointer;
 }
 
+div .no-menu {
+  cursor:default;
+}
+
 .profile-circle-menu li:hover a svg path{
   fill: #64648c !important;
 }

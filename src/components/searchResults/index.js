@@ -104,7 +104,7 @@ const SearchResults = (overlay = false) => {
                   })}
                 </ul>
 
-                {searchResults.length >= 10 && (
+                {searchResults.length >= 5 && (
                   <>
                     <br />
                     <Button

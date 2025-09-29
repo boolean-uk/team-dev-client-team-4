@@ -12,6 +12,7 @@ import ReportIcon from '../../assets/icons/reportIcon';
 import DeleteCommentConfirm from '../deleteCommentConfirm';
 import EditCommentModal from '../editCommentModal';
 import DropdownPortal from '../dropdownPortal/dropdownPortal';
+import { PiDotsThree } from 'react-icons/pi';
 
 const CommentOptionsMenu = ({ uniqueKey, content, author, commentId, refreshPosts }) => {
   const { openModal, setModal } = useModal();
@@ -56,7 +57,7 @@ const CommentOptionsMenu = ({ uniqueKey, content, author, commentId, refreshPost
 
   return (
     <div className="comment-options-wrapper" onClick={toggleMenu}>
-      <p>...</p>
+      <PiDotsThree className="dots-icon" />
       {uniqueKey === cascadingMenuVisibleId && (
         <CommentOptionsCascadingMenu deleteComment={showDeleteDialog} editComment={showEditModal} authorId={author.id} loggedInUser={loggedInUser} position={menuPosition} />
       )}

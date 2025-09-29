@@ -36,7 +36,7 @@ const Header = () => {
     <header>
       <FullLogo textColour="white" />
 
-      <div className="profile-icon" onClick={onClickProfileIcon} style={{ backgroundColor: profileIconColor }}>
+      <div className="profile-icon header-profile-icon" onClick={onClickProfileIcon} style={{ backgroundColor: profileIconColor }}>
         <p>{loggedInUserInitials}</p>
       </div>
 
