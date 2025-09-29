@@ -165,3 +165,10 @@
   color: var(--color-blue2);
   font-size: 14px;
 }
+
+.send-button {
+  cursor: default;
+}
+.send-button.active {
+  cursor: pointer;
+}

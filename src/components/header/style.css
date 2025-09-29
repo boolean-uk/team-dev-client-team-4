@@ -6,7 +6,7 @@ header {
   padding: 20px 64px;
 }
 
-header .profile-icon {
+header .header-profile-icon{
   cursor: pointer;
 }
 
@@ -43,6 +43,10 @@ header .user-panel {
 
 .user-panel-options li:hover a svg path{
   fill: #000046;
+}
+
+.user-panel-options li:hover a svg path.profile-icon-body{
+  fill: #000046 !important;
 }
 
 .user-panel-options li:hover a svg circle{

@@ -279,8 +279,14 @@ const Post = ({ id, authorId, name, date, edited, content, comments = [], likes,
                 name="commentContent"
                 onChange={(e) => setCommentContent(e.target.value)}
                 placeholder="Add a comment..."
-                actionIcon={<SendIcon />}
-                onActionClick={handleSend}
+                actionIcon={
+                  <div
+                    className={commentContent.trim() ? 'send-button active' : 'send-button'}
+                    onClick={handleSend}
+                  >
+                    <SendIcon />
+                  </div>
+                }
               />
             </form>
           </section>
