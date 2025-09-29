@@ -18,6 +18,10 @@ const Navigation = () => {
   const userRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
   const cohortLabel = userRole === 'Teacher' ? 'Cohorts' : 'Cohort';
   const isWelcomePage = location.pathname === '/welcome';
+  const { loggedInUser } = useAuth();
+  console.log('Navigation loggedInUser:', loggedInUser);
+
+
 
   return (
     <nav className={isWelcomePage ? 'inactive-nav' : ''}>
@@ -35,7 +39,7 @@ const Navigation = () => {
           </NavLink>
         </li>
         <li className={location.pathname === '/cohort' ? 'active-link' : ''}>
-          <NavLink to="/cohort">
+          {(loggedInUser == null) ? "" : (loggedInUser.cohortCourseId != null && <NavLink to="/cohort">
           {location.pathname === '/cohort'
             ? (
                 <CohortIconFill colour="#000046" />
@@ -45,6 +49,7 @@ const Navigation = () => {
               )}
             <p>{cohortLabel}</p>
           </NavLink>
+          )}
         </li>
       </ul>
     </nav>

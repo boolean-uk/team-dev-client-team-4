@@ -15,8 +15,7 @@ async function createProfile(
   lastName,
   username,
   github,
-  phone,
-  cohortid,
+  mobile,
   bio,
   auth
 ) {
@@ -27,7 +26,7 @@ async function createProfile(
       lastName,
       username,
       github,
-      phone,
+      mobile,
       bio
     },
     auth
