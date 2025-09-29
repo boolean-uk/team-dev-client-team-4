@@ -3,6 +3,7 @@ import './style.css'
 import ProfileCircle from '../profileCircle';
 // eslint-disable-next-line quotes
 import jwtDecode from "jwt-decode";
+import { PiDotsThree } from 'react-icons/pi';
 
 function MyCohortCard() {
   const storedToken = localStorage.getItem('token');
@@ -64,7 +65,7 @@ function MyCohortCard() {
                   {user.firstName} {user.lastName}
               </div>
               <div className="edit-icon">
-                <p>...</p>
+                <PiDotsThree className="dots-icon" />
               </div>
             </li>
           ))}
