@@ -3,10 +3,12 @@ import './style.css';
 import { API_URL } from '../../service/constants';
 import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 import mapIconBackgroundColor from '../../userUtils/mapIconBackgroundColor';
+import { useNavigate } from 'react-router-dom';
 
 const Cohorts = () => {
   const [cohortCourses, setCohortCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCohortCourses = async () => {
@@ -26,6 +28,15 @@ const Cohorts = () => {
     fetchCohortCourses();
   }, []);
 
+  const navToChortPage = (cohortCourseId) => {
+    console.log('Navigating with cohortCourseId:', cohortCourseId);
+    navigate('/cohort', {
+      state: {
+        initialSelectedCourseId: cohortCourseId
+      }
+    });
+  };
+
   return (
     <>
     <h4>Cohorts</h4>
@@ -36,7 +47,7 @@ const Cohorts = () => {
         {!loading &&
             cohortCourses.map((cohortcourse) => {
               return (
-                    <li key={cohortcourse.id} className="cohort-course-item">
+                    <li key={cohortcourse.id} className="cohort-course-item" onClick={() => navToChortPage(cohortcourse.id)}>
                         <div className="profile-icon" style={mapIconBackgroundColor(cohortcourse.courseName)}>
                             {mapCourseToIcon(cohortcourse.courseName)}
                         </div>
