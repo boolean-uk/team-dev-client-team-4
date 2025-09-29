@@ -7,12 +7,15 @@ import { PiDotsThree } from 'react-icons/pi';
 import SearchResults from '../searchResults';
 import mapCourseToIcon from '../../userUtils/mapCourseIcon';
 import mapIconBackgroundColor from '../../userUtils/mapIconBackgroundColor';
+import { useLocation } from 'react-router-dom';
 
 const CohortStudentListForTeacher = ({ userId }) => {
   const [cohortCourses, setCohortCourses] = useState([]);
   const [students, setStudents] = useState([]);
   const [selectedCohortCourseId, setSelectedCohortCourseId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const initialSelectedCourseId = location.state?.initialSelectedCourseId;
 
   useEffect(() => {
     const fetchCohortCourses = async () => {
@@ -30,14 +33,13 @@ const CohortStudentListForTeacher = ({ userId }) => {
 
         setCohortCourses(sortedData);
 
-        if (sortedData.length > 0) {
-          const firstCohort = sortedData[0];
-          setSelectedCohortCourseId(firstCohort.id);
+        const selectedId = initialSelectedCourseId || (sortedData.length > 0 ? sortedData[0].id : null);
+        setSelectedCohortCourseId(selectedId);
 
-          if (firstCohort.users) {
-            const studentList = firstCohort.users.filter(user => user.role === 'Student');
-            setStudents(studentList);
-          }
+        const selectedCourse = sortedData.find(cc => cc.id === selectedId);
+        if (selectedCourse?.users) {
+          const studentList = selectedCourse.users.filter(user => user.role === 'Student');
+          setStudents(studentList);
         }
 
         setLoading(false);
@@ -91,8 +93,8 @@ const CohortStudentListForTeacher = ({ userId }) => {
                       className={`cohort-card ${selectedCohortCourseId === cohortCourse.id ? 'active' : ''}`}
                       onClick={() => handleCohortSelect(cohortCourse.id)}
                     >
-                      <div 
-                        className="course-icon" 
+                      <div
+                        className="course-icon"
                         style={mapIconBackgroundColor(cohortCourse.courseName)}
                       >
                         {mapCourseToIcon(cohortCourse.courseName)}
@@ -122,8 +124,8 @@ const CohortStudentListForTeacher = ({ userId }) => {
                     return selected
                       ? (
                       <div className="selected-course-content">
-                        <div 
-                          className="course-icon" 
+                        <div
+                          className="course-icon"
                           style={mapIconBackgroundColor(selected.courseName)}
                         >
                           {mapCourseToIcon(selected.courseName)}
