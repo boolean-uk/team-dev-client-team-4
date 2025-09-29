@@ -58,7 +58,6 @@ const Welcome = () => {
         profile.username,
         profile.githubUsername,
         profile.mobile,
-        profile.cohortid,
         profile.bio
       );
     } else {

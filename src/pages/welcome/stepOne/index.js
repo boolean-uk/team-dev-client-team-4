@@ -9,14 +9,7 @@ const StepOne = ({ data, setData, errors }) => {
         <h3>Basic info</h3>
       </div>
       <Form className="welcome-form">
-        <div className="welcome-form-profileimg">
-          <p className="text-blue1">Photo</p>
-          <div className="welcome-form-profileimg-input">
-            <ProfileIcon colour="#28C846" background="#64DC78" />
-            <p className="text-blue1">Add headshot</p>
-          </div>
-          <p className="welcome-form-profileimg-error">Please upload a valid image file</p>
-        </div>
+        
         <div className="welcome-form-inputs">
           <TextInput
             onChange={setData}
