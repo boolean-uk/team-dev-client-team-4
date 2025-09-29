@@ -21,9 +21,7 @@ const CredentialsCard = ({
         <h1 className="credentials-title h3">{title && title}</h1>
         {children}
         <div className="credentials-sociallinks">
-          <p>{socialLinksTitle && socialLinksTitle}</p>
           <div className="credentials-sociallinks-links">
-            <SocialLinks />
           </div>
         </div>
         <div className="credentials-altbutton">
