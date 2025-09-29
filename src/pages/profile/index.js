@@ -151,7 +151,7 @@ const Profile = () => {
                 />
                 <TextInput
                   onChange={onChange}
-                  value={profile.github}
+                  value={profile.github.substring(profile.github.lastIndexOf('/') + 1)}
                   name="githubUsername"
                   label={'Github Username*'}
                   disabled={!isEditing}
