@@ -57,7 +57,7 @@ const Profile = () => {
       console.log('USER OBJECT IN PROFILE: ', tempUser);
     };
     fetchUser();
-  }, []);
+  }, [id]);
 
   // Save handler
   const handleSave = async () => {
